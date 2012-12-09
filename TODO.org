@@ -1,0 +1,30 @@
+
+* TODO
+  ex-exampleを作る
+  バッファに出力する -> OK
+  バッファの作り方を調べる -> OK?
+  popup できるようにする -> OK
+  popup の内容のクリア -> OK
+  popwin のデバッグ設定を作る -> OK
+  hashのデータテーブルの改善
+  関数名の出力と実行結果の出力を作る
+  '((ex-push . '("(ex-push '__ex-foo)"))
+  (ex-get  . '(ex-get '__ex-foo)))
+  (ex-push . '("(ex-push '__ex-foo)"
+  "(ex-push '__ex-bar)"))
+  pretty-printの関数を作る
+  ex-examples 関数を作る?
+  ex-exampleはひとつの関数にしたほうがいいかも
+  travisのテストを作る
+  .travis.ymlを作る
+
+* 似非 Agile
+
+** Story
+   コマンドでM-x ex-example function とかすると別バッファに関数の使い方を出力してくれる
+
+** Task
+   exampleを追加する機能
+   exampleを削除する機能
+   exampleを表示する機能
+   *example*バッファをqで抜ける機能

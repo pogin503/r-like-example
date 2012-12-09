@@ -5,44 +5,24 @@
 ;; Author:  <pogin>
 ;; Keywords: lisp
 
-;; TODO
-;; ex-exampleを作る
-;; バッファに出力する -> OK
-;; バッファの作り方を調べる -> OK?
-;; popup できるようにする -> OK
-;; popupの内容のクリア -> OK
-;; hashのデータテーブルの改善
-;; popwinのデバッグ設定を作る -> OK
-;; 関数名の出力と実行結果の出力を作る
-
 
 (defcustom ex-debug t
-  "Enable debug message"
+  "Enable debug config"
   :type 'boolean
   :group 'ex)
 
-(if ex-debug
-    (progn
-      (defun ex-foo ()
-        t)
-      (ex-put-example 'ex-foo "(ex-foo)")
-      (push '("*example*" :position bottom) popwin:special-display-config)))
-
 (defconst ex-hash (make-hash-table :test #'equal)
-  "hash")
+  "store example")
+;; ex-hash
 
 (defun ex-put-example (symbol example)
   (puthash (symbol-name (eval 'symbol)) example ex-hash)
   )
 
-;; (puthash "example" "(defun ex-test () nil) (example 'ex-test)" ex-hash)
-;; (puthash "example" '("(defun ex-test () nil)"  "(example 'ex-test)") ex-hash)
-;; (ex-put-example 'example "(defun ex-test () nil)  (example 'ex-test)")
-
 (defun ex-get-example (symbol)
   (gethash (symbol-name (eval 'symbol)) ex-hash))
-;; (ex-get-example 'example)
 
+(defun __ex-foo () t)
 
 (defun eval-string (str)
   (eval (with-temp-buffer
@@ -60,23 +40,21 @@
 
 (defconst ex-buffer-name "*example*")
 
-;; (push '("*example*" :position bottom) popwin:special-display-config)
-;; (ex-put-example )
-(defun ex-example (func)
+(defun ex-example (symbol)
   (interactive)
   (ex-kill-ex-buffer)
-  (when (fboundp (eval 'func))
+  (when (fboundp (eval 'symbol))
     (let ((buf (get-buffer-create ex-buffer-name)))
       (progn
         (get-buffer buf)
         (pop-to-buffer buf)
-        (insert (format "%s\n" (symbol-name (eval 'func))))
-        (insert (format "%s\n" (gethash (symbol-name (eval 'func)) ex-hash))))
-        )
-    (insert "not bounded")))
-;; (defun ex-example )
+        ;; (insert (format "%s\n" (symbol-name (eval 'symbol))))
+        (insert (format "%s\n" (gethash (symbol-name (eval 'symbol)) ex-hash)))
+        (insert (format "%s => %s" (ex-get-example 'symbol) )))
+        ))
+    (insert "end example"))
 ;; (eval-string (ex-get-example 'example))
-;; (ex-example 'ex-foo)
+;; (ex-example '__ex-foo)
 
 
 (defun ex-delete-window ()
@@ -97,3 +75,15 @@
 (defun ex-kill-ex-buffer ()
   (if (get-buffer ex-buffer-name)
       (kill-buffer ex-buffer-name)))
+
+(dont-compile
+  (when ex-debug
+    (progn
+      (defun __ex-foo ()
+        t)
+      (ex-put-example '__ex-foo "(defun __ex-foo () t) (__ex-foo)")
+      (ex-put-example '__ex-foo '("(defun __ex-bar (bool) (if bool t nil)) (__ex-bar t)"
+                               "(__ex-bar nil)"))
+      (push '("*example*" :position bottom) popwin:special-display-config)
+      )
+    ))
