@@ -1,30 +1,42 @@
 
-* TODO
-  ex-exampleを作る
-  バッファに出力する -> OK
-  バッファの作り方を調べる -> OK?
-  popup できるようにする -> OK
-  popup の内容のクリア -> OK
-  popwin のデバッグ設定を作る -> OK
-  hashのデータテーブルの改善
-  関数名の出力と実行結果の出力を作る
-  '((ex-push . '("(ex-push '__ex-foo)"))
-  (ex-get  . '(ex-get '__ex-foo)))
-  (ex-push . '("(ex-push '__ex-foo)"
-  "(ex-push '__ex-bar)"))
-  pretty-printの関数を作る
-  ex-examples 関数を作る?
-  ex-exampleはひとつの関数にしたほうがいいかも
-  travisのテストを作る
-  .travis.ymlを作る
 
+* TODO
+** ex-exampleを作る -> OK
+** バッファに出力する -> OK
+** バッファの作り方を調べる -> OK?
+** popup できるようにする -> OK
+** popup の内容のクリア -> OK
+** popwin のデバッグ設定を作る -> OK
+** hashのデータを実行できる形にする -> OK
+   mapで実行できるように変更
+   '("(__ex-foo)")
+
+   '("(__ex-bar t)"
+    "(__ex-bar nil)")
+
+** 関数名の出力と実行結果の出力を作る -> OK
+   '((ex-push . '("(ex-push '__ex-foo)"))
+   (ex-get  . '(ex-get '__ex-foo)))
+   (ex-push . '("(ex-push '__ex-foo)"
+   "(ex-push '__ex-bar)"))
+   '("(defun __ex-foo () (message \"t\")) (__ex-foo)"
+     "(defun __ex-bar (bool) (if (message \"message t\") (message \"message nil\")))")
+     
+** pretty-printの関数を作る 保留
+** ex-examples 関数を作る -> OK
+   ex-exampleはひとつの関数にしたほうがいいかも
+** travisのテストを作る
+** .travis.ymlを作る
+** 式⇔文字列の関数をつくる？
 * 似非 Agile
+** testを作る
 
 ** Story
-   コマンドでM-x ex-example function とかすると別バッファに関数の使い方を出力してくれる
+   コマンドでM-x ex-example function とかすると別バッファに関数の使い方を出力してくれる
 
+** Feature
 ** Task
-   exampleを追加する機能
-   exampleを削除する機能
-   exampleを表示する機能
-   *example*バッファをqで抜ける機能
+   exampleを追加する機能 -> OK
+   exampleを削除する機能 -> 上書きで対応？
+   exampleを表示する機能 -> OK
+   *example*バッファをqで抜ける機能 -> popwinを使用 -> OK

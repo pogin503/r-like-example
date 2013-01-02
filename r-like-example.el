@@ -6,11 +6,6 @@
 ;; Keywords: lisp
 
 
-(defcustom ex-debug t
-  "Enable debug config"
-  :type 'boolean
-  :group 'ex)
-
 (defconst ex-hash (make-hash-table :test #'equal)
   "store example")
 ;; ex-hash
@@ -29,30 +24,59 @@
           (insert str)
           (read (buffer-string)))))
 
-;; (defun ex-eval-string (str)
-;;   (with-temp-buffer
-;;     (get-buffer-create "*example*")
-;;     (mapcar #'(lambda (x)
-;;                 (eval (with-temp-buffer
-;;                         (insert str)
-;;                         (read (buffer-string)))))
-;;             (str)))
 
 (defconst ex-buffer-name "*example*")
 
 (defun ex-example (symbol)
   (interactive)
-  (ex-kill-ex-buffer)
+  ;; (ex-kill-ex-buffer)
   (when (fboundp (eval 'symbol))
-    (let ((buf (get-buffer-create ex-buffer-name)))
-      (progn
-        (get-buffer buf)
-        (pop-to-buffer buf)
-        ;; (insert (format "%s\n" (symbol-name (eval 'symbol))))
-        (insert (format "%s\n" (gethash (symbol-name (eval 'symbol)) ex-hash)))
-        (insert (format "%s => %s" (ex-get-example 'symbol) )))
-        ))
-    (insert "end example"))
+    (let ((buf (get-buffer-create ex-buffer-name))
+          (sep "=================================\n"))
+      (get-buffer buf)
+      (pop-to-buffer buf)
+      (goto-char (point-min))
+      ;; (mapcar (lambda (x)
+      ;;           (insert (format "%s\n" x))
+      ;;           ;; (insert (eval-string x))
+      ;;           (insert ";=> ")
+      ;;           ;; (type-of (eval-string x))
+      ;;           (insert (format "%s\n" (eval-string x)))
+      ;;           ) (ex-get-example (eval 'symbol)))
+      (ex-insert-example symbol)
+      ;; (insert sep))
+    )))
+
+(defun ex-examples (symbols)
+  (interactive)
+  (let ((buf (get-buffer-create ex-buffer-name))
+        (sep "=================================\n")
+        )
+    (get-buffer buf)
+    (pop-to-buffer buf)
+    (mapcar
+     ;; #'(lambda (symbol)
+     ;;       (goto-char (point-min))
+     ;;       (mapcar #'(lambda (ex)
+     ;;                   ;; (when (fboundp (eval 'symbol))
+     ;;                   (insert (format "%s\n" ex))
+     ;;                   (insert ";=> ")
+     ;;                   (insert (format "%s\n" (eval-string ex)))
+     ;;                   ) (ex-get-example (eval 'symbol))))
+     #'ex-insert-example
+     symbols)))
+
+(defun ex-insert-example (symbol)
+  (goto-char (point-min))
+  (mapcar #'(lambda (ex)
+              ;; (when (fboundp (eval 'symbol))
+              (insert (format "%s\n" ex))
+              (insert ";=> ")
+              (insert (format "%s\n" (eval-string ex)))
+              ) (ex-get-example (eval 'symbol)))
+  (insert "=================================\n")
+  )
+
 ;; (eval-string (ex-get-example 'example))
 ;; (ex-example '__ex-foo)
 
@@ -76,14 +100,4 @@
   (if (get-buffer ex-buffer-name)
       (kill-buffer ex-buffer-name)))
 
-(dont-compile
-  (when ex-debug
-    (progn
-      (defun __ex-foo ()
-        t)
-      (ex-put-example '__ex-foo "(defun __ex-foo () t) (__ex-foo)")
-      (ex-put-example '__ex-foo '("(defun __ex-bar (bool) (if bool t nil)) (__ex-bar t)"
-                               "(__ex-bar nil)"))
-      (push '("*example*" :position bottom) popwin:special-display-config)
-      )
-    ))
+(provide 'r-like-example)
