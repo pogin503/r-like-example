@@ -72,7 +72,11 @@
               ;; (when (fboundp (eval 'symbol))
               (insert (format "%s\n" ex))
               (insert ";=> ")
-              (insert (format "%s\n" (eval-string ex)))
+              (let ((ex1 (eval-string ex)))
+                (if (equal (type-of ex1) 'string)
+                    (insert (format "\"%s\"\n" ex1))
+                  (insert (format "%s\n" ex1))))
+
               ) (ex-get-example (eval 'symbol)))
   (insert "=================================\n")
   )
