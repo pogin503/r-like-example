@@ -5,6 +5,9 @@
 ;; Author:  <pogin>
 ;; Keywords: lisp
 
+(defcustom ex-separator ";=================================\n"
+  "For separator of *example* buffer"
+  :group 'r-like-example)
 
 (defconst ex-hash (make-hash-table :test #'equal)
   "store example")
@@ -17,24 +20,27 @@
 (defun ex-get-example (symbol)
   (gethash (symbol-name (eval 'symbol)) ex-hash))
 
-(defun __ex-foo () t)
-
 (defun eval-string (str)
   (eval (with-temp-buffer
           (insert str)
           (read (buffer-string)))))
 
+(defconst ex-novalue (make-symbol "<nil>"))
+
+(defun ex-hash-exists-p (key table)
+    (not (eq (gethash key table ex-novalue) ex-novalue)))
+;; (ex-hash-exists-p "defstruct" ex-hash)
 
 (defconst ex-buffer-name "*example*")
 
 (defun ex-example (symbol)
-  (interactive)
+  (interactive "aSymbol name? ")
   ;; (ex-kill-ex-buffer)
   (when (fboundp (eval 'symbol))
-    (let ((buf (get-buffer-create ex-buffer-name))
-          (sep "=================================\n"))
+    (let ((buf (get-buffer-create ex-buffer-name)))
       (get-buffer buf)
       (pop-to-buffer buf)
+      (lisp-interaction-mode)
       (goto-char (point-min))
       ;; (mapcar (lambda (x)
       ;;           (insert (format "%s\n" x))
@@ -50,7 +56,7 @@
 (defun ex-examples (symbols)
   (interactive)
   (let ((buf (get-buffer-create ex-buffer-name))
-        (sep "=================================\n")
+        (sep ex-separator)
         )
     (get-buffer buf)
     (pop-to-buffer buf)
@@ -78,7 +84,7 @@
                   (insert (format "%s\n" ex1))))
 
               ) (ex-get-example (eval 'symbol)))
-  (insert "=================================\n")
+  (insert ex-separator)
   )
 
 ;; (eval-string (ex-get-example 'example))
@@ -95,13 +101,13 @@
     (define-key map (kbd "q") 'ex-delete-window)
     map))
 
-(define-derived-mode ex-mode nil "Example"
-  ""
-  (setq buffer-read-only t)
-  (use-local-map ex-mode-map))
-
 (defun ex-kill-ex-buffer ()
   (if (get-buffer ex-buffer-name)
       (kill-buffer ex-buffer-name)))
+
+;; (define-derived-mode ex-mode nil "Example"
+;;   ""
+;;   (setq buffer-read-only t)
+;;   (use-local-map ex-mode-map))
 
 (provide 'r-like-example)
