@@ -5,13 +5,39 @@
 ;; Author:  <pogin>
 ;; Keywords: lisp
 
-(defcustom ex-separator ";=================================\n"
-  "For separator of *example* buffer"
-  :group 'r-like-example)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; This program is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU General Public License as
+;; published by the Free Software Foundation; either version 3, or
+;; (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this program; see the file COPYING.  If not, write to
+;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth
+;; Floor, Boston, MA 02110-1301, USA.
+;;
+;;
+;;; Installation
+;;
+;; (require 'r-like-example)
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;; Code:
 
 (defconst ex-hash (make-hash-table :test #'equal)
   "store example")
 ;; ex-hash
+
+(defcustom ex-separator ";=================================\n"
+  "For separator of *example* buffer"
+  :group 'r-like-example)
 
 (defun ex-put-example (symbol example)
   (puthash (symbol-name (eval 'symbol)) example ex-hash)
@@ -20,7 +46,7 @@
 (defun ex-get-example (symbol)
   (gethash (symbol-name (eval 'symbol)) ex-hash))
 
-(defun eval-string (str)
+(defun ex-eval-string (str)
   (eval (with-temp-buffer
           (insert str)
           (read (buffer-string)))))
@@ -36,7 +62,9 @@
 (defun ex-example (symbol)
   (interactive "aSymbol name? ")
   ;; (ex-kill-ex-buffer)
-  (when (fboundp (eval 'symbol))
+  (when (if (stringp symbol)
+            (read sym)
+          (fboundp (eval 'symbol)))
     (let ((buf (get-buffer-create ex-buffer-name)))
       (get-buffer buf)
       (pop-to-buffer buf)
@@ -78,19 +106,79 @@
               ;; (when (fboundp (eval 'symbol))
               (insert (format "%s\n" ex))
               (insert ";=> ")
-              (let ((ex1 (eval-string ex)))
-                (if (equal (type-of ex1) 'string)
-                    (insert (format "\"%s\"\n" ex1))
-                  (insert (format "%s\n" ex1))))
-
+              (save-excursion
+                (condition-case err
+                    (let ((ex1 (ex-eval-string ex)))
+                      (cond  ((stringp ex1)
+                              (insert (format "\"%s\"\n" ex1)))
+                             (t (insert (format "%s\n" ex1)))))
+                  ((void-function void-variable)
+                   (insert (format "%s" (error-message-string err)))))
+                )
+              (forward-line 1)
               ) (ex-get-example (eval 'symbol)))
   (insert ex-separator)
   )
 
-;; (eval-string (ex-get-example 'example))
+(defun ex-get-sexp-symbol ()
+  (let* ((sym-string (substring-no-properties (thing-at-point 'sexp)))
+        (sym (with-temp-buffer
+               (insert sym-string)
+               (read (buffer-string)))))
+    sym
+  ))
+
+(defun ex-add-example ()
+  (interactive)
+  (forward-char 1)
+  (beginning-of-defun)
+  (forward-char 1)
+  (let ((ex-sym (ex-get-sexp-symbol))
+        pos (beg -1) (end 0) ex)
+    (mark-defun)
+    (setq beg (string-match "\n" (buffer-substring-no-properties (point) (+ 1 (point)))))
+    (save-excursion
+      (end-of-defun)
+      (setq pos (point))
+      (end-of-buffer)
+      ;; whether cursor position is end of buffer
+      (setq end (or (= pos (point))
+                    (= pos (+ (point) 1)))))
+    (copy-to-register ?r
+                      (if (equal beg 0)
+                          (+ 1 (region-beginning)) ;; except top extra line
+                        (region-beginning))
+                      (if end
+                          (region-end)            ;; point is end-of-buffer
+                        (- (region-end) 1)))      ;; except bottom extra line
+    (setq ex (format "%s" (substring-no-properties (get-register ?r))))
+    (cond  ((= (length (ex-get-example ex-sym)) 0)
+            (ex-put-example ex-sym (list ex)))
+           (t
+            (ex-put-example ex-sym (reverse (cons ex (reverse (ex-get-example ex-sym)))))))
+    (message ex)
+    ))
+
 ;; (ex-example '__ex-foo)
 
+;; Utility
+(defun ex-insert-current-buffer (sym)
+  "Insert code snippet of example like
+(ex-put-exmaple 'car '(\"(car '(1 2 3))\"))"
+  (interactive "aSymbol name? ")
+  (insert (format "(ex-put-example '%s '(" sym))
+  (mapcar #'(lambda (ex) (insert (format "%S\n" ex))) (ex-get-example sym))
+  (delete-char -1)
+  (insert "))")
+  )
 
+(defun ex-delete-last-elem (sym)
+  "Delete last element in function examples."
+  (interactive "aDelete Symbol is? ")
+  (let  ((ex (ex-get-example sym)))
+    (ex-put-example sym (reverse (cdr (reverse ex))))))
+
+;; Window
 (defun ex-delete-window ()
   (interactive)
   (let ((win (get-buffer-window ex-buffer-name)))
