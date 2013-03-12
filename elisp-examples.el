@@ -442,6 +442,48 @@
   "(eq __sym 'frazzle)"
 ))
 
+;; type predicates
+(ex-put-example 'type-of '("(type-of 1)"
+  "(type-of 'nil)"
+  "(type-of '())    ; () is nil."
+  "(type-of '(x))"))
+
+
+(ex-put-example 'third '("(third '(a b c))"))
+(ex-put-example 'make-sparse-keymap '("(make-sparse-keymap) ;;  == (list 'keymap)"))
+(ex-put-example 'emacs-version '("(emacs-version)"))
+(ex-put-example 'current-buffer '("(current-buffer)"))
+(ex-put-example 'symbol-function '("(symbol-function 'car)          ; Access the function cell of the symbol."))
+(ex-put-example 'point-marker '("(point-marker)"))
+(ex-put-example 'selected-window '("(selected-window)"))
+(ex-put-example 'selected-frame '("(selected-frame)"))
+(ex-put-example 'get-device-terminal '("(get-device-terminal nil)"))
+(ex-put-example 'process-list '("(process-list)"))
+
+;; Bitwise Operations on Integers
+(ex-put-example 'lsh '(";; lsh, which is an abbreviation for logical shift,
+(lsh 5 1)   ;; Decimal 5 becomes decimal 10. 00000101 ⇒ 00001010"
+"(lsh 7 1)   ;; Decimal 7 becomes decimal 14. 00000111 ⇒ 00001110"
+"(lsh 3 2)   ;; Decimal 3 becomes decimal 12. 00000011 ⇒ 00001100"
+"(lsh 6 -1)  ;; Decimal 6 becomes decimal 3.  00000110 ⇒ 00000011"
+"(lsh 5 -1)  ;; Decimal 5 becomes decimal 2.  00000101 ⇒ 00000010"
+"(lsh 536870911 1)  ;;  left shift"))
+(ex-put-example 'ash '("(ash -6 -1)
+  ;; Decimal −6 becomes decimal −3. 1111...111010 (30 bits total)⇒ 1111...111101 (30 bits total)"))
+(ex-put-example 'logand '("(logand 13 12)"
+"(logand 14 13)     ;; 14  =  0000...001110  13  =  0000...001101  12  =  0000...001100"
+"(logand 14 13 4)   ;; 14  =  0000...001110  13  =  0000...001101  4  =  0000...000100"
+"(logand)           ;; -1  =  1111...111111"))
+(ex-put-example 'logior '("(logior 12 5)      ;; 12  =  0000...001100  5  =  0000...000101  13  =  0000...001101"
+"(logior 12 5 7)    ;; 12  =  0000...001100  5  =  0000...000101  7  =  0000...000111  15  =  0000...001111"))
+(ex-put-example 'logxor '("(logxor 12 5)      ;; 12  =  0000...001100  5  =  0000...000101  9  =  0000...001001"
+"(logxor 12 5 7)    ;; 12  =  0000...001100  5  =  0000...000101  7  =  0000...000111  14  =  0000...001110"))
+(ex-put-example 'lognot '("(lognot 5)
+  ;;  5  =  0000...000101 (30 bits total)
+  ;; becomes
+  ;; -6  =  1111...111010 (30 bits total)
+"))
+
 (provide 'elisp-examples)
 
 ;;; end elisp-examples.el

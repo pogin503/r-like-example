@@ -31,9 +31,10 @@
 ;;
 ;;; Code:
 
-(defconst ex-hash (make-hash-table :test #'equal)
+(require 'popwin)
+
+(defvar ex-hash (make-hash-table :test #'equal)
   "store example")
-;; ex-hash
 
 (defcustom ex-separator ";=================================\n"
   "For separator of *example* buffer"
@@ -42,6 +43,12 @@
 (defun ex-put-example (symbol example)
   (puthash (symbol-name (eval 'symbol)) example ex-hash)
   )
+
+;; (defmacro ex-put-example-macro-1 (symbol example)
+;;   `(puthash (symbol-name ',symobl) ,(quote example) ex-hash))
+
+;; (defun ex-put-example-macro (symbol example)
+;;   (ex-put-example-macro-1 symbol example))
 
 (defun ex-get-example (symbol)
   (gethash (symbol-name (eval 'symbol)) ex-hash))
@@ -65,6 +72,7 @@
   (when (if (stringp symbol)
             (read sym)
           (fboundp (eval 'symbol)))
+      ;; (intern-soft symbol)
     (let ((buf (get-buffer-create ex-buffer-name)))
       (get-buffer buf)
       (pop-to-buffer buf)
@@ -72,10 +80,10 @@
       (goto-char (point-min))
       ;; (mapcar (lambda (x)
       ;;           (insert (format "%s\n" x))
-      ;;           ;; (insert (eval-string x))
+      ;;           ;; (insert (ex-eval-string x))
       ;;           (insert ";=> ")
-      ;;           ;; (type-of (eval-string x))
-      ;;           (insert (format "%s\n" (eval-string x)))
+      ;;           ;; (type-of (ex-eval-string x))
+      ;;           (insert (format "%s\n" (ex-eval-string x)))
       ;;           ) (ex-get-example (eval 'symbol)))
       (ex-insert-example symbol)
       ;; (insert sep))
@@ -95,7 +103,7 @@
      ;;                   ;; (when (fboundp (eval 'symbol))
      ;;                   (insert (format "%s\n" ex))
      ;;                   (insert ";=> ")
-     ;;                   (insert (format "%s\n" (eval-string ex)))
+     ;;                   (insert (format "%s\n" (ex-eval-string ex)))
      ;;                   ) (ex-get-example (eval 'symbol))))
      #'ex-insert-example
      symbols)))
@@ -107,6 +115,14 @@
               (insert (format "%s\n" ex))
               (insert ";=> ")
               (save-excursion
+                ;; (let ((ex2 (with-temp-buffer
+                ;;              (insert ex)
+                ;;              (read (buffer-string)))))
+
+                ;;   (when (stringp ex1)
+                ;;    (eq nil (intern-soft ex1))))))
+                ;;  ((insert (format "void-variable %s" ex1))))
+
                 (condition-case err
                     (let ((ex1 (ex-eval-string ex)))
                       (cond  ((stringp ex1)
@@ -121,6 +137,7 @@
   )
 
 (defun ex-get-sexp-symbol ()
+  ;; (interactive)
   (let* ((sym-string (substring-no-properties (thing-at-point 'sexp)))
         (sym (with-temp-buffer
                (insert sym-string)
@@ -137,6 +154,7 @@
         pos (beg -1) (end 0) ex)
     (mark-defun)
     (setq beg (string-match "\n" (buffer-substring-no-properties (point) (+ 1 (point)))))
+    ;; (when (equal beg 0) (forward-char 1))
     (save-excursion
       (end-of-defun)
       (setq pos (point))
@@ -157,6 +175,13 @@
            (t
             (ex-put-example ex-sym (reverse (cons ex (reverse (ex-get-example ex-sym)))))))
     (message ex)
+    ;; (ex-put-example ex-sym (destructuring-bind ((a . b) c)
+    ;;                            `(,(ex-get-example ex) ,(format "%s" (substring-no-properties ex)))
+    ;;                          (list a b c)
+    ;;                          ))
+    ;; (ex-put-example ex-sym (ex-get-example ex-sym)
+    ;;                                 (format "%s" (substring-no-properties (get-register ?r)))))
+    ;; (message (format "%s" (ex-get-example ex-sym)))
     ))
 
 ;; (ex-example '__ex-foo)
@@ -164,19 +189,23 @@
 ;; Utility
 (defun ex-insert-current-buffer (sym)
   "Insert code snippet of example like
-(ex-put-exmaple 'car '(\"(car '(1 2 3))\"))"
+  (ex-put-exmaple 'car '(\"(car '(1 2 3))\"))"
   (interactive "aSymbol name? ")
   (insert (format "(ex-put-example '%s '(" sym))
   (mapcar #'(lambda (ex) (insert (format "%S\n" ex))) (ex-get-example sym))
   (delete-char -1)
   (insert "))")
+  ;; (insert (format "%S" (ex-get-example sym)))
   )
+;; (global-set-key (kbd "s-0") 'ex-insert-current-buffer)
 
 (defun ex-delete-last-elem (sym)
   "Delete last element in function examples."
   (interactive "aDelete Symbol is? ")
+  ;; (ex-put-example 'car '("(car '(1 2 3))") ex-test-hs)
   (let  ((ex (ex-get-example sym)))
     (ex-put-example sym (reverse (cdr (reverse ex))))))
+;; (global-set-key (kbd "C-c 9") 'ex-delete-last-elem)
 
 ;; Window
 (defun ex-delete-window ()
@@ -197,5 +226,8 @@
 ;;   ""
 ;;   (setq buffer-read-only t)
 ;;   (use-local-map ex-mode-map))
+;; (defun ex-dump-example (symbol)
+;;   (maphash #')
+;;   )
 
 (provide 'r-like-example)
