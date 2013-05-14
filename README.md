@@ -18,56 +18,6 @@ This can be able to improve lerning efficiency.
 
 I recommend specially to use popwin.el. 
 
-```lisp
-(add-to-list 'popwin:special-display-config '("*example*" :position right :width 50 :dedicated t))
-```
-
-```lisp
-(global-set-key (kbd "M-9") 'ex-example)
-(global-set-key (kbd "s-9") 'ex-example) ;; for Mac keybind
-(global-set-key (kbd "s-0") 'ex-insert-current-buffer)
-(global-set-key (kbd "C-c 0") 'ex-add-example)
-```
-
-Basic Usage
-===========
-
-### Learning function usage
-
-type `M-9 mapcar`
-
-### For Development
-
-Basic Commands
-==============
-
-### Command `ex-example`
-
-Dispaly function example to `*example*` buffer.
-
-### Command `ex-add-example`
-
-Add example on cursor position. 
-r-like-example
-==============
-
-### Overview
-
-This program display example of functions on other buffer.
-
-This can be able to improve lerning efficiency. 
-
-### Installation
-
-```lisp
-(add-to-list 'load-path "~/path/to/r-like-example")
-
-(require 'r-like-example)
-(require 'elisp-example)
-```
-
-I recommend specially to use popwin.el. 
-
 When you use emacs24, `M-x package-install popwin RET` 
 
 ```lisp
