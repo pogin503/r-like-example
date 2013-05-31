@@ -87,16 +87,18 @@
     print, prin1, princ
 ** TODO [#A] Emacs Lisp Referrence から式を取ってくる
    手動は大変だからなにかスクリプトが作れないか
-** TODO ex-put-exampleの引数の改善
+** SOMEDAY ex-put-exampleの引数の改善
+   CLOSED: [2013-05-28 Tue 18:57]
    (ex-put-example function sexp1 sexp2 ...)
    という風に登録の手間を省きたい
+   =>やらなくていいや
 ** TODO exampleの保存を考える
    ファイルに保存するしたのを読み込む
    コードにそのまま書く
-** TODO エラー処理を書く？
-
-** TODO エラーで止まらない処理を書く
+** DONE エラーで止まらない処理を書く
+   CLOSED: [2013-05-28 Tue 18:52]
    fmakunbound, makunboundでエラーの場合に止まらないように動かせるようにしたい。
+   => condition-caseを使ってエラーがあっても動くようにした。
 ** TODO print, princ, prin1の場合の出力をちゃんと作る
 ** DONE 式⇔文字列の関数をつくる？
    CLOSED: [2013-01-14 Mon 04:24]
