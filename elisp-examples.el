@@ -7,7 +7,6 @@
   "(setq foo 'apple)"
   "foo"
 ))
-
 ;; array
 (ex-put-example 'arrayp '(
   "(setq __abar '(1 2))"
@@ -415,10 +414,13 @@
   "(get 'fly 'noun)"
   "(symbol-plist 'fly)"))
 
-(ex-put-example 'put '("(put 'fly 'verb 'transitive)"
-  "(put 'fly 'noun '(a buzzing little bug))"
-  "(get 'fly 'verb)"
-  "(symbol-plist 'fly)"))
+(ex-put-example 'put '(
+"(put 'sym-name 'prop 'val)"
+"(put 'fly 'verb 'transitive)"
+"(put 'fly 'noun '(a buzzing little bug))"
+"(get 'fly 'verb)"
+"(symbol-plist 'fly)"
+))
 
 (ex-put-example 'plist-get '("(plist-get '(foo 4) 'foo)"
   "(plist-get '(foo 4 bad) 'foo)"
@@ -429,8 +431,9 @@
   "(plist-get __pfoo :bar)"))
 
 (ex-put-example 'plist-put '("(setq my-plist '(bar t foo 4))"
-  "(setq my-plist (plist-put my-plist 'foo 69))"
-  "(setq my-plist (plist-put my-plist 'quux '(a)))"))
+"(setq my-plist (plist-put my-plist 'foo 69))"
+"(setq my-plist (plist-put my-plist 'quux '(a)))"
+"(plist-put my-plist :piyo \"PIYO\")"))
 
 (ex-put-example 'make-symbol '(
   "(unintern 'frazzle)"
