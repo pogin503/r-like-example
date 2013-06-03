@@ -31,12 +31,10 @@
 ;;
 ;;; Code:
 
-(require 'popwin)
-
 (defvar ex-hash (make-hash-table :test #'equal)
   "store example")
 
-(defcustom ex-separator ";=================================\n"
+(defcustom ex-separator "\n;=================================\n\n"
   "For separator of *example* buffer"
   :group 'r-like-example)
 
