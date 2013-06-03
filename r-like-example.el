@@ -86,17 +86,7 @@
         )
     (get-buffer buf)
     (pop-to-buffer buf)
-    (mapcar
-     ;; #'(lambda (symbol)
-     ;;       (goto-char (point-min))
-     ;;       (mapcar #'(lambda (ex)
-     ;;                   ;; (when (fboundp (eval 'symbol))
-     ;;                   (insert (format "%s\n" ex))
-     ;;                   (insert ";=> ")
-     ;;                   (insert (format "%s\n" (ex-eval-string ex)))
-     ;;                   ) (ex-get-example (eval 'symbol))))
-     #'ex-insert-example
-     symbols)))
+    (mapcar #'ex-insert-example symbols)))
 
 (defun ex-insert-example (symbol)
   (goto-char (point-min))
