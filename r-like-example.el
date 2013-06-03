@@ -107,8 +107,10 @@
                 (condition-case err
                     (let ((ex1 (ex-eval-string ex)))
                       (cond  ((stringp ex1)
-                              (insert (format "\"%s\"\n" ex1)))
-                             (t (insert (format "%s\n" ex1)))))
+                              (with-current-buffer ex-buffer-name
+                                (insert (format "\"%s\"\n" ex1))))
+                             (t (with-current-buffer ex-buffer-name
+                                  (insert (format "%s\n" ex1))))))
                   ((void-function void-variable)
                    (insert (format "%s" (error-message-string err)))))
                 )
