@@ -62,7 +62,6 @@
 
 (defun ex-hash-exists-p (key table)
     (not (eq (gethash key table ex-novalue) ex-novalue)))
-;; (ex-hash-exists-p "defstruct" ex-hash)
 
 (defconst ex-buffer-name "*example*")
 
@@ -72,21 +71,12 @@
   (when (if (stringp symbol)
             (read sym)
           (fboundp (eval 'symbol)))
-      ;; (intern-soft symbol)
     (let ((buf (get-buffer-create ex-buffer-name)))
       (get-buffer buf)
       (pop-to-buffer buf)
       (lisp-interaction-mode)
       (goto-char (point-min))
-      ;; (mapcar (lambda (x)
-      ;;           (insert (format "%s\n" x))
-      ;;           ;; (insert (ex-eval-string x))
-      ;;           (insert ";=> ")
-      ;;           ;; (type-of (ex-eval-string x))
-      ;;           (insert (format "%s\n" (ex-eval-string x)))
-      ;;           ) (ex-get-example (eval 'symbol)))
       (ex-insert-example symbol)
-      ;; (insert sep))
     )))
 
 (defun ex-examples (symbols)
@@ -111,18 +101,9 @@
 (defun ex-insert-example (symbol)
   (goto-char (point-min))
   (mapcar #'(lambda (ex)
-              ;; (when (fboundp (eval 'symbol))
               (insert (format "%s\n" ex))
               (insert ";=> ")
               (save-excursion
-                ;; (let ((ex2 (with-temp-buffer
-                ;;              (insert ex)
-                ;;              (read (buffer-string)))))
-
-                ;;   (when (stringp ex1)
-                ;;    (eq nil (intern-soft ex1))))))
-                ;;  ((insert (format "void-variable %s" ex1))))
-
                 (condition-case err
                     (let ((ex1 (ex-eval-string ex)))
                       (cond  ((stringp ex1)
@@ -183,8 +164,6 @@
     ;;                                 (format "%s" (substring-no-properties (get-register ?r)))))
     ;; (message (format "%s" (ex-get-example ex-sym)))
     ))
-
-;; (ex-example '__ex-foo)
 
 ;; Utility
 (defun ex-insert-current-buffer (sym)
