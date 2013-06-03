@@ -1,61 +1,58 @@
 #+TODO: TODO(t) WAIT(w) | DONE(d) SOMEDAY(s)
 
 * 似非 Agile
-** Feature
-   各関数の実行例を調べることができる
+** Feature 関数の実行例を調べる
+   各関数の実行例を調べることができる
 *** 利点
-    関数の実行例が揃っているから関数をどう使えばいいかが把握しやすい
-    初心者から上級者まで、lispを学ぶときに関数の実行例をすぐ確認して学習効率を上げることができる
+    関数の実行例が揃っているから関数をどう使えばいいかが把握しやすい
+    初心者から上級者まで、lispを学ぶときに関数の実行例をすぐ確認して学習効率を上げることができる
 ** Story 1 exampleの出力
-   コマンドを実行すると入力プロンプトが出てきて関数とかを入力すると実行結果を出力してくれる。
-*** Scenario 1
-    コマンドでM-x ex-example function とかすると別バッファに関数の使い方を出力する
-*** Scenario 2
-    キーバインド C-9 , M-9, s-9 に設定をしておいて、キーバインド一つで呼び出して、関数の実行例を確認する
-*** Scenario 3 
-    別ファイルに関数群を登録しておいてM-x ex-example function で*example*バッファに実行結果を出力する。
-** Story 2 ライブラリなどのexampleの登録
-   作ったライブラリの関数も簡単な操作で関数の実行例を登録できる
+   コマンドを実行すると入力プロンプトが出てきて関数とかを入力すると実行結果を出力してくれる。
    
-*** Scenario 1
-    ファイルに関数の実行例を格納しておいてそれをロードする?
-*** Scenario 2
-** Story 3
-   関数を登録して
-*** Scenario 1
-    リージョンの選択をして、それを一気にexampleとして登録する
+*** Scenario 1 コマンドでの登録
+    コマンドでM-x ex-example function とかすると別バッファに関数の使い方を出力する
+*** Scenario 2 キーバインドでの登録
+    例えば、キーバインド C-9 , M-9, s-9 などに設定をしておいて、キーバインド一つで呼び出して、関数の実行例を確認する
+** Story 2 exampleの登録
+   作ったライブラリの関数も簡単な操作で関数の実行例を登録できる
    
-*** Scenario 2
-
+*** Scenario 1 ファイルによるexampleの永続化
+    別ファイルに関数のexample群を登録しておいてM-x ex-example function で*example*バッファに実行結果を出力する。
+    ファイルに関数の実行例を格納しておいてそれをロードする?
+*** Scenario 2 elispプラグイン開発時の実行例の登録
+    elispで実行できるものを開発したらその実行例を登録して、テストなどに備えることができる？
+*** Scenario 3 リージョンを選択してからのexampleの登録
+    リージョンの選択をして、それを一気にexampleとして登録する
+    
 * Task
 ** DONE exampleを追加する機能1
    CLOSED: [2013-01-14 Mon 04:24]
-   ex-add-exampleで実行例を登録して、ex-insert-current-bufferで登録用のデータ出力する
-** WAIT exampleを削除する機能 -> 上書きで対応？
+   ex-add-exampleで実行例を登録して、ex-insert-current-bufferで登録用のデータ出力する
+** WAIT exampleを削除する機能 -> 上書きで対応？
    ex-delete-last-elemを作成
 ** DONE exampleを表示する機能
    CLOSED: [2013-01-14 Mon 04:26]
-   pop-to-bufferで出てきた*example*バッファに表示させる
-** TODO *example*バッファをqで抜ける機能
+   pop-to-bufferで出てきた*example*バッファに表示させる
+** TODO *example*バッファをqで抜ける機能
    popwinを使用?
-** DONE *example*バッファをemacs-lisp-modeかlisp-interaction-modeにする
+** DONE *example*バッファをemacs-lisp-modeかlisp-interaction-modeにする
    CLOSED: [2013-01-14 Mon 04:28]
    変更するようにした。
 ** DONE ex-exampleを作る
    CLOSED: [2013-01-04 Fri 04:55]
-** DONE バッファに出力する
+** DONE バッファに出力する
    CLOSED: [2013-01-03 Thu 03:12]
-** DONE バッファの作り方を調べる?
+** DONE バッファの作り方を調べる?
    CLOSED: [2013-01-03 Thu 03:12]
-** DONE popup できるようにする
+** DONE popup できるようにする
    CLOSED: [2013-01-03 Thu 03:12]
 ** DONE popup の内容のクリア
    CLOSED: [2013-01-03 Thu 03:12]
-** DONE popwin のデバッグ設定を作る
+** DONE popwin のデバッグ設定を作る
    CLOSED: [2013-01-03 Thu 03:12]
-** DONE hashのデータを実行できる形にする
+** DONE hashのデータを実行できる形にする
    CLOSED: [2013-01-03 Thu 03:12]
-   mapで実行できるように変更
+   mapで実行できるように変更
    '("(__ex-foo)")
 
    '("(__ex-bar t)"
@@ -83,35 +80,39 @@
 *** TODO 配列
 *** TODO 構造体
 *** TODO 述語関数
-*** WAIT データ型
-*** WAIT バッファ操作
+*** WAIT データ型
+*** WAIT バッファ操作
 *** WAIT ファイル処理
-
-** TODO Emacs Lisp Referrence から式を取ってくる
-   手動は大変だからなにかスクリプトが作れないか
-** TODO ex-put-exampleの引数の改善
+*** 出力系
+    print, prin1, princ
+** TODO [#A] Emacs Lisp Referrence から式を取ってくる
+   手動は大変だからなにかスクリプトが作れないか
+** SOMEDAY ex-put-exampleの引数の改善
+   CLOSED: [2013-05-28 Tue 18:57]
    (ex-put-example function sexp1 sexp2 ...)
    という風に登録の手間を省きたい
+   =>やらなくていいや
 ** TODO exampleの保存を考える
    ファイルに保存するしたのを読み込む
-   コードにそのまま書く
-** TODO エラー処理を書く？
-
-** TODO エラーで止まらない処理を書く
-   fmakunbound, makunboundでエラーの場合に止まらないように動かせるようにしたい。
+   コードにそのまま書く
+** DONE エラーで止まらない処理を書く
+   CLOSED: [2013-05-28 Tue 18:52]
+   fmakunbound, makunboundでエラーの場合に止まらないように動かせるようにしたい。
+   => condition-caseを使ってエラーがあっても動くようにした。
 ** TODO print, princ, prin1の場合の出力をちゃんと作る
 ** DONE 式⇔文字列の関数をつくる？
    CLOSED: [2013-01-14 Mon 04:24]
 *** DONE 文字列→式
-    eval-stringを使う
+    ex-eval-stringを使う
 *** DONE 式→文字列
     CLOSED: [2013-01-14 Mon 04:22]
-    (format "%s" expression)で文字列にできる
-    (format "%S" expression)で”や\をクオートできる
+    (format "%s" expression)で文字列にできる
+    (format "%S" expression)で”や\をクオートできる
 ** DONE ex-examples 関数を作る
-   ex-exampleはひとつの関数にしたほうがいいかも
+   ex-exampleはひとつの関数にしたほうがいいかも
 ** WAIT 使った名前の掃除する処理
-*** SOMEDAY 他の言語の方まで拡張する?
+   :before,:afterのある属性リストを使う？
+*** SOMEDAY 他の言語の方まで拡張する?
     CLOSED: [2013-01-14 Mon 04:43]
     ruby, python, c, c++, etc...
 ** SOMEDAY pretty-printの関数を作る
@@ -120,6 +121,6 @@
 *** WAIT travisのテストを作る
 *** WAIT .travis.ymlを作る
 *** TODO 全ハッシュの出力を作る
-*** TODO (test) 全ハッシュの中身が実行できるかどうか
+*** TODO (test) 全ハッシュの中身が実行できるかどうか
 *** TODO ex-add-example内の関数のテスト
 *** TODO get, putの処理のテスト
