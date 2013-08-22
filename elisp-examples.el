@@ -1,4 +1,6 @@
-;; elisp-examples.el
+;;; elisp-examples.el --- Emacs Lisp examples
+;;; Commentary:
+;;; Code:
 
 (require 'r-like-example)
 
@@ -168,7 +170,7 @@
 ;; higher-order function
 (ex-put-example 'funcall
                 '(";; (funcall function arg1 arg2 ...)
-(funcall #'car '(a b c))"
+\(funcall #'car '(a b c))"
   "(funcall #'car '(1 2 3))"
   "(funcall #'+ 1 2 3)"
   "(funcall 'position 1 '(1 2 3 2 1) :start 1)"
@@ -199,7 +201,7 @@
                              "(mapconcat 'identity '(\"\" \"home\" \"alex\" \"elisp\" \"erc\") \"/\")"))
 (ex-put-example 'mapcan '(";; (mapcan FUNCTION SEQUENCE...)
 ;; (mapcan f x1 ... xn) == (apply #'nconc (mapcar f x1 ... xn))
-(mapcan #'(lambda (x y) (if (null x) nil (list x y)))
+\(mapcan #'(lambda (x y) (if (null x) nil (list x y)))
          '(nil nil nil d e)
          '(1 2 3 4 5 6))"))
 
@@ -207,13 +209,13 @@
 
 (ex-put-example 'mapc '("(mapc #'(lambda (i) i) '(1 2 3))"))
 (ex-put-example 'mapl    '(";; function &rest lists+ => list-1
-(mapl #'(lambda (x y) (print (append x y))) (list 1 0 2) (list 3 4 5))"
+\(mapl #'(lambda (x y) (print (append x y))) (list 1 0 2) (list 3 4 5))"
                            ))
 (ex-put-example 'maplist '(";; function &rest lists+ => result-list
-(maplist #'list (list 1 2 3) (list 4 5 6))"
+\(maplist #'list (list 1 2 3) (list 4 5 6))"
                            ))
 (ex-put-example 'mapcon  '(";; function &rest lists+ => concatenated-results
-(mapcon #'list (list 1 2 3) (list 4 5 6))"
+\(mapcon #'list (list 1 2 3) (list 4 5 6))"
                            ))
 
 ;; for obarray
@@ -221,7 +223,7 @@
   "(defun __count-syms (s)
   (setq __count (1+ __count)))"
   ";; (mapatoms FUNCTION &optional OBARRAY)
-(mapatoms '__count-syms)"
+\(mapatoms '__count-syms)"
   "__count")
 )
 
@@ -278,7 +280,8 @@
 
 ;; hash table
 (ex-put-example 'make-hash-table
-                '("(setq __hash_table (make-hash-table :test #'equal))"))
+                '("(setq __hash_table (make-hash-table :test #'equal))"
+                  ))
 (ex-put-example 'remhash '("(setq __hash_table (make-hash-table :test #'equal))"
                            "(puthash \"apple\" 150 __hash_table)"
                            "(gethash \"apple\" __hash_table)"
@@ -299,7 +302,7 @@
   "(puthash \"orange\" 300 __hash_table)"
   "(puthash \"banana\" 100 __hash_table)"
   "(maphash #'(lambda (key value)
-             (insert (format \"key=>%S,value=>%S\n\" key value))) __hash_table)"))
+             (insert (format \"key=>%S,value=>%S\\n\" key value))) __hash_table)"))
 
 ;; association list
 (ex-put-example 'assoc '("(setq __alist '((\"rose\" . red) (\"violet\" . blue)))"
@@ -465,7 +468,7 @@
 
 ;; Bitwise Operations on Integers
 (ex-put-example 'lsh '(";; lsh, which is an abbreviation for logical shift,
-(lsh 5 1)   ;; Decimal 5 becomes decimal 10. 00000101 ⇒ 00001010"
+\(lsh 5 1)   ;; Decimal 5 becomes decimal 10. 00000101 ⇒ 00001010"
 "(lsh 7 1)   ;; Decimal 7 becomes decimal 14. 00000111 ⇒ 00001110"
 "(lsh 3 2)   ;; Decimal 3 becomes decimal 12. 00000011 ⇒ 00001100"
 "(lsh 6 -1)  ;; Decimal 6 becomes decimal 3.  00000110 ⇒ 00000011"
@@ -489,4 +492,4 @@
 
 (provide 'elisp-examples)
 
-;;; end elisp-examples.el
+;;; elisp-examples.el ends here
