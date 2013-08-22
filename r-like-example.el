@@ -78,7 +78,7 @@ Example:
   (interactive "aSymbol name? ")
   ;; (ex-kill-ex-buffer)
   (when (if (stringp symbol)
-            (read sym)
+            (read symbol)
           (fboundp (eval 'symbol)))
     (let ((buf (get-buffer-create ex-buffer-name)))
       (get-buffer buf)
@@ -99,7 +99,7 @@ Example:
 
 (defun ex-insert-example (symbol)
   (goto-char (point-min))
-  (mapcar #'(lambda (ex)
+  (mapc #'(lambda (ex)
               (insert (format "%s\n" ex))
               (insert ";=> ")
               (save-excursion
@@ -141,7 +141,7 @@ Example:
     (save-excursion
       (end-of-defun)
       (setq pos (point))
-      (end-of-buffer)
+      (goto-char (point-max))
       ;; whether cursor position is end of buffer
       (setq end (or (= pos (point))
                     (= pos (+ (point) 1)))))
@@ -176,7 +176,7 @@ Example:
 `SYM' is function."
   (interactive "aSymbol name? ")
   (insert (format "(ex-put-example '%s '(" sym))
-  (mapcar #'(lambda (ex) (insert (format "%S\n" ex))) (ex-get-example sym))
+  (mapc #'(lambda (ex) (insert (format "%S\n" ex))) (ex-get-example sym))
   (delete-char -1)
   (insert "))")
   ;; (insert (format "%S" (ex-get-example sym)))
