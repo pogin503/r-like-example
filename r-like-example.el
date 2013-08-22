@@ -23,22 +23,26 @@
 ;; Floor, Boston, MA 02110-1301, USA.
 ;;
 ;;
-;;; Installation
+;;; Installation:
 ;;
 ;; (require 'r-like-example)
 ;;
+
+;;; Commentary:
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;; Code:
 
 (defvar ex-hash (make-hash-table :test #'equal)
-  "store example")
+  "Store example.")
 
 (defcustom ex-separator "\n;=================================\n\n"
-  "For separator of *example* buffer"
+  "For separator of *example* buffer."
   :group 'r-like-example)
 
 (defun ex-put-example (symbol example)
+  "Get examples function."
   (puthash (symbol-name (eval 'symbol)) example ex-hash)
   )
 
@@ -49,9 +53,15 @@
 ;;   (ex-put-example-macro-1 symbol example))
 
 (defun ex-get-example (symbol)
+  "Get exmaple function."
   (gethash (symbol-name (eval 'symbol)) ex-hash))
 
 (defun ex-eval-string (str)
+  "Read sexp from string.
+
+Example:
+   (ex-eva-string \"(setq foo 1)\")
+`STR' is sexp."
   (eval (with-temp-buffer
           (insert str)
           (read (buffer-string)))))
@@ -64,6 +74,7 @@
 (defconst ex-buffer-name "*example*")
 
 (defun ex-example (symbol)
+  "Print example to *example* buffer."
   (interactive "aSymbol name? ")
   ;; (ex-kill-ex-buffer)
   (when (if (stringp symbol)
@@ -108,6 +119,7 @@
   )
 
 (defun ex-get-sexp-symbol ()
+  "This function gets sexp symbol name on current position."
   ;; (interactive)
   (let* ((sym-string (substring-no-properties (thing-at-point 'sexp)))
         (sym (with-temp-buffer
@@ -157,8 +169,11 @@
 
 ;; Utility
 (defun ex-insert-current-buffer (sym)
-  "Insert code snippet of example like
-  (ex-put-exmaple 'car '(\"(car '(1 2 3))\"))"
+  "Insert code snippet of example.
+Example:
+\(ex-put-exmaple 'car '(\"(car '(1 2 3))\"))
+
+`SYM' is function."
   (interactive "aSymbol name? ")
   (insert (format "(ex-put-example '%s '(" sym))
   (mapcar #'(lambda (ex) (insert (format "%S\n" ex))) (ex-get-example sym))
@@ -200,3 +215,5 @@
 ;;   )
 
 (provide 'r-like-example)
+
+;;; r-like-example ends here
