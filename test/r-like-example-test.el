@@ -1,27 +1,56 @@
+;;; r-like-example-test --- r-like-example-test
+;;; Commentary:
+;;; Code:
+(require 'ert)
 (require 'r-like-example)
-;; (add-to-list 'load-path "~/repo/r-like-example")
-(setq test-example-foo '("(defun __ex-foo () (message \"t\" ))" "(__ex-foo)"))
+(require 'elisp-examples)
 
-(setq test-example-bar '("(defun __ex-bar (bool) (if bool t nil))"
-                      "(__ex-bar t)"
-                      "(__ex-bar nil)"))
-
-(ex-put-example '__ex-foo test-example-foo)
-(ex-put-example '__ex-bar test-example-bar)
 ;; (add-to-list 'popwin:special-display-config '("*example*" :position right :width 50))
-;; (pop popwin:special-display-config)
-(ex-put-example '__ex-foo '("(defun __ex-foo () (message \"t\" ))" "(__ex-foo)"))
-(ex-get-example '__ex-foo-test)
-(ex-example '__ex-foo)
-(mapcar #'(lambda (x)
-           (ex-example x)
-           ) '(__ex-foo __ex-bar))
 
-;; dump example
-(maphash #'(lambda (key val)
-             (ex-example (intern-soft key)))
-         ex-hash)
-(file-name-directory load-file-name)
+(defun ex-test-set-env ()
+  "Set r-like-example env."
+  (defconst test-example-foo '("(message \"t\" ))"))
+
+  (defconst test-example-bar '("(defun __ex-bar (bool) (if bool t nil))"
+                           "(__ex-bar t)"
+                           "(__ex-bar nil)"))
+
+  (ex-put-example 'ex-foo test-example-foo)
+  )
+
+(ex-test-set-env)
+
+(ert-deftest addition-test ()
+  (should (= (+ 1 2) 3)))
+
+(ert-deftest ex-put-example-test ()
+  (ex-test-set-env)
+  (message (car test-example-foo))
+  (should (equal '("(message \"t\" ))") (ex-put-example 'ex-foo test-example-foo))))
+
+(ert-deftest ex-get-example-test ()
+  (ex-test-set-env)
+  (should (equal test-example-foo (ex-get-example 'ex-foo))))
+
+(ert-deftest ex-example-test ()
+  (should (equal (mapconcat 'identity `(,(car test-example-foo) ";=> \"t\""  ,ex-separator) "\n")
+                 (progn
+                   (let (buf (current-buffer))
+                     (save-excursion
+                       (get-buffer-create ex-buffer-name)
+                       (switch-to-buffer ex-buffer-name)
+                       (erase-buffer)
+                       (switch-to-buffer buf)
+                       (ex-example 'ex-foo)
+                       (switch-to-buffer ex-buffer-name)
+                       (setq res (buffer-substring-no-properties (point-min) (point-max)))
+                       (switch-to-buffer buf))
+                     res)))))
 
 
-(ex-add-example ())
+;; ;; dump example
+;; (maphash #'(lambda (key val)
+;;              (ex-example (intern-soft key)))
+;;          ex-hash)
+
+;;; r-like-example-test ends here

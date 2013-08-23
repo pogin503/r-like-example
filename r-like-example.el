@@ -77,11 +77,11 @@ Example:
   "Print example to *example* buffer."
   (interactive "aSymbol name? ")
   ;; (ex-kill-ex-buffer)
-  (when (if (stringp symbol)
-            (read symbol)
-          (fboundp (eval 'symbol)))
+  (when
+      (or (stringp  symbol)
+          (fboundp 'symbol)
+          (boundp  'symbol))
     (let ((buf (get-buffer-create ex-buffer-name)))
-      (get-buffer buf)
       (pop-to-buffer buf)
       (lisp-interaction-mode)
       (goto-char (point-min))
@@ -93,7 +93,6 @@ Example:
   (let ((buf (get-buffer-create ex-buffer-name))
         (sep ex-separator)
         )
-    (get-buffer buf)
     (pop-to-buffer buf)
     (mapcar #'ex-insert-example symbols)))
 
