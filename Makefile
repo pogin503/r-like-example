@@ -37,7 +37,7 @@ $(warning test $(test))
 
 test: elpa build
 	@echo "  start test"
-	${CASK} exec ${EMACS} -Q --batch --load test/run-test.el \
+	${CASK} exec ${EMACS} -Q --batch -l test/run-test.el \
 		-f ert-run-tests-batch-and-exit
 # --eval \
 # "(progn (require 'cask \"~/.cask/cask.el\") \
@@ -80,7 +80,3 @@ build-strict:
 
 clean:
 	rm -rf ${PKG_DIR}
-
-travis-ci:
-	${EMACS} --version
-	${EMACS} -batch -Q -l test/run-test.el
