@@ -51,11 +51,6 @@ ${PKG_DIR}: Cask
 	touch $@
 	@echo "  end elpa"
 
-# touch $@elpa:
-# 	cd $(RPKG_DIR)
-# 	$(shell ${CASK} package-directory)
-# 	${CASK} install
-
 downloads :
 	$(CURL) '$(TEST_DEP_1_STABLE_URL)' > $(TEST_DIR)/ert.el
 
