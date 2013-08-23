@@ -18,3 +18,4 @@ env:
 
 script:
   - make test
+  - curl -fsSkL https://raw.github.com/rejeep/cask.el/master/go | sh
