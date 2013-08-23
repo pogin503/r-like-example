@@ -64,7 +64,7 @@ downloads-latest :
 
 build :
 	@echo "  start build"
-	$(EMACS) $(EMACS_BATCH) $(ERT) --eval \
+	$(EMACS) $(EMACS_BATCH) --eval \
 		"(progn \
 		(batch-byte-compile))" *.el
 	@echo "  end build"
