@@ -44,13 +44,17 @@ test: elpa build
 # (cask-initialize))"
 RPKG_DIR = ~/.emacs.d/plugins/r-like-example
 
-elpa:
+elpa: ${PKG_DIR}
+${PKG_DIR}: Cask
 	@echo "  start elpa"
-	cd $(RPKG_DIR)
-	$(shell ${CASK} package-directory)
 	${CASK} install
 	touch $@
 	@echo "  end elpa"
+
+# touch $@elpa:
+# 	cd $(RPKG_DIR)
+# 	$(shell ${CASK} package-directory)
+# 	${CASK} install
 
 downloads :
 	$(CURL) '$(TEST_DEP_1_STABLE_URL)' > $(TEST_DIR)/ert.el
