@@ -10,6 +10,9 @@ before_install:
       sudo apt-get install -qq
           emacs-snapshot-el emacs-snapshot-nox;
     fi
+  - curl -fsSkL https://raw.github.com/rejeep/cask.el/master/go | sh
+  - export PATH="/home/travis/.cask/bin:$PATH"
+  - cask
 
 env:
   matrix:
@@ -18,4 +21,3 @@ env:
 
 script:
   - make test
-  - curl -fsSkL https://raw.github.com/rejeep/cask.el/master/go | sh
