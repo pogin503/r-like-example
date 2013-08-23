@@ -37,17 +37,16 @@ $(warning test $(test))
 
 test: elpa build
 	@echo "  start test"
-	${CASK} exec ${EMACS} -Q --batch --load test/run-test.el \
+	${CASK} exec ${EMACS} -Q --batch -l test/run-test.el \
 		-f ert-run-tests-batch-and-exit
 # --eval \
 # "(progn (require 'cask \"~/.cask/cask.el\") \
 # (cask-initialize))"
 RPKG_DIR = ~/.emacs.d/plugins/r-like-example
 
-elpa:
+elpa: ${PKG_DIR}
+${PKG_DIR}: Cask
 	@echo "  start elpa"
-	cd $(RPKG_DIR)
-	$(shell ${CASK} package-directory)
 	${CASK} install
 	touch $@
 	@echo "  end elpa"
@@ -60,7 +59,7 @@ downloads-latest :
 
 build :
 	@echo "  start build"
-	$(EMACS) $(EMACS_BATCH) $(ERT) --eval \
+	$(EMACS) $(EMACS_BATCH) --eval \
 		"(progn \
 		(batch-byte-compile))" *.el
 	@echo "  end build"
@@ -76,7 +75,3 @@ build-strict:
 
 clean:
 	rm -rf ${PKG_DIR}
-
-travis-ci:
-	${EMACS} --version
-	${EMACS} -batch -Q -l test/run-test.el
