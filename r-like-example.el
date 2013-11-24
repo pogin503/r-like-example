@@ -66,10 +66,21 @@ Example:
           (insert str)
           (read (buffer-string)))))
 
-(defconst ex-novalue (make-symbol "<nil>"))
+(defconst ex-novalue (make-symbol "<nil>")
+  "Hash is no value symbol.")
 
-(defun ex-hash-exists-p (key table)
-    (not (eq (gethash key table ex-novalue) ex-novalue)))
+(defun ex-hash-exists-p-aux (key table)
+  (not (eq (gethash key table ex-novalue) ex-novalue)))
+
+;; (ex-hash-exists-p-aux "featurep" ex-hash)
+
+(defun ex-hash-exists-p (key)
+  (interactive "MSearch key is exist? : ")
+  (ex-hash-exists-p-aux key ex-hash)
+  )
+
+;; (ex-hash-exists-p "featurep")
+
 
 (defconst ex-buffer-name "*example*")
 
@@ -128,6 +139,7 @@ Example:
   ))
 
 (defun ex-add-example ()
+  "Add example on cursor point."
   (interactive)
   (forward-char 1)
   (beginning-of-defun)
