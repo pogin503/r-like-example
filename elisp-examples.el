@@ -490,6 +490,58 @@
   ;; -6  =  1111...111010 (30 bits total)
 "))
 
+(ex-put-example 'string= '("(string= \"abc\" \"abc\")"
+"(string= \"abc\" \"ABC\")"
+"(string= \"AB\" \"ABC\")"))
+
+(ex-put-example 'featurep '("(featurep 'nolibrary)"
+"(featurep 'cl)"))
+
+(ex-put-example 'documentation-property '("(documentation-property 'c-basic-offset 'variable-documentation)"))
+
+(ex-put-example 'ex-put-example '("(ex-put-example 'documentation-property '(\"(documentation-property 'c-basic-offset 'variable-documentation)\"))"))
+
+(ex-put-example 'make-local-variable
+'("(setq foo 5)"
+"(make-local-variable 'foo)"
+"foo"
+"(setq foo 6)"
+"(save-excursion
+  (get-buffer-create \"b2\")
+  (set-buffer \"b2\")
+  foo)"))
+
+(ex-put-example 'memq '("(memq 'b '(a b c b a))"
+"(memq '(2) '((1) (2)))    ; (2) and (2) are not eq.
+"))
+
+(ex-put-example 'delq  '("(setq sample-list '(a b c (4)))"
+"(delq 'a sample-list)"
+"sample-list"
+"(delq 'c sample-list)"
+"sample-list"))
+
+(ex-put-example 'remq '("(setq sample-list '(a b c a b c))"
+"(remq 'a sample-list)"
+"sample-list"))
+
+(ex-put-example 'delete '("(setq l '((2) (1) (2)))"
+"(delete '(2) l)"
+"l
+;; If you want to change l reliably,
+;; write (setq l (delete '(2) l))."
+"(setq l '((2) (1) (2)))"
+"(delete '(1) l)"
+"l
+;; In this case, it makes no difference whether you set l,
+;; but you should do so for the sake of the other case."
+"(delete '(2) [(2) (1) (2)])"))
+
+
+(ex-put-example 'remove-hook '("(run-hooks 'foo-hook)"
+"(add-hook 'foo-hook 'test)"
+"(remove-hook 'foo-hook 'test)")
+
 (provide 'elisp-examples)
 
 ;;; elisp-examples.el ends here
