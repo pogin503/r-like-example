@@ -30,7 +30,8 @@
 
 ;;; Commentary:
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Call examples of Emacs Lisp function.
+
 ;;
 ;;; Code:
 
@@ -42,7 +43,7 @@
   :group 'r-like-example)
 
 (defun ex-put-example (symbol example)
-  "Get examples function."
+  "Put examples function."
   (puthash (symbol-name (eval 'symbol)) example ex-hash)
   )
 
@@ -60,7 +61,7 @@
   "Read sexp from string.
 
 Example:
-   (ex-eva-string \"(setq foo 1)\")
+   (ex-eval-string \"(setq foo 1)\")
 `STR' is sexp."
   (eval (with-temp-buffer
           (insert str)

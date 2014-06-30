@@ -540,7 +540,7 @@
 
 (ex-put-example 'remove-hook '("(run-hooks 'foo-hook)"
 "(add-hook 'foo-hook 'test)"
-"(remove-hook 'foo-hook 'test)")
+"(remove-hook 'foo-hook 'test)"))
 
 (provide 'elisp-examples)
 
