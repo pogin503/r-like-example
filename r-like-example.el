@@ -229,4 +229,8 @@ Example:
 
 (provide 'r-like-example)
 
+;; Local variables:
+;; byte-compile-warnings: (not cl-functions)
+;; End:
+
 ;;; r-like-example ends here
