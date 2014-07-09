@@ -27,7 +27,7 @@
 ;;; Installation:
 ;;
 ;; (require 'r-like-example)
-;;
+;; (require 'elisp-exmaples)
 
 ;;; Commentary:
 
