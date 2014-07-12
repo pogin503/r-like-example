@@ -90,10 +90,12 @@
   "(setcar animals 'hippopotamus)"
   "animals"))
 
-(ex-put-example 'cons '("(cons 'buttercup ())"
-  "(cons 'daisy '(buttercup))"
-  "(cons 'violet '(daisy buttercup))"
-  "(cons 'rose '(violet daisy buttercup))"))
+(ex-put-example 'cons '("(cons 'a ())"
+"(cons 'a 'b)"
+"(cons 'a '(b))"
+"(cons 'a '(b c))"
+"(cons 'a '(b c d))"
+))
 
 (ex-put-example 'first '("(first '(1 2 3))" "(first '(a b c))"))
 (ex-put-example 'rest '("(rest '(1 2 3))" "(rest '(a b c))"))
@@ -197,15 +199,24 @@
                   ;; "(mapcar #'cons '(a b c d) '(1 2 3 4 5))"
                   ))
 (ex-put-example 'mapcar* '("(mapcar* 'cons '(a b c) '(1 2 3 4))"))
+
 (ex-put-example 'mapconcat '("(mapconcat 'symbol-name '(The cat in the hat) \" \")"
                              "(mapconcat 'identity '(\"\" \"home\" \"alex\" \"elisp\" \"erc\") \"/\")"))
+
 (ex-put-example 'mapcan '(";; (mapcan FUNCTION SEQUENCE...)
 ;; (mapcan f x1 ... xn) == (apply #'nconc (mapcar f x1 ... xn))
 \(mapcan #'(lambda (x y) (if (null x) nil (list x y)))
          '(nil nil nil d e)
          '(1 2 3 4 5 6))"))
 
-;; (ex-put-example 'map '(""))
+(ex-put-example 'map '("(map 'list #'- '(1 2 3 4)) => (-1 -2 -3 -4)"
+                       "(map 'string #'(lambda (x y)
+                  (aref \"01234567890ABCDEF\" (mod (+ x y) 16)))
+      '(1 2 3 4)
+      '(10 9 8 7))"
+                       "(map 'string
+      '(lambda (x) (if (oddp x) ?1 ?0))
+      '(1 2 3 4))"))
 
 (ex-put-example 'mapc '("(mapc #'(lambda (i) i) '(1 2 3))"))
 (ex-put-example 'mapl    '(";; function &rest lists+ => list-1
@@ -541,6 +552,16 @@
 (ex-put-example 'remove-hook '("(run-hooks 'foo-hook)"
 "(add-hook 'foo-hook 'test)"
 "(remove-hook 'foo-hook 'test)"))
+
+(ex-put-example 'nconc '("(nconc '(1 2 3) '(3 4 5))"
+"(nconc '(1 2 3) nil '(4 5 6) nil)"
+"(setq x '(a b c))"
+"(setq y '(d e f))"
+"(nconc x y)"
+))
+
+(ex-put-example 'append '("(append '(1 2 3) '(4 5 6) '(10))"
+))
 
 (provide 'elisp-examples)
 
