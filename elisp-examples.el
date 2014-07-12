@@ -565,4 +565,8 @@
 
 (provide 'elisp-examples)
 
+;;;; Local variables:
+;; eval: (auto-revert-mode)
+;; End:
+
 ;;; elisp-examples.el ends here
