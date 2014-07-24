@@ -99,7 +99,7 @@ Example:
       (lisp-interaction-mode)
       (goto-char (point-min))
       (ex-insert-example symbol)
-    )))
+      )))
 
 (defun ex-examples (symbols)
   (interactive)
@@ -112,21 +112,21 @@ Example:
 (defun ex-insert-example (symbol)
   (goto-char (point-min))
   (mapc #'(lambda (ex)
-	    (insert (format "%s\n" ex))
-	    (insert ";=> ")
-	    (save-excursion
-	      (condition-case err
-		  (let ((ex1 (ex-eval-string ex)))
-		    (cond  ((stringp ex1)
-			    (with-current-buffer ex-buffer-name
-			      (insert (format "\"%s\"\n" ex1))))
-			   (t (with-current-buffer ex-buffer-name
-				(insert (format "%s\n" ex1))))))
-		((void-function void-variable)
-		 (insert (format "%s" (error-message-string err)))))
-	      )
-	    (forward-line 1)
-	    ) (ex-get-example (eval 'symbol)))
+            (insert (format "%s\n" ex))
+            (insert ";;=> ")
+            (save-excursion
+              (condition-case err
+                  (let ((ex1 (ex-eval-string ex)))
+                    (cond  ((stringp ex1)
+                            (with-current-buffer ex-buffer-name
+                              (insert (format "\"%s\"\n" ex1))))
+                           (t (with-current-buffer ex-buffer-name
+                                (insert (format "%s\n" ex1))))))
+                ((void-function void-variable)
+                 (insert (format "%s" (error-message-string err)))))
+              )
+            (forward-line 1)
+            ) (ex-get-example (eval 'symbol)))
   (insert ex-separator)
   )
 
@@ -134,11 +134,11 @@ Example:
   "This function gets sexp symbol name on current position."
   ;; (interactive)
   (let* ((sym-string (substring-no-properties (thing-at-point 'sexp)))
-        (sym (with-temp-buffer
-               (insert sym-string)
-               (read (buffer-string)))))
+         (sym (with-temp-buffer
+                (insert sym-string)
+                (read (buffer-string)))))
     sym
-  ))
+    ))
 
 (defun ex-add-example ()
   "Add example on cursor point."
