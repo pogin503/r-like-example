@@ -1,10 +1,12 @@
-;;; r-like-example.el --- r-like-example
+;;; r-like-example.el --- Display examples
 
 ;; Copyright (C) 2012
 
 ;; Author:  <pogin>
 ;; Keywords: lisp
+;; Version: 0.1
 ;; URL: https://github.com/pogin503/r-like-example
+;; Package-Requires: ((f "0.16.2") (popwin "0.5"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -39,7 +41,7 @@
 (defvar ex-hash (make-hash-table :test #'equal)
   "Store example.")
 
-(defcustom ex-separator "\n;=================================\n\n"
+(defcustom ex-separator "\n;;=================================\n\n"
   "For separator of *example* buffer."
   :group 'r-like-example)
 
@@ -76,18 +78,20 @@ Example:
 
 ;; (ex-hash-exists-p-aux "featurep" ex-hash)
 
-(defun ex-hash-exists-p (key)
+(defun ex-key-exists-p (key)
   (interactive "MSearch key is exist? : ")
-  (ex-hash-exists-p-aux key ex-hash)
-  )
+  (not (eq (gethash key ex-hash) nil)))
 
-;; (ex-hash-exists-p "featurep")
+;; (gethash "featurep" ex-hash)
+;; (ex-key-exists-p "featurep")
 
 
 (defconst ex-buffer-name "*example*")
 
 (defun ex-example (symbol)
-  "Print example to *example* buffer."
+  "Print example to *example* buffer.
+
+`SYMBOL' is function or varibale."
   (interactive "aSymbol name? ")
   ;; (ex-kill-ex-buffer)
   (when
@@ -101,7 +105,10 @@ Example:
       (ex-insert-example symbol)
       )))
 
-(defun ex-examples (symbols)
+(defun ex-examples (symbol)
+  "Dispaly function examples in *example* buffer.
+
+`SYMBOL' is function."
   (interactive)
   (let ((buf (get-buffer-create ex-buffer-name))
         (sep ex-separator)
@@ -187,7 +194,7 @@ Example:
 \(ex-put-exmaple 'car '(\"(car '(1 2 3))\"))
 
 `SYM' is function."
-  (interactive "aSymbol name? ")
+  (interactive "a(ins-cur-buf) Symbol name? ")
   (insert (format "(ex-put-example '%s '(" sym))
   (mapc #'(lambda (ex) (insert (format "%S\n" ex))) (ex-get-example sym))
   (delete-char -1)
@@ -197,7 +204,9 @@ Example:
 ;; (global-set-key (kbd "s-0") 'ex-insert-current-buffer)
 
 (defun ex-delete-last-elem (sym)
-  "Delete last element in function examples."
+  "Delete last element in function examples.
+
+`SYM' is key."
   (interactive "aDelete Symbol is? ")
   ;; (ex-put-example 'car '("(car '(1 2 3))") ex-test-hs)
   (let  ((ex (ex-get-example sym)))
@@ -206,6 +215,7 @@ Example:
 
 ;; Window
 (defun ex-delete-window ()
+  "Delete *example* buffer window."
   (interactive)
   (let ((win (get-buffer-window ex-buffer-name)))
     (delete-window win)))
@@ -216,6 +226,7 @@ Example:
     map))
 
 (defun ex-kill-ex-buffer ()
+  "Kill *example* buffer."
   (if (get-buffer ex-buffer-name)
       (kill-buffer ex-buffer-name)))
 
@@ -233,4 +244,4 @@ Example:
 ;; byte-compile-warnings: (not cl-functions)
 ;; End:
 
-;;; r-like-example ends here
+;;; r-like-example.el ends here
