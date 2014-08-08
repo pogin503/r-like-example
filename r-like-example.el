@@ -170,7 +170,7 @@ Example:
             (ex-put-example ex-sym (list ex)))
            (t
             (ex-put-example ex-sym (reverse (cons ex (reverse (ex-get-example ex-sym)))))))
-    (message ex)
+    (message "%s" ex)
     ;; (ex-put-example ex-sym (destructuring-bind ((a . b) c)
     ;;                            `(,(ex-get-example ex) ,(format "%s" (substring-no-properties ex)))
     ;;                          (list a b c)
