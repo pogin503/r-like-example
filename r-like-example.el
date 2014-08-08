@@ -38,6 +38,9 @@
 ;;
 ;;; Code:
 
+(require 'f)
+(require 'popwin)
+
 (defvar ex-hash (make-hash-table :test #'equal)
   "Store example.")
 
@@ -87,6 +90,7 @@ Example:
 
 
 (defconst ex-buffer-name "*example*")
+(defconst ex-debug-buffer-name "*example debug*")
 
 (defun ex-example (symbol)
   "Print example to *example* buffer.
@@ -146,6 +150,68 @@ Example:
                 (insert sym-string)
                 (read (buffer-string)))))
     sym
+    ))
+
+(defun ex-put-to-example (key)
+  "任意の関数のキーに、カーソル下のS式を追加する."
+  (interactive "aどのシンボルに追加しますか? ")
+  (forward-char 1)
+  (beginning-of-defun)
+  (let (beg end)
+    (setq beg (point))
+    (end-of-defun)
+    (setq end (set-marker (make-marker) (point)))
+    (goto-char end)
+    (forward-char -1) ;; remove newline
+    (let ((ex (format "%s" (buffer-substring-no-properties beg (point)))))
+      (cond  ((= (length (ex-get-example key)) 0)
+              (ex-put-example key (list ex)))
+             (t
+              (ex-put-example key (reverse (cons ex
+                                                 (reverse
+                                                  (ex-get-example key)))))))
+      )))
+
+(defun ex-example-data (key)
+  "キーにストアされている実行例のstringを取得する.
+
+`KEY' is function name."
+  (with-temp-buffer
+    (insert (format  "(ex-put-example '%s '(" key))
+    (mapc #'(lambda (ex)
+              (insert (format "%S\n" ex)))
+          (ex-get-example key))
+    (insert "))\n")
+    (buffer-string)))
+
+(defconst ex-dir (f-dirname (f-this-file)))
+
+(defun ex-store-key-example (key)
+  "`KEY'に対応する実行例を、データ保存用ファイルに永続化する."
+  (interactive "aどのキーをストアしますか? ")
+  (let* (
+         (db-file (f-join ex-dir "elisp-examples.el"))
+         (text1 (f-read-text db-file))
+
+         (text (with-temp-buffer
+                 (insert (format "%s" text1))
+                 (let ((q (concat "^(ex-put-example '" (symbol-name key) " ")))
+
+                   (if (re-search-backward q nil t)
+                       (progn (mark-defun)
+                              (delete-region (point) (1- (mark)))
+                              (deactivate-mark)
+                              (insert "\n")
+                              (ex-insert-current-buffer key)
+                              )
+                     (progn (goto-char (point-max))
+                            (forward-line -8) ;; over (provide
+                            (ex-insert-current-buffer key)
+                            (insert "\n")
+                            )))
+                 (buffer-string))
+                 ))
+    (f-write-text text 'utf-8 db-file)
     ))
 
 (defun ex-add-example ()
