@@ -563,6 +563,95 @@
 (ex-put-example 'append '("(append '(1 2 3) '(4 5 6) '(10))"
 ))
 
+(ex-put-example 'char-to-string '("(char-to-string 52)"
+))
+
+(ex-put-example 'upcase '("(upcase \"The cat in the hat\")"
+))
+
+(ex-put-example 'downcase '("(downcase \"THE CAT IN THE HAT\")"
+))
+
+(ex-put-example 'make-list '("(make-list 5 \"Hello\")"
+))
+
+(ex-put-example 's-format '("(s-format \"help ${name}! I'm ${malady}\" 'aget '((\"name\" . \"nic\") (\"malady\" . \"on fire\"))) ;; => \"help nic! I'm on fire\""
+"(s-format \"hello ${name}, nice day\" (lambda (var-name) \"nic\")) ;; => \"hello nic, nice day\""
+"(s-format \"hello $0, nice $1\" 'elt '(\"nic\" \"day\")) ;; => \"hello nic, nice day\""
+))
+
+(ex-put-example 'f-join '("(f-join \"path\")"
+"(f-join \"path\" \"to\")"
+"(f-join \"/\" \"path\" \"to\" \"heaven\")"
+))
+
+(ex-put-example 'coding-system-get '("(coding-system-get 'iso-latin-1 :mime-charset)"
+"(coding-system-get 'iso-2022-cn :mime-charset)"
+"(coding-system-get 'cyrillic-koi8 :mime-charset)"
+))
+
+(ex-put-example 'coding-system-list '("(coding-system-list)"
+))
+
+(ex-put-example 'coding-system-p '("(coding-system-p 'utf-8)"
+                                   "(coding-system-p 'cp932)"
+                                   "(coding-system-p 'euc-jp)"
+))
+
+(ex-put-example 'charsetp '("(charsetp 'ascii)"
+"(charsetp 'eight-bit)"
+"(charsetp 'cp932)"
+"(charsetp 'not-charset)"
+))
+
+(ex-put-example 'charset-priority-list '("(charset-priority-list)"
+))
+
+(ex-put-example 'charset-plist '("(charset-plist 'japanese-jisx0208)"
+))
+
+(ex-put-example 'macroexpand '("(defmacro inc (var)
+  (list 'setq var (list '1+ var)))"
+"(macroexpand '(inc r))"
+"(defmacro inc2 (var1 var2)
+  (list 'progn (list 'inc var1) (list 'inc var2)))"
+"(macroexpand '(inc2 r s))"
+))
+
+(ex-put-example 'macroexpand-all '("(defmacro inc (var)
+  (list 'setq var (list '1+ var)))"
+"(macroexpand-all '(inc r))"
+"(defmacro inc2 (var1 var2)
+  (list 'progn (list 'inc var1) (list 'inc var2)))"
+"(macroexpand-all '(inc2 r s))"
+))
+
+(ex-put-example 'while '("(let ((x 0))
+  (while (< x 5)
+    (insert (format \"%d \" x))
+    (setq x (1+ x)))
+  )"
+))
+
+(ex-put-example 'split-char '("(split-char 2248)"
+"(split-char 65)"
+))
+
+(ex-put-example 'make-char '("(make-char 'latin-iso8859-1 72)
+"
+))
+
+(ex-put-example 'cl-coerce '("(cl-coerce [1 2 3] 'list)"
+"(cl-coerce '(1 2 3) 'array)"
+))
+
+(ex-put-example 'coerce '("(coerce [1 2 3] 'list)"
+"(coerce '(1 2 3) 'array)"
+))
+
+(ex-put-example 'symbol-name '("(symbol-name 'name)"
+"(symbol-name 'setq)"))
+
 (provide 'elisp-examples)
 
 ;;;; Local variables:
