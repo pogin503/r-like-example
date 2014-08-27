@@ -802,7 +802,7 @@
 
 (provide 'elisp-examples)
 
-;;;; Local variables:
+;; Local variables:
 ;; eval: (auto-revert-mode)
 ;; End:
 
