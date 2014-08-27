@@ -57,12 +57,6 @@
   (puthash (symbol-name (eval 'symbol)) example ex-hash)
   )
 
-;; (defmacro ex-put-example-macro-1 (symbol example)
-;;   `(puthash (symbol-name ',symobl) ,(quote example) ex-hash))
-
-;; (defun ex-put-example-macro (symbol example)
-;;   (ex-put-example-macro-1 symbol example))
-
 (defun ex-get-example (symbol)
   "Get exmaple function."
   (gethash (symbol-name (eval 'symbol)) ex-hash))
@@ -97,7 +91,6 @@ Example:
 ;; (gethash "featurep" ex-hash)
 ;; (ex-key-exists-p "featurep")
 
-
 (defconst ex-buffer-name "*example*")
 (defconst ex-debug-buffer-name "*example debug*")
 
@@ -106,11 +99,9 @@ Example:
 
 `SYMBOL' is function or varibale."
   (interactive "aSymbol name? ")
-  ;; (ex-kill-ex-buffer)
-  (when
-      (or (stringp  symbol)
-          (fboundp 'symbol)
-          (boundp  'symbol))
+  (when (or (stringp  symbol)
+            (fboundp 'symbol)
+            (boundp  'symbol))
     (let ((buf (get-buffer-create ex-buffer-name)))
       (pop-to-buffer buf)
       (lisp-interaction-mode)
@@ -250,13 +241,6 @@ Example:
            (t
             (ex-put-example ex-sym (reverse (cons ex (reverse (ex-get-example ex-sym)))))))
     (message "%s" ex)
-    ;; (ex-put-example ex-sym (destructuring-bind ((a . b) c)
-    ;;                            `(,(ex-get-example ex) ,(format "%s" (substring-no-properties ex)))
-    ;;                          (list a b c)
-    ;;                          ))
-    ;; (ex-put-example ex-sym (ex-get-example ex-sym)
-    ;;                                 (format "%s" (substring-no-properties (get-register ?r)))))
-    ;; (message (format "%s" (ex-get-example ex-sym)))
     ))
 
 ;; Utility
@@ -273,14 +257,12 @@ Example:
   (insert "))")
   ;; (insert (format "%S" (ex-get-example sym)))
   )
-;; (global-set-key (kbd "s-0") 'ex-insert-current-buffer)
 
 (defun ex-delete-last-elem (sym)
   "Delete last element in function examples.
 
 `SYM' is key."
   (interactive "aDelete Symbol is? ")
-  ;; (ex-put-example 'car '("(car '(1 2 3))") ex-test-hs)
   (let  ((ex (ex-get-example sym)))
     (ex-put-example sym (reverse (cdr (reverse ex))))))
 ;; (global-set-key (kbd "C-c 9") 'ex-delete-last-elem)
