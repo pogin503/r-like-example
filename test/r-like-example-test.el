@@ -31,6 +31,9 @@
 (ert-deftest ex-get-example-test ()
   (ex-test-set-env)
   (should (equal test-example-foo (ex-get-example 'ex-foo))))
+(ert-deftest ex-key-exists-p-test ()
+  (should (equal t (ex-key-exists-p 'setq t)))
+  (should (equal "setq: exist" (ex-key-exists-p 'setq))))
 
 (ert-deftest ex-example-test ()
   (should (equal (mapconcat 'identity `(,(car test-example-foo) ";=> \"t\""  ,ex-separator) "\n")

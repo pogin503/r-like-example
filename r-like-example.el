@@ -85,9 +85,14 @@ Example:
 
 ;; (ex-hash-exists-p-aux "featurep" ex-hash)
 
-(defun ex-key-exists-p (key)
+(defun ex-key-exists-p (key &optional nomessage)
   (interactive "MSearch key is exist? : ")
-  (not (eq (gethash key ex-hash) nil)))
+  (let ((q (null (equal (gethash (symbol-name (eval 'key)) ex-hash) nil))))
+    (if (null nomessage)
+        (if q
+            (message "%s: exist" key)
+          (message "%s: not exist" key))
+      q)))
 
 ;; (gethash "featurep" ex-hash)
 ;; (ex-key-exists-p "featurep")
