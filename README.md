@@ -3,11 +3,17 @@ r-like-example
 
 ### Overview
 
-This program display example of functions on other buffer.
+This program display examples of functions on other buffer.
 
-This can be able to improve lerning efficiency. 
+This can be able to improve learning Emacs Lisp effectively. 
 
 ### Installation
+
++Clone to your .emacs.d path.
+
+```lisp
+git clone https://github.com/pogin503/r-like-example.git 
+```
 
 ```lisp
 (add-to-list 'load-path "~/path/to/r-like-example")
@@ -25,11 +31,13 @@ When you use emacs24, `M-x package-install popwin RET`
 ```
 
 ```lisp
+(global-set-key (kbd "s-9") 'ex-example)
 (global-set-key (kbd "M-9") 'ex-example)
-(global-set-key (kbd "s-9") 'ex-example) ;; for Mac keybind
-(global-set-key (kbd "M-0") 'ex-insert-current-buffer)
-(global-set-key (kbd "s-0") 'ex-insert-current-buffer)
-(global-set-key (kbd "C-c 0") 'ex-add-example)
+(global-set-key (kbd "s-0") 'ex-store-key-example)
+(global-set-key (kbd "C-c 0 a") 'ex-add-example)
+(global-set-key (kbd "C-c 0 i") 'ex-insert-current-buffer)
+(global-set-key (kbd "C-c 0 p") 'ex-put-to-example)
+(global-set-key (kbd "C-c 0 d") 'ex-delete-last-elem)
 ```
 
 Basic Usage
@@ -39,8 +47,6 @@ Basic Usage
 
 You type `M-9 mapcar`,
 
-### For Development
-
 
 
 Basic Commands
@@ -48,7 +54,7 @@ Basic Commands
 
 ### Command `ex-example`
 
-Dispaly function example to `*example*` buffer.
+Dispaly function examples to `*example*` buffer.
 
 ### Command `ex-add-example`
 
