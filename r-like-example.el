@@ -208,7 +208,8 @@ Example:
                               (ex-insert-current-buffer key)
                               )
                      (progn (goto-char (point-max))
-                            (forward-line -8) ;; over (provide
+                            (forward-line -8) ;; over (provide 'r-like-example)
+                            (insert "\n")
                             (ex-insert-current-buffer key)
                             (insert "\n")
                             )))
@@ -242,6 +243,7 @@ Example:
                       (if end
                           (region-end)            ;; point is end-of-buffer
                         (- (region-end) 1)))      ;; except bottom extra line
+    (deactivate-mark)
     (setq ex (format "%s" (substring-no-properties (get-register ?r))))
     (cond  ((= (length (ex-get-example ex-sym)) 0)
             (ex-put-example ex-sym (list ex)))
