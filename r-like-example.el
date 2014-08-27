@@ -118,17 +118,6 @@ Example:
       (ex-insert-example symbol)
       )))
 
-(defun ex-examples (symbol)
-  "Dispaly function examples in *example* buffer.
-
-`SYMBOL' is function."
-  (interactive)
-  (let ((buf (get-buffer-create ex-buffer-name))
-        (sep ex-separator)
-        )
-    (pop-to-buffer buf)
-    (mapcar #'ex-insert-example symbols)))
-
 (defun ex-insert-example (symbol)
   (goto-char (point-min))
   (mapc #'(lambda (ex)
