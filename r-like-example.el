@@ -48,6 +48,10 @@
   "For separator of *example* buffer."
   :group 'r-like-example)
 
+(defcustom ex-begin-comment ";;=> "
+  "Beginning of output comment style."
+  :group 'r-like-example)
+
 (defun ex-put-example (symbol example)
   "Put examples function."
   (puthash (symbol-name (eval 'symbol)) example ex-hash)
@@ -123,22 +127,27 @@ Example:
 (defun ex-insert-example (symbol)
   (goto-char (point-min))
   (mapc #'(lambda (ex)
-            (insert (format "%s\n" ex))
-            (insert ";;=> ")
-            (save-excursion
-              (condition-case err
-                  (let ((ex1 (ex-eval-string ex)))
-                    (with-current-buffer ex-buffer-name
-                      (cond  ((stringp ex1)
-                              (insert (format "\"%s\"\n" ex1)))
-                             (t
-                              (insert (format "%s\n" ex1)))))
-                    )
-                ((void-function void-variable)
-                 (insert (format "%s" (error-message-string err)))))
-              )
-            (forward-line 1)
-            ) (ex-get-example (eval 'symbol)))
+               (insert (format "%s\n" ex))
+               (insert ex-begin-comment)
+               (with-current-buffer ex-buffer-name
+                 (insert (with-temp-buffer
+                           (condition-case err
+                               (let ((ex1 (ex-eval-string ex)))
+                                 (cond  ((stringp ex1)
+                                         (insert (format "\"%s\"\n" ex1)))
+                                        (t
+                                         (insert (format "%s\n" ex1))))
+                                 (goto-char (point-min))
+                                 (forward-line 1)
+                                 (while (null (eobp))
+                                   (insert ";; ")
+                                   (forward-line 1))
+                                 )
+                             ((void-function void-variable)
+                              (insert (format "%s\n" (error-message-string err)))))
+                           (buffer-string)
+                           )))
+               ) (ex-get-example (eval 'symbol)))
   (insert ex-separator)
   )
 
