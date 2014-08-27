@@ -1,7 +1,9 @@
 (source gnu)
 (source melpa)
 
-(package "r-like-example")
+(package-file "r-like-example.el")
+(depends-on "f")
+;; (depends-on "popwin")
 
 (development
  (depends-on "ert-runner"))
