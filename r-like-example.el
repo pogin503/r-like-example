@@ -26,12 +26,12 @@
 ;; Floor, Boston, MA 02110-1301, USA.
 ;;
 ;;
+;;; Commentary:
+
 ;;; Installation:
 ;;
 ;; (require 'r-like-example)
 ;; (require 'elisp-exmaples)
-
-;;; Commentary:
 
 ;; Call examples of Emacs Lisp function.
 
