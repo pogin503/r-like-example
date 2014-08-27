@@ -114,12 +114,17 @@
   "(max 1 3 2.5)"))
 
 (ex-put-example 'zerop '("(setq x 0)"
-  "(zerop x)"))
+"(zerop x)"
+"(zerop 0)"))
 
-(ex-put-example 'min '("(min -4 1)"
-  "(min 2 4.5 9)"))
+(ex-put-example 'min '("(min -4)"
+"(min -4 1)"
+"(min 2 4.5 9)"
+"(min 10 -1 20)"))
 
-(ex-put-example 'abs '("(abs -10)"))
+(ex-put-example 'abs '("(abs -10)"
+"(abs 10)"
+"(abs -10)"))
 
 
 (ex-put-example 'truncate '("(truncate 1.2)"
@@ -133,14 +138,22 @@
   "(floor 5.99 3)"))
 
 (ex-put-example 'ceiling '("(ceiling 1.2)"
-  "(ceiling 1.7)"
-  "(ceiling -1.2)"
-  "(ceiling -1.7)"))
+"(ceiling 1.7)"
+"(ceiling -1.2)"
+"(ceiling -1.7)"
+"(ceiling 1.2)"
+"(ceiling 1.7)"
+"(ceiling -1.2)"
+"(ceiling -1.7)"))
 
 (ex-put-example 'round '("(round -1.7)"
-  "(round -1.2)"
-  "(round 1.7)"
-  "(round 1.2)"))
+"(round -1.2)"
+"(round 1.7)"
+"(round 1.2)"
+"(round 1.2)"
+"(round 1.7)"
+"(round -1.2)"
+"(round -1.7)"))
 
 (ex-put-example '+ '("(+)"
   "(+ 1)"
@@ -241,7 +254,11 @@
 (ex-put-example 'member '("(member 3 '(1 2 3 4 5))"
                           "(member 30 '(1 2 3 4 5))"))
 (ex-put-example 'find '("(find 3 '(1 2 3 4 5))"))
-(ex-put-example 'max '("(max 1 2 3 4 5)"))
+
+(ex-put-example 'max '("(max 1 2 3 4 5)"
+"(max 20)"
+"(max 1 2.5)"
+"(max 1 3 2.5)"))
 (ex-put-example 'sort '("(sort '(1 -2 3 4 -5) '<)"))
 (ex-put-example 'sort* '("(sort* '(1 -2 3 4 -5) '< :key 'abs)"))
 (ex-put-example 'equal '(
@@ -471,11 +488,19 @@
 (ex-put-example 'emacs-version '("(emacs-version)"))
 (ex-put-example 'current-buffer '("(current-buffer)"))
 (ex-put-example 'symbol-function '("(symbol-function 'car)          ; Access the function cell of the symbol."))
-(ex-put-example 'point-marker '("(point-marker)"))
-(ex-put-example 'selected-window '("(selected-window)"))
-(ex-put-example 'selected-frame '("(selected-frame)"))
+
+(ex-put-example 'point-marker '("(point-marker)"
+"(point-marker)"))
+
+(ex-put-example 'selected-window '("(selected-window)"
+"(selected-window)"))
+
+(ex-put-example 'selected-frame '("(selected-frame)"
+"(selected-frame)"))
 (ex-put-example 'get-device-terminal '("(get-device-terminal nil)"))
-(ex-put-example 'process-list '("(process-list)"))
+
+(ex-put-example 'process-list '("(process-list)"
+"(process-list)"))
 
 ;; Bitwise Operations on Integers
 (ex-put-example 'lsh '(";; lsh, which is an abbreviation for logical shift,
@@ -651,6 +676,129 @@
 
 (ex-put-example 'symbol-name '("(symbol-name 'name)"
 "(symbol-name 'setq)"))
+
+(ex-put-example 'intern '("(unintern \"foo\")"
+"(setq sym (intern \"foo\"))"
+"(setq sym (intern \"foo\"))"
+"(setq other-obarray nil)"
+"(setq sym1 (intern \"foo\" other-obarray))"
+"(eq sym 'foo)"))
+
+(ex-put-example 'format-time-string '("(f-touch \"~/.emacs.d/test.txt\")"
+"(let* ((attrs (file-attributes \"~/.emacs.d/test.txt\"))
+           (atime (nth 4 attrs))
+           (mtime (nth 5 attrs))
+           (ctime (nth 6 attrs)))
+      (concat \"File last accessed on \"
+              (format-time-string \"%Y-%m-%d %T\" atime) \"\\n\"
+              \"File last modified on \"
+              (format-time-string \"%Y-%m-%d %T\" mtime) \"\\n\"
+              \"File last changed on \"
+              (format-time-string \"%Y-%m-%d %T\" ctime)))"
+"(f-delete \"~/.emacs.d/test.txt\")"))
+
+(ex-put-example 'defmacro '("(defmacro inc (var)
+   (list 'setq var (list '1+ var)))"
+"(defmacro nil! (var)
+  (list 'setf var nil)) "))
+
+(ex-put-example 'commandp '("(commandp 'setq)"
+"(commandp 'execute-extended-command)"))
+
+(ex-put-example 'event-modifiers '("(event-modifiers ?a)"
+"(event-modifiers ?\\C-a)"
+"(event-modifiers ?\\C-%)"
+"(event-modifiers ?\\C-\\S-a)"
+"(event-modifiers 'f5)"
+"(event-modifiers 's-f5)"
+"(event-modifiers 'M-S-f5)"
+"(event-modifiers 'mouse-1)"
+"(event-modifiers 'down-mouse-1)"))
+
+(ex-put-example 'event-basic-type '("(event-basic-type ?a)"
+"(event-basic-type ?A)"
+"(event-basic-type ?\\C-a)"
+"(event-basic-type ?\\C-\\S-a)"
+"(event-basic-type 'f5)"
+"(event-basic-type 's-f5)"
+"(event-basic-type 'M-S-f5)"
+"(event-basic-type 'down-mouse-1)"))
+
+(ex-put-example 'event-convert-list '("(event-convert-list '(control ?a))"
+"(event-convert-list '(control meta ?a))"
+"(event-convert-list '(control super f1))"))
+
+(ex-put-example 'make-bool-vector '("(make-bool-vector 3 t)"
+"(make-bool-vector 3 nil)"))
+
+(ex-put-example 'subrp '("(subrp (symbol-function 'car))"))
+
+(ex-put-example 'stringp '("(stringp 'foo)"
+"(stringp \"foo\")"))
+
+(ex-put-example 'atom '("(atom 123)"
+"(atom 'setq)"
+"(atom '(1 2 3))"))
+
+(ex-put-example 'numberp '("(numberp 123)"
+"(numberp 123.456)"))
+
+(ex-put-example 'integerp '("(integerp 123)"
+"(integerp 123.456)"
+"most-positive-fixnum"
+"(setq x 100000000000000000000)"
+"(integerp x)"))
+
+(ex-put-example 'symbolp '("(symbolp 'x)"
+"(symbolp 123)"))
+
+(ex-put-example 'floatp '("(floatp 123.456)"
+"(floatp 123)"))
+
+(ex-put-example 'isnan '("(isnan 123.456)"
+"(isnan 0.0e+NaN)"
+"(isnan -0.0e+NaN)"
+"(isnan 1.0e+INF)"))
+
+(ex-put-example 'eql '("(eql 1.0 1)"
+"(eql 1.0 1.0)"
+"(eql 1 1)"))
+
+(ex-put-example 'random '("(random)"
+"(random)"
+"(random)"
+"(random 1000)"
+"(random -1000)"
+"(random t)"
+"(random \"string\")"))
+
+(ex-put-example 'make-string '("(make-string 5 ?x)"
+"(make-string 0 ?x)"))
+
+(ex-put-example 'documentation '("(documentation 'setq)"))
+
+(ex-put-example 'unintern '("(setq x 123)"
+"(unintern 'x)"
+"x"))
+
+(ex-put-example 'help-buffer '("(help-buffer)"))
+
+(ex-put-example 'key-description '("(key-description [?\\M-3 delete])"
+"(key-description [delete] \"\\M-3\")"))
+
+(ex-put-example 'text-char-description '("(text-char-description ?\\C-c)"
+"(text-char-description ?\\M-m)"
+"(text-char-description ?\\C-\\M-m)"
+"(text-char-description (+ 128 ?m))"
+"(text-char-description (+ 128 ?\\C-m))"))
+
+(ex-put-example 'string-to-char '("(string-to-char \"a\")"
+"(string-to-char \"abc\")"
+"(string-to-char \"b\")"
+"(string-to-char \"c\")"))
+
+(ex-put-example 'string-to-int '("(string-to-int \"123\")"
+"(string-to-int \"abc\")"))
 
 (provide 'elisp-examples)
 
