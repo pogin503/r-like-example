@@ -253,7 +253,9 @@
 
 (ex-put-example 'member '("(member 3 '(1 2 3 4 5))"
                           "(member 30 '(1 2 3 4 5))"))
-(ex-put-example 'find '("(find 3 '(1 2 3 4 5))"))
+
+(ex-put-example 'find '("(find 3 '(1 2 3 4 5))"
+"(find \"a\" '(\"a\" \"b\") :test #'equal)"))
 
 (ex-put-example 'max '("(max 1 2 3 4 5)"
 "(max 20)"
@@ -373,26 +375,29 @@
 
 (ex-put-example 'loop '("(loop for x in '(1 2 3 4 5)
       do (insert (format \"%d \" (* x x))))"
-  "(loop for x in '(1 2 3 4 5)
+"(loop for x in '(1 2 3 4 5)
       for y in '(6 7 8 9 10)
       collect (list x y))"
-  "(loop for x from 1 to 5
+"(loop for x from 1 to 5
       for y = (* x 2)
       collect y)"
-  "(loop for x in '(foo 2)
+"(loop for x in '(foo 2)
       thereis (numberp x))"
-  "(loop for x from 1 to 10
+"(loop for x from 1 to 10
       collect (loop for y from 1 to x
                     collect y))"
-  "(loop for i upto 10 collect i)"
-  "(loop for i from 0 downto -10 collect i)"
-  "(loop for i in '(10 20 30 40) by #'cddr collect i)"
-  "(loop for x across \"abcd\" collect x)"
-  "(loop repeat 5
+"(loop for i upto 10 collect i)"
+"(loop for i from 0 downto -10 collect i)"
+"(loop for i in '(10 20 30 40) by #'cddr collect i)"
+"(loop for x across \"abcd\" collect x)"
+"(loop repeat 5
       for x = 0 then y
       for y = 1 then (+ x y)
-      collect y)"))
-
+      collect y)"
+"(let ((str \"(123)\"))
+  (loop for i from 1 to (- (length str) 2)
+        concat (char-to-string (aref str i))
+        ))"))
 
 (ex-put-example 'remove-if-not '("(remove-if-not #'evenp '(1 2 3 4 5))"))
 
