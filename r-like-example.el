@@ -268,6 +268,45 @@ Example:
     (ex-put-example sym (reverse (cdr (reverse ex))))
     (message "delete \"%s\"" last-elem)))
 
+(defun ex--collect-symbol (path)
+  (interactive)
+  (let ((data (f-read-text path))
+        result)
+    (with-temp-buffer
+      (insert data)
+      (goto-char (point-min))
+      (while (null (eobp))
+        (let ((q (re-search-forward "^(ex-put-example '" nil t))
+              (str (thing-at-point 'symbol)))
+          (if q
+              (push (with-temp-buffer
+                      (insert str)
+                      (buffer-substring-no-properties (point-min) (point-max)))
+                    result)
+            (goto-char (point-max))))))
+    (sort result #'string<)))
+
+(defun ex-hash-keys ()
+  (let ((keys))
+    (maphash #'(lambda (key value)
+                 (push key keys))
+             ex-hash)
+    keys))
+
+(defun ex-unstored-date ()
+  (let (result
+        (file-data (ex--collect-symbol "~/.emacs.d/plugins/r-like-example/elisp-examples.el"))
+        (current-data (sort (ex-hash-keys) #'string<)))
+   (cl-loop for x in current-data do
+         (if (null (member x file-data))
+             (push x result)))
+   result
+   ))
+
+(defun ex-display-unstored-date ()
+  (interactive)
+  (message (format "%s" (ex-unstored-date)))
+  )
 
 ;; Window
 (defun ex-delete-window ()
