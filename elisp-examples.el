@@ -805,6 +805,53 @@
 (ex-put-example 'string-to-int '("(string-to-int \"123\")"
 "(string-to-int \"abc\")"))
 
+(ex-put-example 'set-marker '("(set-marker (make-marker) (point))"
+"(let (b e)
+  (insert (make-string 100 ? ))
+  (goto-char (point-min))
+  (setq b (point))
+  (setq e (set-marker (make-marker) (point)))
+  (insert (format \"\\nstart=%d, end=%s\\n\" b e)))"))
+
+(ex-put-example 'string '("(string ?a)"))
+
+(ex-put-example 'nil-blank-string '("(nil-blank-string \"\")"
+"(nil-blank-string \"    \")"
+"(nil-blank-string \"123\")"
+"(nil-blank-string \"   123\")"))
+
+(ex-put-example 'endp '("(endp nil) "
+"(endp '(1 2)) "))
+
+(ex-put-example 'cl-endp '("(cl-endp nil) "
+"(cl-endp '(1 2)) "))
+
+(ex-put-example 'butlast '("(butlast '(a b c d))"
+"(butlast '(a b c d) 2)"
+"(butlast '(a b c d . e) 2)"
+"(butlast nil)"))
+
+(ex-put-example 'copy-tree '("(copy-tree '((a b) (c d)))"
+"(copy-tree 1)"))
+
+(ex-put-example 'remprop '("(setplist 'foo '(a 1 b (2 3) c nil))"
+"(symbol-plist 'foo)"
+"(remprop 'foo 'a)"
+"(symbol-plist 'foo)"
+"(remprop 'foo 'b)"
+"(symbol-plist 'foo)"
+"(remprop 'foo 'c)"
+"(symbol-plist 'foo)"))
+
+(ex-put-example 'set-difference '("(set-difference '(1 2 3 4) '(3 4 5 6))"))
+
+(ex-put-example 'push '("(setq z '(a b c))"
+"(push 'x z)"))
+
+(ex-put-example 'copy-list '("(copy-list '((a b) (c d)))"))
+
+(ex-put-example 'cl-set-difference '("(cl-set-difference '(1 2 3 4) '(3 4 5 6))"))
+
 (provide 'elisp-examples)
 
 ;; Local variables:
