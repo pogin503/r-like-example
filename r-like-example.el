@@ -263,9 +263,11 @@ Example:
 
 `SYM' is key."
   (interactive "aDelete Symbol is? ")
-  (let  ((ex (ex-get-example sym)))
-    (ex-put-example sym (reverse (cdr (reverse ex))))))
-;; (global-set-key (kbd "C-c 9") 'ex-delete-last-elem)
+  (let*  ((ex (ex-get-example sym))
+         (last-elem (car (reverse ex))))
+    (ex-put-example sym (reverse (cdr (reverse ex))))
+    (message "delete \"%s\"" last-elem)))
+
 
 ;; Window
 (defun ex-delete-window ()
