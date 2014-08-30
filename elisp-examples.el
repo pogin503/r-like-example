@@ -852,6 +852,155 @@
 
 (ex-put-example 'cl-set-difference '("(cl-set-difference '(1 2 3 4) '(3 4 5 6))"))
 
+(ex-put-example 'f-uniquify '("(f-uniquify '(\"/foo/bar\" \"/foo/baz\" \"/foo/quux\"))"
+"(f-uniquify '(\"/foo/bar\" \"/www/bar\" \"/foo/quux\"))"
+"(f-uniquify '(\"/foo/bar\" \"/www/bar\" \"/www/bar/quux\"))"
+"(f-uniquify '(\"/foo/bar\" \"/foo/baz\" \"/home/www/bar\" \"/home/www/baz\" \"/var/foo\" \"/opt/foo/www/baz\"))"))
+
+(ex-put-example 'f-split '("(f-split \"path\")"
+"(f-split \"path/to\")"
+"(f-split \"/path/to/heaven\")"))
+
+(ex-put-example 'f-short '("(f-short \"/Users/foo/Code/bar\")"
+"(f-short \"/path/to/Code/bar\")"))
+
+(ex-put-example 'f-parenet '("(f-parenet \"path/to/file.ext\")"
+"(f-parenet \"path/to/directory\")"
+"(f-parenet \"/\")"))
+
+(ex-put-example 'f-no-ext '("(f-no-ext \"path/to/file.ext\")"
+"(f-no-ext \"path/to/directory\")"))
+
+(ex-put-example 'f-filename '("(f-filename \"path/to/file.ext\")"
+"(f-filename \"path/to/directory\")"))
+
+(ex-put-example 'f-ext '("(f-ext \"path/to/file.ext\")"
+"(f-ext \"path/to/directory\")"))
+
+(ex-put-example 'f-dirname '("(f-dirname \"path/to/file.ext\")"
+"(f-dirname \"path/to/directory\")"
+"(f-dirname \"/\")"))
+
+(ex-put-example 'f-common-parent '("(f-common-parent '(\"foo/bar/baz\" \"foo/bar/qux\" \"foo/bar/mux\"))"
+"(f-common-parent '(\"/foo/bar/baz\" \"/foo/bar/qux\" \"/foo/bax/mux\"))"
+"(f-common-parent '(\"foo/bar/baz\" \"quack/bar/qux\" \"lack/bar/mux\"))"))
+
+(ex-put-example 'f-canonical '("(f-canonical \"/path/to/real/file\")"
+"(f-canonical \"/link/to/file\")"))
+
+(ex-put-example 'f-base '("(f-base \"path/to/file.ext\")"
+"(f-base \"path/to/directory\")"))
+
+(ex-put-example 'f-abbrev '("(f-abbrev \"/Users/foo/Code/bar\")"
+"(f-abbrev \"/path/to/Code/bar\")"))
+
+(ex-put-example '-map '("(-map (lambda (n) (* n n)) '(1 2 3 4)) ;; normal version"
+"(--map (* it it) '(1 2 3 4)) ;; anaphoric version"
+"(defun square (n) (* n n))"
+"(-map 'square '(1 2 3 4))"))
+
+(ex-put-example '--map '("(--map (* it it) '(1 2 3 4)) ;; anaphoric version"))
+
+(ex-put-example 'cl-ceiling '("(cl-ceiling 1.2)"
+"(cl-ceiling 1.7)"
+"(cl-ceiling -1.2)"
+"(cl-ceiling -1.7)"
+"(cl-ceiling 1.2)"
+"(cl-ceiling 1.7)"
+"(cl-ceiling -1.2)"
+"(cl-ceiling -1.7)"))
+
+(ex-put-example 'gcd '("(gcd 91 49)"
+"(gcd 63 42 35)"))
+
+(ex-put-example 'lcm '("(lcm 14 35)"
+"(lcm 1 2 3 4 5)"))
+
+(ex-put-example '= '("(= 10 10)"
+"(= 10 10)"
+"(= 10 20)"
+"(= 10 10 10 10 10)"))
+
+(ex-put-example 'typep '("(typep '(a b c) 'list)"
+"(typep \"abcdef\" 'string)"
+"(typep 100 'integer)"
+"(typep 100 'float)"
+"(typep 'a  'symbol)"))
+
+(ex-put-example 'substitute-command-keys '("(substitute-command-keys
+        \"To abort recursive edit, type: \\\\[abort-recursive-edit]\")"
+"(substitute-command-keys
+        \"To abort a recursive edit from the minibuffer, type\\
+     \\\\<minibuffer-local-must-match-map>\\\\[abort-recursive-edit].\")"))
+
+(ex-put-example '-filter '("(-filter (lambda (num) (= 0 (% num 2))) '(1 2 3 4))"
+"(-filter 'even? '(1 2 3 4))"
+"(--filter (= 0 (% it 2)) '(1 2 3 4))"))
+
+(ex-put-example '-remove '("(-remove 'even? '(1 2 3 4))"
+"(-remove (lambda (num) (= 0 (% num 2))) '(1 2 3 4))"
+"(--remove (= 0 (% it 2)) '(1 2 3 4))"))
+
+(ex-put-example '-slice '("(-slice '(1 2 3 4 5) 1)"
+"(-slice '(1 2 3 4 5) 0 3)"
+"(-slice '(1 2 3 4 5 6 7 8 9) 1 -1 2)"))
+
+(ex-put-example '-take '("(-take 3 '(1 2 3 4 5))"
+"(-take 17 '(1 2 3 4 5))"))
+
+(ex-put-example '-drop '("(-drop 3 '(1 2 3 4 5))"
+"(-drop 17 '(1 2 3 4 5))"))
+
+(ex-put-example '-drop-while '("(-drop-while 'even? '(1 2 3 4))"
+"(-drop-while 'even? '(2 4 5 6))"
+"(--drop-while (< it 4) '(1 2 3 4 3 2 1))"))
+
+(ex-put-example '-take-while '("(-take-while 'even? '(1 2 3 4))"
+"(-take-while 'even? '(2 4 5 6))"
+"(--take-while (< it 4) '(1 2 3 4 3 2 1))"))
+
+(ex-put-example '-flatten '("(-flatten '((1)))"
+"(-flatten '((1 (2 3) (((4 (5)))))))"
+"(-flatten '(1 2 (3 . 4)))"))
+
+(ex-put-example '-flatten-n '("(-flatten-n 1 '((1 2) ((3 4) ((5 6)))))"
+"(-flatten-n 1 '((1 2) ((3 4) ((5 6)))))"
+"(-flatten-n 1 '((1 2) ((3 4) ((5 6)))))"
+"(-flatten-n 1 '((1 2) ((3 4) ((5 6)))))"
+"(-flatten-n 1 '((1 2) ((3 4) ((5 6)))))"
+"(-flatten-n 2 '((1 2) ((3 4) ((5 6)))))"
+"(-flatten-n 3 '((1 2) ((3 4) ((5 6)))))"))
+
+(ex-put-example 's-chomp '("(s-chomp \"no newlines\\n\")"
+"(s-chomp \"no newlines\\r\\n\")"
+"(s-chomp \"some newlines\\n\\n\")"))
+
+(ex-put-example 's-collapse-whitespace '("(s-collapse-whitespace \"only   one space   please\")"
+"(s-collapse-whitespace \"collapse \\n all \\t sorts of \\r whitespace\")"))
+
+(ex-put-example 's-trim '("(s-trim \"trim \")"
+"(s-trim \" this\")"
+"(s-trim \" only  trims beg and end  \")"))
+
+(ex-put-example 's-trim-left '("(s-trim-left \"trim \")"
+"(s-trim-left \" this\")"))
+
+(ex-put-example 's-trim-right '("(s-trim-right \"trim \")"
+"(s-trim-right \" this\")"))
+
+(ex-put-example '-> '("(-> '(2 3 5))"
+"(-> '(2 3 5) (append '(8 13)))"
+"(-> '(2 3 5) (append '(8 13)) (-slice 1 -1))"))
+
+(ex-put-example '->> '("(->> '(1 2 3) (-map 'square)) ;; => '(1 4 9)"
+"(->> '(1 2 3) (-map 'square) (-remove 'even?)) ;; => '(1 9)"
+"(->> '(1 2 3) (-map 'square) (-reduce '+)) ;; => 14"))
+
+(ex-put-example '--> '("(--> \"def\" (concat \"abc\" it \"ghi\")) ;; => \"abcdefghi\""
+"(--> \"def\" (concat \"abc\" it \"ghi\") (upcase it)) ;; => \"ABCDEFGHI\""
+"(--> \"def\" (concat \"abc\" it \"ghi\") upcase) ;; => \"ABCDEFGHI\"
+"))
+
 (provide 'elisp-examples)
 
 ;; Local variables:
