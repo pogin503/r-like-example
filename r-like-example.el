@@ -179,12 +179,13 @@ Example:
     (buffer-string)))
 
 (defconst ex-dir (f-dirname (f-this-file)))
+(defconst ex-data-file (f-join ex-dir "elisp-examples.el"))
 
 (defun ex-store-key-example (key)
   "`KEY'に対応する実行例を、データ保存用ファイルに永続化する."
   (interactive "aどのキーをストアしますか? ")
   (let* (
-         (db-file (f-join ex-dir "elisp-examples.el"))
+         (db-file ex-data-file)
          (text1 (f-read-text db-file))
 
          (text (with-temp-buffer
@@ -295,7 +296,7 @@ Example:
 
 (defun ex-unstored-date ()
   (let (result
-        (file-data (ex--collect-symbol "~/.emacs.d/plugins/r-like-example/elisp-examples.el"))
+        (file-data (ex--collect-symbol ex-data-file))
         (current-data (sort (ex-hash-keys) #'string<)))
    (cl-loop for x in current-data do
          (if (null (member x file-data))
