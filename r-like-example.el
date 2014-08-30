@@ -240,7 +240,7 @@ Example:
             (ex-put-example ex-sym (list ex)))
            (t
             (ex-put-example ex-sym (reverse (cons ex (reverse (ex-get-example ex-sym)))))))
-    (message "%s" ex)
+    (message "%S" ex)
     ))
 
 ;; Utility
