@@ -15,6 +15,10 @@ This can be able to improve learning Emacs Lisp effectively.
 git clone https://github.com/pogin503/r-like-example.git 
 ```
 
+```
+M-x package-install f
+```
+
 ```lisp
 (add-to-list 'load-path "~/path/to/r-like-example")
 
@@ -27,13 +31,14 @@ I recommend specially to use popwin.el.
 When you use emacs24, `M-x package-install popwin RET` 
 
 ```lisp
-(add-to-list 'popwin:special-display-config '("*example*" :position right :width 45 :dedicated t))
+(push '("*example*" :position right :width 45 :stick t) popwin:special-display-config)
 ```
 
 ```lisp
 (global-set-key (kbd "s-9") 'ex-example)
 (global-set-key (kbd "M-9") 'ex-example)
 (global-set-key (kbd "s-0") 'ex-store-key-example)
+(global-set-key (kbd "M-0") 'ex-store-key-example)
 (global-set-key (kbd "C-c 0 a") 'ex-add-example)
 (global-set-key (kbd "C-c 0 i") 'ex-insert-current-buffer)
 (global-set-key (kbd "C-c 0 p") 'ex-put-to-example)
