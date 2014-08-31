@@ -330,6 +330,11 @@ Example:
   (let ((win (get-buffer-window ex-buffer-name)))
     (delete-window win)))
 
+;; Debug
+(defun ex-exec-all-examples (hash)
+  (mapc '(lambda (x) (ex-example (intern-soft x)))
+         (ex-hash-keys hash)))
+
 (defvar ex-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "q") 'ex-delete-window)
