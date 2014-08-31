@@ -6,7 +6,7 @@
 ;; Keywords: lisp
 ;; Version: 0.1
 ;; URL: https://github.com/pogin503/r-like-example
-;; Package-Requires: ((f "0.16.2") (popwin "0.5"))
+;; Package-Requires: ((f "0.16.2") (popwin "0.5") (cl-lib "0.5"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -39,6 +39,7 @@
 ;;; Code:
 
 (require 'f)
+(require 'cl-lib)
 (require 'popwin)
 
 (defvar ex-hash (make-hash-table :test #'equal)
@@ -93,16 +94,13 @@ Example:
           (message "%s: not exist" key))
       q)))
 
-(defun ex-before-def ()
+(defun ex--before-def ()
   (progn
     (defun square (x) (* x x))
-    (defalias 'evenp (symbol-function 'even?))
-    (defun even? (integer)
-      "Return t if INTEGER is even."
-      (eq (logand integer 1) 0))
+    (defalias 'even? (symbol-function 'cl-evenp))
     ))
 
-(ex-before-def)
+(ex--before-def)
 
 ;; (gethash "featurep" ex-hash)
 ;; (ex-key-exists-p "featurep")
