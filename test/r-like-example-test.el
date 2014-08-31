@@ -37,7 +37,7 @@
 (ert-deftest ex-example-test ()
   (should (equal (mapconcat 'identity
                             (list (car test-example-foo)
-                                  (concat ex-begin-comment "\"t\"")
+                                  (concat ex-begin-comment "t")
                                   ex-separator)
                             "\n")
                  (progn
@@ -45,6 +45,13 @@
                    (buffer-string)
                    ))))
 
+(ert-deftest ex-insert-current-buffer ()
+  (should (equal (with-temp-buffer
+                   (ex-get-example 'ex-foo)
+                   (ex-insert-current-buffer 'ex-foo)
+                   (buffer-string))
+                 "(ex-put-example 'ex-foo '(\"(message \\\"t\\\")\"))"
+                 )))
 
 ;; ;; dump example
 ;; (maphash #'(lambda (key val)
