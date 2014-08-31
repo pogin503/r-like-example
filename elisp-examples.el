@@ -1012,6 +1012,27 @@
 "(list 'a 'b 'c)"
 "(list '(a b) '(c d) '(e f))"))
 
+(ex-put-example 'cl-mapl '(";; function &rest lists+ => list-1
+  (mapl #'(lambda (x y) (insert (format \"%s\\n\" (append x y)))) (list 1 0 2) (list 3 4 5))"))
+
+(ex-put-example '-map-when '("(-map-when 'even? 'square '(1 2 3 4))"
+"(--map-when (> it 2) (* it it) '(1 2 3 4))"
+"(--map-when (= it 2) 17 '(1 2 3 4))"))
+
+(ex-put-example '--map-when '("(--map-when (> it 2) (* it it) '(1 2 3 4))"
+"(--map-when (= it 2) 17 '(1 2 3 4))"))
+
+
+(ex-put-example '-map-indexed '("(-map-indexed (lambda (index item)a (- item index)) '(1 2 3 4))"))
+
+(ex-put-example '--map-indexed '("(--map-indexed (- it it-index) '(1 2 3 4))"))
+
+(ex-put-example 'json-read-from-string '("(json-read-from-string \"[1,2,3]\")"
+"(json-read-from-string \"{\\\"foo\\\":\\\"foo\\\"}\")"))
+
+(ex-put-example 'json-encode '("(json-encode [1 2 3])"
+"(json-encode '((foo . \"foo\")))"))
+
 (provide 'elisp-examples)
 
 ;; Local variables:
