@@ -6,9 +6,10 @@
 
 ;; base
 (ex-put-example 'setq '("(setq x 3)"
-  "(setq foo 'apple)"
-  "foo"
+"(setq foo 'apple)"
+"foo"
 ))
+
 ;; array
 (ex-put-example 'arrayp '(
   "(setq __abar '(1 2))"
@@ -28,14 +29,12 @@
   "(aref \"abcdefg\" 1)"
 ))
 
-(ex-put-example 'aset '(
-  "(setq __w [__foo __bar __baz])"
-  "(aset __w 0 '__fu)"
-  "__w"
-  "(setq __x \"asdfasfd\")"
-  "(aset __x 3 ?Z)"
-  "__x"
-))
+(ex-put-example 'aset '("(setq w [foo bar baz])"
+"(aset w 0 'fu)"
+"w"
+"(setq x \"asdfasfd\")"
+"(aset x 3 ?Z)"
+"x"))
 
 (ex-put-example 'fillarray '(
   "(setq a [a b c d e f g])"
@@ -232,9 +231,9 @@
       '(1 2 3 4))"))
 
 (ex-put-example 'mapc '("(mapc #'(lambda (i) i) '(1 2 3))"))
-(ex-put-example 'mapl    '(";; function &rest lists+ => list-1
-\(mapl #'(lambda (x y) (print (append x y))) (list 1 0 2) (list 3 4 5))"
-                           ))
+
+(ex-put-example 'mapl '(";; function &rest lists+ => list-1
+(mapl #'(lambda (x y) (insert (format \"%s\\n\" (append x y)))) (list 1 0 2) (list 3 4 5))"))
 (ex-put-example 'maplist '(";; function &rest lists+ => result-list
 \(maplist #'list (list 1 2 3) (list 4 5 6))"
                            ))
@@ -276,17 +275,16 @@
                          "(eq (point-marker) (point-marker))"
                          ))
 
-(ex-put-example 'eq '(
-                      "(equal 'foo 'foo)"
-                      "(equal 456 456)"
-                      "(equal \"asdf\" \"asdf\")"
-                      "(equal '(1 (2 (3))) '(1 (2 (3))))"
-                      "(eq '(1 (2 (3))) '(1 (2 (3))))"
-                      "(equal [(1 2) 3] [(1 2) 3])"
-                      "(eq [(1 2) 3] [(1 2) 3])"
-                      "(equal (point-marker) (point-marker))"
-                      "(eq (point-marker) (point-marker))"
-                      ))
+(ex-put-example 'eq '("(eq 'foo 'foo)"
+"(eq 456 456)"
+"(eq    \"asdf\" \"asdf\")"
+"(equal \"asdf\" \"asdf\")"
+"(eq    '(1 (2 (3))) '(1 (2 (3))))"
+"(equal '(1 (2 (3))) '(1 (2 (3))))"
+"(eq    [(1 2) 3] [(1 2) 3])"
+"(equal [(1 2) 3] [(1 2) 3])"
+"(eq    (point-marker) (point-marker))"
+"(equal (point-marker) (point-marker))"))
 
 (ex-put-example 'print '("(print \"Hello World\")"))
 (ex-put-example 'prin1 '("(prin1 \"Hello World\")"))
@@ -416,8 +414,9 @@
 ;; (ex-put-example 'point-at-eol ())
 
 ;; register
+
 (ex-put-example 'point-to-register '("(point-to-register ?r)"
-                                     "(jump-to-register ?r)"))
+))
 (ex-put-example 'get-register '())
 (ex-put-example 'set-register '())
 (ex-put-example 'view-register '())
@@ -459,12 +458,11 @@
 ))
 
 (ex-put-example 'plist-get '("(plist-get '(foo 4) 'foo)"
-  "(plist-get '(foo 4 bad) 'foo)"
-  "(plist-get '(foo 4 bad) 'bad)"
-  "(plist-get '(foo 4 bad) 'bar)
-;; ==="
-  "(setq __pfoo '(:bar \"BAR\" :hoge \"HOGE\"))"
-  "(plist-get __pfoo :bar)"))
+"(plist-get '(foo 4 bad) 'foo)"
+"(plist-get '(foo 4 bad) 'bad)"
+"(plist-get '(foo 4 bad) 'bar)"
+"(setq __pfoo '(:bar \"BAR\" :hoge \"HOGE\"))"
+"(plist-get __pfoo :bar)"))
 
 (ex-put-example 'plist-put '("(setq my-plist '(bar t foo 4))"
 "(setq my-plist (plist-put my-plist 'foo 69))"
@@ -792,8 +790,8 @@
 "(key-description [delete] \"\\M-3\")"))
 
 (ex-put-example 'text-char-description '("(text-char-description ?\\C-c)"
-"(text-char-description ?\\M-m)"
-"(text-char-description ?\\C-\\M-m)"
+;; "(text-char-description ?\\M-m)"
+;; "(text-char-description ?\\C-\\M-m)"
 "(text-char-description (+ 128 ?m))"
 "(text-char-description (+ 128 ?\\C-m))"))
 
@@ -896,7 +894,6 @@
 
 (ex-put-example '-map '("(-map (lambda (n) (* n n)) '(1 2 3 4)) ;; normal version"
 "(--map (* it it) '(1 2 3 4)) ;; anaphoric version"
-"(defun square (n) (* n n))"
 "(-map 'square '(1 2 3 4))"))
 
 (ex-put-example '--map '("(--map (* it it) '(1 2 3 4)) ;; anaphoric version"))
@@ -918,8 +915,7 @@
 
 (ex-put-example '= '("(= 10 10)"
 "(= 10 10)"
-"(= 10 20)"
-"(= 10 10 10 10 10)"))
+"(= 10 20)"))
 
 (ex-put-example 'typep '("(typep '(a b c) 'list)"
 "(typep \"abcdef\" 'string)"
