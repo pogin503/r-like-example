@@ -1001,6 +1001,21 @@
 "(--> \"def\" (concat \"abc\" it \"ghi\") upcase) ;; => \"ABCDEFGHI\"
 "))
 
+(ex-put-example 'eldoc-current-symbol '("(progn
+  (insert \"(setq x 123)\")
+  (forward-char -10)
+  (eldoc-current-symbol))"))
+
+(ex-put-example 'eldoc-symbol-function '("(eldoc-symbol-function 'setq)"))
+
+(ex-put-example 'face-attribute '("(face-attribute 'default :height)"))
+
+(ex-put-example 'face-all-attributes '("(face-all-attributes 'default)"))
+
+(ex-put-example 'list '("(list 1 2 3)"
+"(list 'a 'b 'c)"
+"(list '(a b) '(c d) '(e f))"))
+
 (provide 'elisp-examples)
 
 ;; Local variables:
