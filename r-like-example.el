@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 2012
 
-;; Author:  <pogin>
+;; Author:  pogin <pogin503@gmail.com>
 ;; Keywords: lisp
 ;; Version: 0.1
 ;; URL: https://github.com/pogin503/r-like-example
@@ -53,12 +53,17 @@
   :group 'r-like-example)
 
 (defun ex-put-example (symbol example)
-  "Put examples function."
+  "Put examples function.
+
+`SYMBOL' is key.
+`EXAMPLE' is executable sexp."
   (puthash (symbol-name (eval 'symbol)) example ex-hash)
   )
 
 (defun ex-get-example (symbol)
-  "Get exmaple function."
+  "Get exmaple function.
+
+`SYMBOL' is key."
   (gethash (symbol-name (eval 'symbol)) ex-hash))
 
 (defun ex-eval-string (str)
