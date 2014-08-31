@@ -303,17 +303,17 @@ Example:
             (goto-char (point-max))))))
     (sort result #'string<)))
 
-(defun ex-hash-keys ()
+(defun ex-hash-keys (hash)
   (let ((keys))
     (maphash #'(lambda (key value)
                  (push key keys))
-             ex-hash)
+             hash)
     keys))
 
 (defun ex-unstored-date ()
   (let (result
         (file-data (ex--collect-symbol ex-data-file))
-        (current-data (sort (ex-hash-keys) #'string<)))
+        (current-data (sort (ex-hash-keys ex-hash) #'string<)))
    (cl-loop for x in current-data do
          (if (null (member x file-data))
              (push x result)))
