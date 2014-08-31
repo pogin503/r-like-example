@@ -88,6 +88,17 @@ Example:
           (message "%s: not exist" key))
       q)))
 
+(defun ex-before-def ()
+  (progn
+    (defun square (x) (* x x))
+    (defalias 'evenp (symbol-function 'even?))
+    (defun even? (integer)
+      "Return t if INTEGER is even."
+      (eq (logand integer 1) 0))
+    ))
+
+(ex-before-def)
+
 ;; (gethash "featurep" ex-hash)
 ;; (ex-key-exists-p "featurep")
 
