@@ -23,7 +23,7 @@ M-x package-install f
 (add-to-list 'load-path "~/path/to/r-like-example")
 
 (require 'r-like-example)
-(require 'elisp-example)
+(require 'elisp-examples)
 ```
 
 I recommend specially to use popwin.el. 
