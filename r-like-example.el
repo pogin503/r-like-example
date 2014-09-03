@@ -337,6 +337,11 @@ Example:
   (let ((win (get-buffer-window ex-buffer-name)))
     (delete-window win)))
 
+(defun ex-kill-ex-buffer ()
+  "Kill *example* buffer."
+  (if (get-buffer ex-buffer-name)
+      (kill-buffer ex-buffer-name)))
+
 ;; Debug
 (defun ex-exec-all-examples (hash)
   (mapc '(lambda (x) (ex-example (intern-soft x)))
@@ -347,10 +352,20 @@ Example:
     (define-key map (kbd "q") 'ex-delete-window)
     map))
 
-(defun ex-kill-ex-buffer ()
-  "Kill *example* buffer."
-  (if (get-buffer ex-buffer-name)
-      (kill-buffer ex-buffer-name)))
+(defun ex-set-keybindings ()
+  "Set r-like-example keybindings."
+  (when (equal system-type 'darwin)
+    (global-set-key (kbd "s-9") 'ex-example)
+    (global-set-key (kbd "s-0") 'ex-store-key-example))
+  (global-set-key (kbd "M-9") 'ex-example)
+  (global-set-key (kbd "M-0") 'ex-store-key-example)
+  (global-set-key (kbd "C-c 0 a") 'ex-add-example)
+  (global-set-key (kbd "C-c 0 d") 'ex-delete-last-elem)
+  (global-set-key (kbd "C-c 0 i") 'ex-insert-current-buffer)
+  (global-set-key (kbd "C-c 0 p") 'ex-put-to-example)
+  (global-set-key (kbd "C-c 0 u") 'ex-display-unstored-date)
+  )
+
 
 ;; (define-derived-mode ex-mode nil "Example"
 ;;   ""

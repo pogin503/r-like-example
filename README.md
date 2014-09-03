@@ -9,11 +9,13 @@ This can be able to improve learning Emacs Lisp effectively.
 
 ### Installation
 
-+Clone to your .emacs.d path.
+Clone to your .emacs.d path.
 
 ```lisp
 git clone https://github.com/pogin503/r-like-example.git 
 ```
+
+Install dependency.
 
 ```
 M-x package-install f
@@ -24,26 +26,21 @@ M-x package-install f
 
 (require 'r-like-example)
 (require 'elisp-examples)
+(ex-set-keybinding)
 ```
 
 I recommend specially to use popwin.el. 
 
-When you use emacs24, `M-x package-install popwin RET` 
+```
+M-x package-install popwin RET`
+```
+
+Add below setting to your init.el
 
 ```lisp
 (push '("*example*" :position right :width 45 :stick t) popwin:special-display-config)
 ```
 
-```lisp
-(global-set-key (kbd "s-9") 'ex-example)
-(global-set-key (kbd "M-9") 'ex-example)
-(global-set-key (kbd "s-0") 'ex-store-key-example)
-(global-set-key (kbd "M-0") 'ex-store-key-example)
-(global-set-key (kbd "C-c 0 a") 'ex-add-example)
-(global-set-key (kbd "C-c 0 i") 'ex-insert-current-buffer)
-(global-set-key (kbd "C-c 0 p") 'ex-put-to-example)
-(global-set-key (kbd "C-c 0 d") 'ex-delete-last-elem)
-```
 
 Basic Usage
 ===========
@@ -53,6 +50,17 @@ Basic Usage
 You type `M-9 mapcar`,
 
 
+###Keybindings
+
+|keybind|description|
+|:---|:---|
+|M-9 or s-9|Display examples|
+|M-0 or s-0|Store function examples|
+|C-c 0 a|Add current cursor position S expression|
+|C-c 0 i|Insert examples data in current buffer|
+|C-c 0 p|Add current cursor position S expression into specific key|
+|C-c 0 d|Pop specific key example|
+|C-c 0 u|Display the key data of the unsaved to the mini-buffer|
 
 Basic Commands
 ==============
@@ -77,3 +85,7 @@ Insert example data like:
 ```
 
 in current buffer.
+
+### Command `ex-display-unstored-data`
+
+Display unstored example keys 
