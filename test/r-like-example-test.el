@@ -53,6 +53,22 @@
                  "(ex-put-example 'ex-foo '(\"(message \\\"t\\\")\"))"
                  )))
 
+(ert-deftest ex-add-example-test ()
+  (should (equal (with-temp-buffer
+                   (insert "(setq x 123)")
+                   (ex-add-example))
+                 "\"(setq x 123)\""))
+  (should (equal (with-temp-buffer
+                   (insert "(setq x 123)")
+                   (goto-char (point-min))
+                   (ex-add-example))
+                 "\"(setq x 123)\""))
+  (should-error (with-temp-buffer
+                  (insert "\n(setq x 123)")
+                  (goto-char (point-min))
+                  (ex-add-example)))
+  )
+
 ;; ;; dump example
 ;; (maphash #'(lambda (key val)
 ;;              (ex-example (intern-soft key)))

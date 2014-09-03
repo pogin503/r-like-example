@@ -227,13 +227,17 @@ Example:
 (defun ex-add-example ()
   "Add example on cursor point."
   (interactive)
-  (forward-char 1)
+  (unless (eobp)
+    (forward-char 1))
   (beginning-of-defun)
   (forward-char 1)
   (let ((ex-sym (ex-get-sexp-symbol))
-        pos (beg -1) (end 0) ex)
+        pos (beg -1) (end 0))
     (mark-defun)
-    (setq beg (string-match "\n" (buffer-substring-no-properties (point) (+ 1 (point)))))
+    (setq beg (string-match "\n"
+                            (buffer-substring-no-properties
+                             (point)
+                             (+ 1 (point)))))
     ;; (when (equal beg 0) (forward-char 1))
     (save-excursion
       (end-of-defun)
@@ -250,12 +254,15 @@ Example:
                           (region-end)            ;; point is end-of-buffer
                         (- (region-end) 1)))      ;; except bottom extra line
     (deactivate-mark)
-    (setq ex (format "%s" (substring-no-properties (get-register ?r))))
-    (cond  ((= (length (ex-get-example ex-sym)) 0)
-            (ex-put-example ex-sym (list ex)))
-           (t
-            (ex-put-example ex-sym (reverse (cons ex (reverse (ex-get-example ex-sym)))))))
-    (message "%S" ex)
+    (let (ex point-sym)
+      (setq ex (format "%s" (substring-no-properties (get-register ?r))))
+      (unless (symbolp ex-sym)
+        (error (format "Please move cursor to S exppression.\n(`!!')")))
+      (cond  ((= (length (ex-get-example ex-sym)) 0)
+              (ex-put-example ex-sym (list ex)))
+             (t
+              (ex-put-example ex-sym (reverse (cons ex (reverse (ex-get-example ex-sym)))))))
+    (message "%S" ex))
     ))
 
 ;; Utility
