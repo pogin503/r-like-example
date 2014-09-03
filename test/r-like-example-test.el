@@ -45,7 +45,7 @@
                    (buffer-string)
                    ))))
 
-(ert-deftest ex-insert-current-buffer ()
+(ert-deftest ex-insert-current-buffer-test ()
   (should (equal (with-temp-buffer
                    (ex-get-example 'ex-foo)
                    (ex-insert-current-buffer 'ex-foo)
