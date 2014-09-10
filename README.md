@@ -32,7 +32,7 @@ M-x package-install f
 I recommend specially to use popwin.el. 
 
 ```
-M-x package-install popwin RET`
+M-x package-install popwin RET
 ```
 
 Add below setting to your init.el
