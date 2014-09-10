@@ -254,7 +254,8 @@
                           "(member 30 '(1 2 3 4 5))"))
 
 (ex-put-example 'find '("(find 3 '(1 2 3 4 5))"
-"(find \"a\" '(\"a\" \"b\") :test #'equal)"))
+"(find \"a\" '(\"a\" \"b\") :test #'equal)"
+"(find 'a [a b c])"))
 
 (ex-put-example 'max '("(max 1 2 3 4 5)"
 "(max 20)"
@@ -345,11 +346,21 @@
 
 ;; string
 (ex-put-example 'split-string '("(split-string \"aaa,bbb,ccc\" \",\")"))
-(ex-put-example 'concat '("(concat \"aaa\" \"bbb\")"))
+
+(ex-put-example 'concat '("(concat \"aaa\" \"bbb\")"
+"(concat \"abc\" (list 120 121) [122])"
+"(concat \"abc\" nil \"-def\")"
+"(concat \"The \" \"quick brown \" \"fox.\")"
+"(concat)"))
 (ex-put-example 'length '("(length \"abcde\")"
                           "(length \"\あいうえお\")"))
 (ex-put-example 'string-width '("(string-width \"あいうえお\")"))
-(ex-put-example 'substring '("(substring \"abcdef\" 0 2)"))
+
+(ex-put-example 'substring '("(substring \"abcdef\" 0 2)"
+"(substring \"abcdefg\" -3 -1)"
+"(substring \"abcdefg\" -3 nil)"
+"(substring \"abcdefg\" 0)"
+"(substring [a b (c) \"d\"] 1 3)"))
 (ex-put-example 'string-match '("(string-match \"bc\" \"abcde\")"))
 (ex-put-example 'match-string '(
 ;; ";; When "
@@ -798,7 +809,9 @@
 (ex-put-example 'string-to-char '("(string-to-char \"a\")"
 "(string-to-char \"abc\")"
 "(string-to-char \"b\")"
-"(string-to-char \"c\")"))
+"(string-to-char \"c\")"
+"(string-to-char \"\")"
+"(string-to-char \"\\000\")"))
 
 (ex-put-example 'string-to-int '("(string-to-int \"123\")"
 "(string-to-int \"abc\")"))
@@ -811,7 +824,8 @@
   (setq e (set-marker (make-marker) (point)))
   (insert (format \"\\nstart=%d, end=%s\\n\" b e)))"))
 
-(ex-put-example 'string '("(string ?a)"))
+(ex-put-example 'string '("(string ?a)"
+"(string ?a ?b ?c)"))
 
 (ex-put-example 'nil-blank-string '("(nil-blank-string \"\")"
 "(nil-blank-string \"    \")"
@@ -988,9 +1002,11 @@
 "(-> '(2 3 5) (append '(8 13)))"
 "(-> '(2 3 5) (append '(8 13)) (-slice 1 -1))"))
 
-(ex-put-example '->> '("(->> '(1 2 3) (-map 'square)) ;; => '(1 4 9)"
-"(->> '(1 2 3) (-map 'square) (-remove 'even?)) ;; => '(1 9)"
-"(->> '(1 2 3) (-map 'square) (-reduce '+)) ;; => 14"))
+(ex-put-example '->> '("(->> '(1 2 3) (-map 'square))"
+"(->> '(1 2 3) (-map 'square)
+               (-remove 'even?))"
+"(->> '(1 2 3) (-map 'square)
+               (-reduce '+))"))
 
 (ex-put-example '--> '("(--> \"def\" (concat \"abc\" it \"ghi\")) ;; => \"abcdefghi\""
 "(--> \"def\" (concat \"abc\" it \"ghi\") (upcase it)) ;; => \"ABCDEFGHI\""
@@ -1023,7 +1039,7 @@
 "(--map-when (= it 2) 17 '(1 2 3 4))"))
 
 
-(ex-put-example '-map-indexed '("(-map-indexed (lambda (index item)a (- item index)) '(1 2 3 4))"))
+(ex-put-example '-map-indexed '("(-map-indexed (lambda (index item) (- item index)) '(1 2 3 4))"))
 
 (ex-put-example '--map-indexed '("(--map-indexed (- it it-index) '(1 2 3 4))"))
 
@@ -1031,7 +1047,42 @@
 "(json-read-from-string \"{\\\"foo\\\":\\\"foo\\\"}\")"))
 
 (ex-put-example 'json-encode '("(json-encode [1 2 3])"
-"(json-encode '((foo . \"foo\")))"))
+"(json-encode '((foo . \"foo\")))"
+"(json-encode '(1 2 3))"
+"(json-encode '(:foo 1 :bar 2 :baz 3))"))
+
+(ex-put-example 'number-to-string '("(number-to-string 256)"
+"(number-to-string -23)"
+"(number-to-string -23.5)"))
+
+(ex-put-example 'string-to-number '("(string-to-number \"256\")"
+"(string-to-number \"25 is a perfect square.\")"
+"(string-to-number \"X256\")"
+"(string-to-number \"-4.5\")"
+"(string-to-number \"1e5\")"))
+
+(ex-put-example 'concatenate '("(concatenate 'string \"Karl\" \" \" \"Marx\")"
+"(concatenate 'list '(a b) '(c d))"))
+
+(ex-put-example 'reverse '("(reverse '(1 2 3 4 5))"))
+
+(ex-put-example 'char-or-string-p '("(char-or-string-p ?a)"
+"(char-or-string-p \"a\")"))
+
+(ex-put-example 'sequencep '("(sequencep '(1 2 3))"
+"(sequencep [1 2 3])"
+"(sequencep \"abc\")"
+"(sequencep (make-bool-vector 5 nil))"
+"(sequencep (make-ring 4))"
+"(sequencep 'a)"
+"(sequencep ?a)"))
+
+(ex-put-example 'unless '("(unless t
+  (message \"no exec\"))"
+"(unless nil
+  (message \"exec\"))"))
+
+(ex-put-example 'read-from-string '("(read-from-string \"(setq x 123)\")"))
 
 (provide 'elisp-examples)
 
