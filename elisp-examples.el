@@ -840,7 +840,6 @@
 
 (ex-put-example 'butlast '("(butlast '(a b c d))"
 "(butlast '(a b c d) 2)"
-"(butlast '(a b c d . e) 2)"
 "(butlast nil)"))
 
 (ex-put-example 'copy-tree '("(copy-tree '((a b) (c d)))"
@@ -1061,7 +1060,7 @@
 "(string-to-number \"-4.5\")"
 "(string-to-number \"1e5\")"))
 
-(ex-put-example 'concatenate '("(concatenate 'string \"Karl\" \" \" \"Marx\")"
+(ex-put-example 'concatenate '("(concatenate 'string \"Hello \" \"World.\")"
 "(concatenate 'list '(a b) '(c d))"))
 
 (ex-put-example 'reverse '("(reverse '(1 2 3 4 5))"))
@@ -1083,6 +1082,10 @@
   (message \"exec\"))"))
 
 (ex-put-example 'read-from-string '("(read-from-string \"(setq x 123)\")"))
+
+(ex-put-example 'read-from-minibuffer '("(read-from-minibuffer \"> \")"))
+
+(ex-put-example 'member-if '("(member-if #'oddp '(0 2 4 6 1 3 5 7))"))
 
 (provide 'elisp-examples)
 
