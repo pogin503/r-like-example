@@ -192,8 +192,12 @@ Example:
     (insert "))\n")
     (buffer-string)))
 
-(defconst ex-dir (f-dirname (f-this-file)))
-(defconst ex-data-file (f-join ex-dir "elisp-examples.el"))
+(defcustom ex-examples-dir (f-join (f-dirname (f-this-file)) "examples")
+  "Examples directory."
+  :group 'r-like-example
+  )
+
+(defconst ex-data-file (f-join ex-examples-dir "elisp-examples.el"))
 
 (defun ex-store-key-example (key)
   "`KEY'に対応する実行例を、データ保存用ファイルに永続化する."
