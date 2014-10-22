@@ -157,8 +157,7 @@ Example:
          (sym (with-temp-buffer
                 (insert sym-string)
                 (read (buffer-string)))))
-    sym
-    ))
+    sym))
 
 (defun ex-put-to-example (key)
   "任意の関数のキーに、カーソル下のS式を追加する."
@@ -326,13 +325,12 @@ Example:
    (cl-loop for x in current-data do
          (if (null (member x file-data))
              (push x result)))
-   result
-   ))
+   result))
 
 (defun ex-display-unstored-date ()
+  "Display unstored functions."
   (interactive)
-  (message (format "%s" (ex-unstored-date)))
-  )
+  (message (format "%s" (ex-unstored-date))))
 
 ;; Window
 (defun ex-delete-window ()
@@ -367,9 +365,7 @@ Example:
   (global-set-key (kbd "C-c 0 d") 'ex-delete-last-elem)
   (global-set-key (kbd "C-c 0 i") 'ex-insert-current-buffer)
   (global-set-key (kbd "C-c 0 p") 'ex-put-to-example)
-  (global-set-key (kbd "C-c 0 u") 'ex-display-unstored-date)
-  )
-
+  (global-set-key (kbd "C-c 0 u") 'ex-display-unstored-date))
 
 ;; (define-derived-mode ex-mode nil "Example"
 ;;   ""

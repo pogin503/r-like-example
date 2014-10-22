@@ -52,15 +52,15 @@ You type `M-9 mapcar`,
 
 ###Keybindings
 
-|keybind|description|
-|:---|:---|
-|M-9 or s-9|Display examples|
-|M-0 or s-0|Store function examples|
-|C-c 0 a|Add current cursor position S expression|
-|C-c 0 i|Insert examples data in current buffer|
-|C-c 0 p|Add current cursor position S expression into specific key|
-|C-c 0 d|Pop specific key example|
-|C-c 0 u|Display the key data of the unsaved to the mini-buffer|
+| keybind    | description    |
+|:-----------|:---------------|
+| M-9 or s-9 | Display examples |
+| M-0 or s-0 | Store function examples |
+| C-c 0 a    | Add current cursor position S expression |
+| C-c 0 i    | Insert examples data in current buffer |
+| C-c 0 p    | Add current cursor position S expression into specific key |
+| C-c 0 d    | Pop specific key example |
+| C-c 0 u    | Display the key data of the unsaved to the mini-buffer |
 
 Basic Commands
 ==============
