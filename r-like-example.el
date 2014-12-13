@@ -150,7 +150,7 @@ Example:
   (insert ex-separator)
   )
 
-(defun ex-get-sexp-symbol ()
+(defun ex-get-sexp-symbol-at-point ()
   "This function gets sexp symbol name on current position."
   ;; (interactive)
   (let* ((sym-string (substring-no-properties (thing-at-point 'sexp)))
@@ -261,7 +261,7 @@ Example:
     (forward-char 1))
   (beginning-of-defun)
   (forward-char 1)
-  (let ((ex-sym (ex-get-sexp-symbol))
+  (let ((ex-sym (ex-get-sexp-symbol-at-point))
         pos (beg -1) (end 0))
     (mark-defun)
     (setq beg (string-match "\n"
@@ -372,7 +372,7 @@ Example:
       (kill-buffer ex-buffer-name)))
 
 ;; Debug
-(defun ex-exec-all-examples (hash)
+(defun ex--exec-all-examples (hash)
   (mapc '(lambda (x) (ex-example (intern-soft x)))
          (ex-hash-keys hash)))
 
