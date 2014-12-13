@@ -227,6 +227,33 @@ Example:
     (f-write-text text 'utf-8 db-file)
     ))
 
+;; copy function
+(defun ex-copy-defun ()
+  (interactive)
+  (unless (eobp)
+    (forward-char 1))
+  (end-of-defun)
+  (re-search-backward ")")
+  (let ((end (point)))
+    (mark-defun)
+    ;; (setq x 123)
+    ;; |
+    ;; (setq y 456)
+    ;; カーソル位置が「|」の位置にあったとき、
+    ;; 改行を含めないために一文字進める。
+    (when (string-match (buffer-substring-no-properties (point) (+ 1 (point))) "
+")
+      (forward-char 1))
+    ;; re-search-backwardで")"上にカーソルがあるので一つ進めた状態でnarrowする
+    (narrow-to-region (region-beginning) (+ 1 end))
+    ;; (kill-new (buffer-substring-no-properties (region-beginning)
+    ;;                                           (region-end)))
+    (let (result)
+      (setq result  (buffer-substring-no-properties (region-beginning)
+                                                    (region-end)))
+      (widen)
+      result)))
+
 (defun ex-add-example ()
   "Add example on cursor point."
   (interactive)
