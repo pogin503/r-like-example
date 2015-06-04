@@ -752,7 +752,11 @@
 
 (ex-put-example 'atom '("(atom 123)"
 "(atom 'setq)"
-"(atom '(1 2 3))"))
+"(atom '(1 2 3))"
+"(atom 123)"
+"(atom '(1 2 3))"
+"(atom nil)"
+"(atom '())"))
 
 (ex-put-example 'numberp '("(numberp 123)"
 "(numberp 123.456)"))
@@ -1086,6 +1090,26 @@
 (ex-put-example 'read-from-minibuffer '("(read-from-minibuffer \"> \")"))
 
 (ex-put-example 'member-if '("(member-if #'oddp '(0 2 4 6 1 3 5 7))"))
+
+(ex-put-example 'consp '("(consp '())"
+"(consp nil)"
+"(consp '(1))"
+"(consp '(1 . 2))"
+"(consp '(2 3))"))
+
+(ex-put-example 'listp '("(listp '(1))"
+"(listp 1)"
+"(listp nil)"
+"(listp '())"))
+
+(ex-put-example 'null '("(null 1)"
+"(null nil)"
+"(null '())"
+"(null '(1))"))
+
+(ex-put-example 'nlistp '("(nlistp 1)"
+"(nlistp nil)"
+"(nlistp '(1))"))
 
 (provide 'elisp-examples)
 
