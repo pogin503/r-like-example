@@ -37,7 +37,7 @@
 (ert-deftest ex-example-test ()
   (should (equal (mapconcat 'identity
                             (list (car test-example-foo)
-                                  (concat ex-begin-comment "t")
+                                  (concat ex-begin-comment "\"t\"")
                                   ex-separator)
                             "\n")
                  (progn
