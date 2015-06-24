@@ -58,8 +58,7 @@
 
 `SYMBOL' is key.
 `EXAMPLE' is executable sexp."
-  (puthash (symbol-name (eval 'symbol)) example ex-hash)
-  )
+  (puthash (symbol-name (eval 'symbol)) example ex-hash))
 
 (defun ex-get-example (symbol)
   "Get exmaple function.
@@ -97,13 +96,9 @@ Example:
 (defun ex--before-def ()
   (progn
     (defun square (x) (* x x))
-    (defalias 'even? (symbol-function 'cl-evenp))
-    ))
+    (defalias 'even? (symbol-function 'cl-evenp))))
 
 (ex--before-def)
-
-;; (gethash "featurep" ex-hash)
-;; (ex-key-exists-p "featurep")
 
 (defconst ex-buffer-name "*example*")
 (defconst ex-debug-buffer-name "*example debug*")
@@ -147,8 +142,7 @@ Example:
                            (buffer-string)
                            )))
                ) (ex-get-example (eval 'symbol)))
-  (insert ex-separator)
-  )
+  (insert ex-separator))
 
 (defun ex-get-sexp-symbol-at-point ()
   "This function gets sexp symbol name on current position."
@@ -169,15 +163,15 @@ Example:
     (end-of-defun)
     (setq end (set-marker (make-marker) (point)))
     (goto-char end)
-    (forward-char -1) ;; remove newline
+    (forward-char -1) ; remove newline
     (let ((ex (format "%s" (buffer-substring-no-properties beg (point)))))
       (cond  ((= (length (ex-get-example key)) 0)
               (ex-put-example key (list ex)))
              (t
-              (ex-put-example key (reverse (cons ex
-                                                 (reverse
-                                                  (ex-get-example key)))))))
-      )))
+              (ex-put-example key
+                              (reverse (cons ex
+                                             (reverse
+                                              (ex-get-example key))))))))))
 
 (defun ex-example-data (key)
   "キーにストアされている実行例のstringを取得する.
@@ -193,8 +187,8 @@ Example:
 
 (defcustom ex-examples-dir (f-join (f-dirname (f-this-file)) "examples")
   "Examples directory."
-  :group 'r-like-example
-  )
+  :group 'r-like-example)
+
 
 (defconst ex-data-file (f-join ex-examples-dir "elisp-examples.el"))
 
@@ -214,18 +208,14 @@ Example:
                               (delete-region (point) (1- (mark)))
                               (deactivate-mark)
                               (insert "\n")
-                              (ex-insert-current-buffer key)
-                              )
-                     (progn (goto-char (point-max))
-                            (forward-line -8) ;; over (provide 'r-like-example)
-                            (insert "\n")
-                            (ex-insert-current-buffer key)
-                            (insert "\n")
-                            )))
-                 (buffer-string))
-                 ))
-    (f-write-text text 'utf-8 db-file)
-    ))
+                              (ex-insert-current-buffer key))
+                     (goto-char (point-max))
+                     (forward-line -8) ;; over (provide 'r-like-example)
+                     (insert "\n")
+                     (ex-insert-current-buffer key)
+                     (insert "\n")))
+                 (buffer-string))))
+    (f-write-text text 'utf-8 db-file)))
 
 ;; copy function
 (defun ex-copy-defun ()
@@ -246,8 +236,6 @@ Example:
       (forward-char 1))
     ;; re-search-backwardで")"上にカーソルがあるので一つ進めた状態でnarrowする
     (narrow-to-region (region-beginning) (+ 1 end))
-    ;; (kill-new (buffer-substring-no-properties (region-beginning)
-    ;;                                           (region-end)))
     (let (result)
       (setq result  (buffer-substring-no-properties (region-beginning)
                                                     (region-end)))
@@ -268,7 +256,6 @@ Example:
                             (buffer-substring-no-properties
                              (point)
                              (+ 1 (point)))))
-    ;; (when (equal beg 0) (forward-char 1))
     (save-excursion
       (end-of-defun)
       (setq pos (point))
@@ -281,8 +268,8 @@ Example:
                           (+ 1 (region-beginning)) ;; except top extra line
                         (region-beginning))
                       (if end
-                          (region-end)            ;; point is end-of-buffer
-                        (- (region-end) 1)))      ;; except bottom extra line
+                          (region-end)       ; point is end-of-buffer
+                        (- (region-end) 1))) ; except bottom extra line
     (deactivate-mark)
     (let (ex point-sym)
       (setq ex (format "%s" (substring-no-properties (get-register ?r))))
@@ -292,8 +279,7 @@ Example:
               (ex-put-example ex-sym (list ex)))
              (t
               (ex-put-example ex-sym (reverse (cons ex (reverse (ex-get-example ex-sym)))))))
-    (message "%S" ex))
-    ))
+      (message "%S" ex))))
 
 ;; Utility
 (defun ex-insert-current-buffer (sym)
@@ -306,9 +292,7 @@ Example:
   (insert (format "(ex-put-example '%s '(" sym))
   (mapc #'(lambda (ex) (insert (format "%S\n" ex))) (ex-get-example sym))
   (delete-char -1)
-  (insert "))")
-  ;; (insert (format "%S" (ex-get-example sym)))
-  )
+  (insert "))"))
 
 (defun ex-delete-last-elem (sym)
   "Delete last element in function examples.
@@ -316,7 +300,7 @@ Example:
 `SYM' is key."
   (interactive "aDelete Symbol is? ")
   (let*  ((ex (ex-get-example sym))
-         (last-elem (car (reverse ex))))
+          (last-elem (car (reverse ex))))
     (ex-put-example sym (reverse (cdr (reverse ex))))
     (message "delete \"%s\"" last-elem)))
 
@@ -349,10 +333,10 @@ Example:
   (let (result
         (file-data (ex--collect-symbol ex-data-file))
         (current-data (sort (ex-hash-keys ex-hash) #'string<)))
-   (cl-loop for x in current-data do
-         (if (null (member x file-data))
-             (push x result)))
-   result))
+    (cl-loop for x in current-data do
+             (if (null (member x file-data))
+                 (push x result)))
+    result))
 
 (defun ex-display-unstored-date ()
   "Display unstored functions."
@@ -374,7 +358,7 @@ Example:
 ;; Debug
 (defun ex--exec-all-examples (hash)
   (mapc '(lambda (x) (ex-example (intern-soft x)))
-         (ex-hash-keys hash)))
+        (ex-hash-keys hash)))
 
 (defvar ex-mode-map
   (let ((map (make-sparse-keymap)))
@@ -393,14 +377,6 @@ Example:
   (global-set-key (kbd "C-c 0 i") 'ex-insert-current-buffer)
   (global-set-key (kbd "C-c 0 p") 'ex-put-to-example)
   (global-set-key (kbd "C-c 0 u") 'ex-display-unstored-date))
-
-;; (define-derived-mode ex-mode nil "Example"
-;;   ""
-;;   (setq buffer-read-only t)
-;;   (use-local-map ex-mode-map))
-;; (defun ex-dump-example (symbol)
-;;   (maphash #')
-;;   )
 
 (provide 'r-like-example)
 
