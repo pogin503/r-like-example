@@ -3,9 +3,7 @@
 ;;; Code:
 (require 'ert)
 (require 'r-like-example)
-(require 'elisp-examples)
-
-;; (add-to-list 'popwin:special-display-config '("*example*" :position right :width 50 :stick t))
+(load "./examples/elisp-examples.el")
 
 (defun ex-test-set-env ()
   "Set r-like-example env."

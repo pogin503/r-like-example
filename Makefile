@@ -18,7 +18,7 @@ test:
 		-f ert-run-tests-batch-and-exit r-like-example.el
 
 build :
-	$(EMACS) -Q --batch -L . --eval \
+	${CASK} exec $(EMACS) -Q --batch -L . --eval \
 		"(progn \
 		(batch-byte-compile))" r-like-example.el
 
