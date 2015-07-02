@@ -14,13 +14,9 @@
                            "(__ex-bar nil)"))
 
   (ex-put-example 'ex-foo test-example-foo)
-  (ex-put-example 'ex-bar test-example-bar)
-  )
+  (ex-put-example 'ex-bar test-example-bar))
 
 (ex-test-set-env)
-
-(ert-deftest addition-test ()
-  (should (= (+ 1 2) 3)))
 
 (ert-deftest ex-get-example-test ()
   (should (equal '("(message \"t\")") (ex-get-example 'ex-foo))))
