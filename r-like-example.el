@@ -322,26 +322,26 @@ Example:
             (goto-char (point-max))))))
     (sort result #'string<)))
 
-(defun ex-hash-keys (hash)
+(defun ex--all-hash-keys (hash)
   (let ((keys))
     (maphash #'(lambda (key value)
                  (push key keys))
              hash)
     keys))
 
-(defun ex-unstored-date ()
+(defun ex--collect-unstored-data ()
   (let (result
         (file-data (ex--collect-symbol ex-data-file))
-        (current-data (sort (ex-hash-keys ex-hash) #'string<)))
+        (current-data (sort (ex--all-hash-keys ex-hash) #'string<)))
     (cl-loop for x in current-data do
              (if (null (member x file-data))
                  (push x result)))
     result))
 
-(defun ex-display-unstored-date ()
+(defun ex-display-unstored-data ()
   "Display unstored functions."
   (interactive)
-  (message (format "%s" (ex-unstored-date))))
+  (message (format "%s" (ex--collect-unstored-data))))
 
 ;; Window
 (defun ex-delete-window ()
@@ -357,13 +357,8 @@ Example:
 
 ;; Debug
 (defun ex--exec-all-examples (hash)
-  (mapc '(lambda (x) (ex-example (intern-soft x)))
-        (ex-hash-keys hash)))
-
-(defvar ex-mode-map
-  (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "q") 'ex-delete-window)
-    map))
+  (mapc (lambda (x) (ex-example (intern-soft x)))
+        (ex--all-hash-keys hash)))
 
 (defun ex-set-keybindings ()
   "Set r-like-example keybindings."
@@ -376,7 +371,7 @@ Example:
   (global-set-key (kbd "C-c 0 d") 'ex-delete-last-elem)
   (global-set-key (kbd "C-c 0 i") 'ex-insert-current-buffer)
   (global-set-key (kbd "C-c 0 p") 'ex-put-to-example)
-  (global-set-key (kbd "C-c 0 u") 'ex-display-unstored-date))
+  (global-set-key (kbd "C-c 0 u") 'ex-display-unstored-data))
 
 (provide 'r-like-example)
 
