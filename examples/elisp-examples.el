@@ -7,27 +7,23 @@
 ;; base
 (ex-put-example 'setq '("(setq x 3)"
 "(setq foo 'apple)"
-"foo"
-))
+"foo"))
 
 ;; array
 (ex-put-example 'arrayp '(
   "(setq __abar '(1 2))"
   "(setq __x (vector '__foo __abar))"
-  "(arrayp __x)"
-))
+  "(arrayp __x)"))
 
 (ex-put-example 'copy-sequence
 '("(setq __abar '(1 2))"
   "(setq __x (vector '__foo __abar))"
-  "(setq __y (copy-sequence __x))"
-))
+  "(setq __y (copy-sequence __x))"))
 
 (ex-put-example 'aref '(
   "(setq __primes [2 3 5 7 11])"
   "(aref __primes 4)"
-  "(aref \"abcdefg\" 1)"
-))
+  "(aref \"abcdefg\" 1)"))
 
 (ex-put-example 'aset '("(setq w [foo bar baz])"
 "(aset w 0 'fu)"
@@ -752,7 +748,11 @@
 
 (ex-put-example 'atom '("(atom 123)"
 "(atom 'setq)"
-"(atom '(1 2 3))"))
+"(atom '(1 2 3))"
+"(atom 123)"
+"(atom '(1 2 3))"
+"(atom nil)"
+"(atom '())"))
 
 (ex-put-example 'numberp '("(numberp 123)"
 "(numberp 123.456)"))
@@ -1086,6 +1086,51 @@
 (ex-put-example 'read-from-minibuffer '("(read-from-minibuffer \"> \")"))
 
 (ex-put-example 'member-if '("(member-if #'oddp '(0 2 4 6 1 3 5 7))"))
+
+(ex-put-example 'consp '("(consp '())"
+"(consp nil)"
+"(consp '(1))"
+"(consp '(1 . 2))"
+"(consp '(2 3))"))
+
+(ex-put-example 'listp '("(listp '(1))"
+"(listp 1)"
+"(listp nil)"
+"(listp '())"))
+
+(ex-put-example 'null '("(null 1)"
+"(null nil)"
+"(null '())"
+"(null '(1))"))
+
+(ex-put-example 'nlistp '("(nlistp 1)"
+"(nlistp nil)"
+"(nlistp '(1))"))
+
+(ex-put-example 'ex-get-example '("(ex-get-example 'setq)"))
+
+(ex-put-example 'ex-hash-exists-p-aux '("(ex-hash-exists-p-aux \"featurep\" ex-hash)"))
+
+(ex-put-example 'syntax-table '("(syntax-table)"))
+
+(ex-put-example 'standard-syntax-table '("(standard-syntax-table)"))
+
+(ex-put-example 'indirect-function '("(indirect-function 'setq)"
+"(indirect-function 'format)"
+"(indirect-function 'if)"
+"(indirect-function 'when)"
+"(indirect-function 'remove-if)"))
+
+(ex-put-example 'set '("(set 'one 1)"
+"(set 'two 'one)"
+"(set two 2)         ; two evaluates to symbol one."
+"one"
+"(let ((one 1))	; This binding of one is set,
+			 (set 'one 3)	;   not the global value.
+			 one)"
+"one"))
+
+(ex-put-example 'buffer-local-variables '("(buffer-local-variables)"))
 
 (provide 'elisp-examples)
 
