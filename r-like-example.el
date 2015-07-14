@@ -45,7 +45,7 @@
 (defvar ex-hash (make-hash-table :test #'equal)
   "Store example.")
 
-(defcustom ex-separator "\n;;=================================\n\n"
+(defcustom ex-separator "\n;;=================================\n"
   "For separator of *example* buffer."
   :group 'r-like-example)
 
@@ -120,6 +120,7 @@ Example:
 
 (defun ex-insert-example (symbol)
   (goto-char (point-min))
+  (insert (format ";; %s example\n" symbol))
   (mapc #'(lambda (ex)
                (insert (format "%s\n" ex))
                (insert ex-begin-comment)
