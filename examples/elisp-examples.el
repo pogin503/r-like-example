@@ -1132,6 +1132,26 @@
 
 (ex-put-example 'buffer-local-variables '("(buffer-local-variables)"))
 
+(ex-put-example 'rassq '("(setq trees '((pine . cones) (oak . acorns) (maple . seeds)))"
+"(rassq 'acorns trees)"
+"(rassq 'spores trees)"))
+
+(ex-put-example 'rassoc '("(setq trees '((pine . cones) (oak . acorns) (maple . seeds)))"
+"(rassoc 'cones trees)"
+"(rassoc 'seeds trees)"))
+
+(ex-put-example 'copy-alist '("(setq needles-per-cluster
+      '((2 . (\"Austrian Pine\" \"Red Pine\"))
+        (3 . (\"Pitch Pine\"))
+        (5 . (\"White Pine\"))))"
+"(setq copy (copy-alist needles-per-cluster))"
+"(eq needles-per-cluster copy)"
+"(equal needles-per-cluster copy)"
+"(eq (car needles-per-cluster) (car copy))"
+"(cdr (car (cdr needles-per-cluster)))"
+"(eq (cdr (car (cdr needles-per-cluster)))
+    (cdr (car (cdr copy))))"))
+
 (provide 'elisp-examples)
 
 ;; Local variables:
