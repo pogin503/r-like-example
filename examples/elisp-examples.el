@@ -198,18 +198,14 @@
   "(apply #'+ (mapcar #'length '(\"abc\" \"defg\" \"hijkl\" \"mnopqr\")))"
 ))
 
-(ex-put-example 'mapcar
-                '(
-                  ;; "(mapcar #'* '(1 2 3 4 5) '(10 20 30 40 50))"
-                  "(mapcar #'car '((a . 1) (b . 2) (c . 3)))"
-                  "(mapcar #'cdr '((a . 1) (b . 2) (c . 3)))"
-                  "(mapcar #'(lambda (x) (* x x)) '(1 2 3 4 5))"
-                  ;; "(mapcar #'cons '(a b c d) '(1 2 3 4 5))"
-                  ))
+(ex-put-example 'mapcar '("(mapcar #'car '((a . 1) (b . 2) (c . 3)))"
+"(mapcar #'cdr '((a . 1) (b . 2) (c . 3)))"
+"(mapcar #'(lambda (x) (* x x)) '(1 2 3 4 5))"))
+
 (ex-put-example 'mapcar* '("(mapcar* 'cons '(a b c) '(1 2 3 4))"))
 
 (ex-put-example 'mapconcat '("(mapconcat 'symbol-name '(The cat in the hat) \" \")"
-                             "(mapconcat 'identity '(\"\" \"home\" \"alex\" \"elisp\" \"erc\") \"/\")"))
+"(mapconcat 'identity '(\"\" \"home\" \"alex\" \"elisp\" \"erc\") \"/\")"))
 
 (ex-put-example 'mapcan '(";; (mapcan FUNCTION SEQUENCE...)
 ;; (mapcan f x1 ... xn) == (apply #'nconc (mapcar f x1 ... xn))
@@ -218,11 +214,11 @@
          '(1 2 3 4 5 6))"))
 
 (ex-put-example 'map '("(map 'list #'- '(1 2 3 4)) => (-1 -2 -3 -4)"
-                       "(map 'string #'(lambda (x y)
+"(map 'string #'(lambda (x y)
                   (aref \"01234567890ABCDEF\" (mod (+ x y) 16)))
       '(1 2 3 4)
       '(10 9 8 7))"
-                       "(map 'string
+"(map 'string
       '(lambda (x) (if (oddp x) ?1 ?0))
       '(1 2 3 4))"))
 
@@ -245,7 +241,7 @@
 \(mapatoms '__count-syms)"
   "__count")
 )
-
+(helm-function)
 (ex-put-example 'member '("(member 3 '(1 2 3 4 5))"
                           "(member 30 '(1 2 3 4 5))"))
 
@@ -259,18 +255,17 @@
 "(max 1 3 2.5)"))
 (ex-put-example 'sort '("(sort '(1 -2 3 4 -5) '<)"))
 (ex-put-example 'sort* '("(sort* '(1 -2 3 4 -5) '< :key 'abs)"))
-(ex-put-example 'equal '(
-                         "(equal 'foo 'foo)"
-                         "(equal 456 456)"
-                         "(equal \"asdf\" \"asdf\")"
-                         "(eq \"asdf\" \"asdf\")"
-                         "(equal '(1 (2 (3))) '(1 (2 (3))))"
-                         "(eq '(1 (2 (3))) '(1 (2 (3))))"
-                         "(equal [(1 2) 3] [(1 2) 3])"
-                         "(eq [(1 2) 3] [(1 2) 3])"
-                         "(equal (point-marker) (point-marker))"
-                         "(eq (point-marker) (point-marker))"
-                         ))
+
+(ex-put-example 'equal '("(equal 'foo 'foo)"
+"(equal 456 456)"
+"(equal \"asdf\" \"asdf\")"
+"(eq \"asdf\" \"asdf\")"
+"(equal '(1 (2 (3))) '(1 (2 (3))))"
+"(eq '(1 (2 (3))) '(1 (2 (3))))"
+"(equal [(1 2) 3] [(1 2) 3])"
+"(eq [(1 2) 3] [(1 2) 3])"
+"(equal (point-marker) (point-marker))"
+"(eq (point-marker) (point-marker))"))
 
 (ex-put-example 'eq '("(eq 'foo 'foo)"
 "(eq 456 456)"
@@ -304,30 +299,29 @@
                          "(person-age foo)"))
 
 ;; hash table
-(ex-put-example 'make-hash-table
-                '("(setq __hash_table (make-hash-table :test #'equal))"
-                  ))
-(ex-put-example 'remhash '("(setq __hash_table (make-hash-table :test #'equal))"
-                           "(puthash \"apple\" 150 __hash_table)"
-                           "(gethash \"apple\" __hash_table)"
-                           "(hash-table-count __hash_table)"
-                           "(remhash \"apple\" __hash_table)"
-                           "(hash-table-count __hash_table)"))
-(ex-put-example 'gethash '("(setq __hash_table (make-hash-table :test #'equal))"
-                           "(puthash \"apple\" 150 __hash_table)"
-                           "(gethash \"apple\" __hash_table)"))
-(ex-put-example 'puthash '("(setq __hash_table (make-hash-table :test #'equal))"
-                           "(puthash \"apple\" 150 __hash_table)"
-                           "(puthash \"orange\" 300 __hash_table)"
-                           "(puthash \"banana\" 100 __hash_table)"
-                           ))
-(ex-put-example 'maphash '(
-  "(setq __hash_table (make-hash-table :test #'equal))"
-  "(puthash \"apple\" 150 __hash_table)"
-  "(puthash \"orange\" 300 __hash_table)"
-  "(puthash \"banana\" 100 __hash_table)"
-  "(maphash #'(lambda (key value)
-             (insert (format \"key=>%S,value=>%S\\n\" key value))) __hash_table)"))
+(ex-put-example 'make-hash-table '("(setq my-hash_table (make-hash-table :test #'equal))"))
+
+(ex-put-example 'remhash '("(setq my-hash_table (make-hash-table :test #'equal))"
+                           "(puthash \"apple\" 150 my-hash_table)"
+                           "(gethash \"apple\" my-hash_table)"
+                           "(hash-table-count my-hash_table)"
+                           "(remhash \"apple\" my-hash_table)"
+                           "(hash-table-count my-hash_table)"))
+(ex-put-example 'gethash '("(setq my-hash_table (make-hash-table :test #'equal))"
+                           "(puthash \"apple\" 150 my-hash_table)"
+                           "(gethash \"apple\" my-hash_table)"))
+
+(ex-put-example 'puthash '("(setq my-hash-table (make-hash-table :test #'equal))"
+"(puthash \"apple\" 150 my-hash-table)"
+"(puthash \"orange\" 300 my-hash-table)"
+"(puthash \"banana\" 100 my-hash-table)"))
+
+(ex-put-example 'maphash '("(setq my-hash-table (make-hash-table :test #'equal))"
+"(puthash \"apple\" 150 my-hash-table)"
+"(puthash \"orange\" 300 my-hash-table)"
+"(puthash \"banana\" 100 my-hash-table)"
+"(maphash #'(lambda (key value)
+             (insert (format \"key=>%S,value=>%S\\n\" key value))) my-hash-table)"))
 
 ;; association list
 (ex-put-example 'assoc '("(setq __alist '((\"rose\" . red) (\"violet\" . blue)))"
