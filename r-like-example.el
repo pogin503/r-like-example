@@ -82,8 +82,6 @@ Example:
 (defun ex-hash-exists-p-aux (key table)
   (not (eq (gethash key table ex-novalue) ex-novalue)))
 
-;; (ex-hash-exists-p-aux "featurep" ex-hash)
-
 (defun ex-key-exists-p (key &optional nomessage)
   (interactive "MSearch key is exist? : ")
   (let ((q (null (equal (gethash (symbol-name (eval 'key)) ex-hash) nil))))
@@ -196,14 +194,11 @@ Example:
 (defun ex-store-key-example (key)
   "`KEY'に対応する実行例を、データ保存用ファイルに永続化する."
   (interactive "aどのキーをストアしますか? ")
-  (let* (
-         (db-file ex-data-file)
+  (let* ((db-file ex-data-file)
          (text1 (f-read-text db-file))
-
          (text (with-temp-buffer
                  (insert (format "%s" text1))
                  (let ((q (concat "^(ex-put-example '" (symbol-name key) " ")))
-
                    (if (re-search-backward q nil t)
                        (progn (mark-defun)
                               (delete-region (point) (1- (mark)))
