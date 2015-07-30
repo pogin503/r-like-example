@@ -338,6 +338,15 @@ Example:
   (interactive)
   (message (format "%s" (ex--collect-unstored-data))))
 
+(defun ex-store-unsaved-keys ()
+  (interactive)
+  (let ((unsaved-data (ex--collect-unstored-data)))
+    (if unsaved-data
+        (progn
+          (mapc 'ex-store-key-example unsaved-data)
+          (message "done... %s" (format "%s" unsaved-data)))
+      (message "nothing"))))
+
 ;; Window
 (defun ex-delete-window ()
   "Delete *example* buffer window."
