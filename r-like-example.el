@@ -6,7 +6,7 @@
 ;; Keywords: lisp
 ;; Version: 0.1
 ;; URL: https://github.com/pogin503/r-like-example
-;; Package-Requires: ((f "0.16.2") (popwin "0.5") (cl-lib "0.5"))
+;; Package-Requires: ((f "0.16.2") (cl-lib "0.5"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -40,7 +40,6 @@
 
 (require 'f)
 (require 'cl-lib)
-(require 'popwin)
 
 (defvar ex-hash (make-hash-table :test #'equal)
   "Store example.")
