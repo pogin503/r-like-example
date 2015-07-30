@@ -239,9 +239,8 @@
   (setq __count (1+ __count)))"
   ";; (mapatoms FUNCTION &optional OBARRAY)
 \(mapatoms '__count-syms)"
-  "__count")
-)
-(helm-function)
+  "__count"))
+
 (ex-put-example 'member '("(member 3 '(1 2 3 4 5))"
                           "(member 30 '(1 2 3 4 5))"))
 
@@ -1103,7 +1102,7 @@
 
 (ex-put-example 'ex-get-example '("(ex-get-example 'setq)"))
 
-(ex-put-example 'ex-hash-exists-p-aux '("(ex-hash-exists-p-aux \"featurep\" ex-hash)"))
+(ex-put-example 'ex-hash-exists-p '("(ex-hash-exists-p \"featurep\" ex-hash)"))
 
 (ex-put-example 'syntax-table '("(syntax-table)"))
 
