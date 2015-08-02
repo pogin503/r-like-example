@@ -25,8 +25,8 @@
   (should (equal '("(message \"t\")") (ex-put-example 'ex-foo test-example-foo))))
 
 (ert-deftest ex-key-exists-p-test ()
-  (should (equal t (ex-key-exists-p 'setq t)))
-  (should (equal "setq: exist" (ex-key-exists-p 'setq))))
+  (should (equal t (ex-hash-key-exists-p "setq" ex-hash)))
+  (should (equal "setq: exist" (ex-query-key-exists 'setq))))
 
 (ert-deftest ex-example-test ()
   (should (equal (mapconcat 'identity

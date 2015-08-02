@@ -1,4 +1,4 @@
-;;; r-like-example.el --- Display examples
+;;; r-like-example.el --- Display examples -*- lexical-binding: t; coding: utf-8 -*-
 
 ;; Copyright (C) 2012
 
@@ -57,13 +57,13 @@
 
 `SYMBOL' is key.
 `EXAMPLE' is executable sexp."
-  (puthash (symbol-name (eval 'symbol)) example ex-hash))
+  (puthash (symbol-name symbol) example ex-hash))
 
 (defun ex-get-example (symbol)
   "Get exmaple function.
 
 `SYMBOL' is key."
-  (gethash (symbol-name (eval 'symbol)) ex-hash))
+  (gethash (symbol-name symbol) ex-hash))
 
 (defun ex-eval-string (str)
   "Read sexp from string.
@@ -78,12 +78,12 @@ Example:
 (defconst ex-novalue (make-symbol "<nil>")
   "Hash is no value symbol.")
 
-(defun ex-hash-exists-p (key table)
-  (not (eq (gethash key table ex-novalue) ex-novalue)))
+(defun ex-hash-key-exists-p (key table)
+  (not (equal (gethash key table ex-novalue) ex-novalue)))
 
 (defun ex-query-key-exists (key &optional nomessage)
   (interactive "MQuery key : ")
-  (let ((q (null (equal (gethash (symbol-name (eval 'key)) ex-hash) nil))))
+  (let ((q (null (equal (gethash (symbol-name key) ex-hash) nil))))
     (if (null nomessage)
         (if q
             (message "%s: exist" key)
@@ -107,7 +107,8 @@ Example:
   (interactive "aSymbol name? ")
   (when (or (stringp  symbol)
             (fboundp 'symbol)
-            (boundp  'symbol))
+            (boundp  'symbol)
+            (symbolp 'symbol))
     (let ((buf (get-buffer-create ex-buffer-name)))
       (pop-to-buffer buf)
       (lisp-interaction-mode)
@@ -145,11 +146,10 @@ Example:
 (defun ex-get-sexp-symbol-at-point ()
   "This function gets sexp symbol name on current position."
   ;; (interactive)
-  (let* ((sym-string (substring-no-properties (thing-at-point 'sexp)))
-         (sym (with-temp-buffer
+  (let* ((sym-string (substring-no-properties (thing-at-point 'sexp))))
+    (with-temp-buffer
                 (insert sym-string)
                 (read (buffer-string)))))
-    sym))
 
 (defun ex-put-to-example (key)
   "任意の関数のキーに、カーソル下のS式を追加する."
@@ -266,7 +266,7 @@ Example:
                           (region-end)       ; point is end-of-buffer
                         (- (region-end) 1))) ; except bottom extra line
     (deactivate-mark)
-    (let (ex point-sym)
+    (let (ex)
       (setq ex (format "%s" (substring-no-properties (get-register ?r))))
       (unless (symbolp ex-sym)
         (error (format "Please move cursor to S exppression.\n(`!!')")))
@@ -319,7 +319,7 @@ Example:
 
 (defun ex--all-hash-keys (hash)
   (let ((keys))
-    (maphash #'(lambda (key value)
+    (maphash #'(lambda (key)
                  (push key keys))
              hash)
     keys))
