@@ -73,11 +73,11 @@
                                            (reverse
                                             (ex-get-example symbol))))
                             ex-hash))))
-            (if (atom example)
-                (funcall put-func example)
+            (if (and (not (null examples)) (atom examples))
+                (funcall put-func examples)
               (mapc (lambda (x)
                       (funcall put-func x))
-                    example))))))
+                    examples))))))
 
 (defun ex-get-example (symbol)
   "Get exmaple function.
