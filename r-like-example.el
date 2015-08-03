@@ -52,18 +52,41 @@
   "Beginning of output comment style."
   :group 'r-like-example)
 
-(defun ex-put-example (symbol example)
+(defun ex-put-example (symbol examples &optional force)
   "Put examples function.
 
 `SYMBOL' is key.
 `EXAMPLE' is executable sexp."
-  (puthash (symbol-name symbol) example ex-hash))
+  (cond  ((null examples)
+          (ex-set-example symbol examples))
+         ((eq force t)
+          (if (and (not (null examples)) (atom examples))
+              (ex-set-example symbol (list examples))
+            (ex-set-example symbol examples)))
+         ((and (not (listp examples)) (= (length (ex-get-example symbol)) 0))
+          (puthash (symbol-name symbol) (list examples) ex-hash))
+         (t
+          (let ((put-func
+                 (lambda (ex)
+                   (puthash (symbol-name symbol)
+                            (reverse (cons ex
+                                           (reverse
+                                            (ex-get-example symbol))))
+                            ex-hash))))
+            (if (atom example)
+                (funcall put-func example)
+              (mapc (lambda (x)
+                      (funcall put-func x))
+                    example))))))
 
 (defun ex-get-example (symbol)
   "Get exmaple function.
 
 `SYMBOL' is key."
   (gethash (symbol-name symbol) ex-hash))
+
+(defun ex-set-example (symbol example)
+  (puthash (symbol-name symbol) example ex-hash))
 
 (defun ex-eval-string (str)
   "Read sexp from string.
@@ -164,13 +187,7 @@ Example:
     (goto-char end)
     (forward-char -1) ; remove newline
     (let ((ex (format "%s" (buffer-substring-no-properties beg (point)))))
-      (cond  ((= (length (ex-get-example key)) 0)
-              (ex-put-example key (list ex)))
-             (t
-              (ex-put-example key
-                              (reverse (cons ex
-                                             (reverse
-                                              (ex-get-example key))))))))))
+      (ex-put-example key ex))))
 
 (defun ex-example-data (key)
   "キーにストアされている実行例のstringを取得する.
@@ -271,10 +288,7 @@ Example:
       (setq ex (format "%s" (substring-no-properties (get-register ?r))))
       (unless (symbolp ex-sym)
         (error (format "Please move cursor to S exppression.\n(`!!')")))
-      (cond  ((= (length (ex-get-example ex-sym)) 0)
-              (ex-put-example ex-sym (list ex)))
-             (t
-              (ex-put-example ex-sym (reverse (cons ex (reverse (ex-get-example ex-sym)))))))
+      (ex-put-example ex-sym ex)
       (message "%S" ex))))
 
 ;; Utility
@@ -288,7 +302,7 @@ Example:
   (insert (format "(ex-put-example '%s '(" sym))
   (mapc #'(lambda (ex) (insert (format "%S\n" ex))) (ex-get-example sym))
   (delete-char -1)
-  (insert "))"))
+  (insert ") t)"))
 
 (defun ex-delete-last-elem (sym)
   "Delete last element in function examples.

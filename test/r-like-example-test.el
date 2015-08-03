@@ -7,22 +7,27 @@
 
 (defun ex-test-set-env ()
   "Set r-like-example env."
-  (defconst test-example-foo '("(message \"t\")"))
-
+  (defconst test-example-foo "(defun ex-foo () (message \"t\"))")
   (defconst test-example-bar '("(defun __ex-bar (bool) (if bool t nil))"
                            "(__ex-bar t)"
                            "(__ex-bar nil)"))
 
-  (ex-put-example 'ex-foo test-example-foo)
-  (ex-put-example 'ex-bar test-example-bar))
+  (ex-put-example 'ex-foo test-example-foo t)
+  (ex-set-example 'ex-bar '())
+  (mapc (lambda (x) (ex-put-example 'ex-bar x)) test-example-bar))
 
 (ex-test-set-env)
 
 (ert-deftest ex-get-example-test ()
-  (should (equal '("(message \"t\")") (ex-get-example 'ex-foo))))
+  (should (equal nil (ex-get-example 'nil-key)))
+  (should (equal `(,test-example-foo) (ex-get-example 'ex-foo))))
 
 (ert-deftest ex-put-example-test ()
-  (should (equal '("(message \"t\")") (ex-put-example 'ex-foo test-example-foo))))
+  (should (equal `(,test-example-foo) (ex-put-example 'ex-foo test-example-foo t)))
+  (should (equal `(,test-example-foo) (ex-put-example 'ex-foo `(,test-example-foo) t)))
+  (ex-put-example 'ex-foo '() t)
+  (should (equal `(,test-example-foo) (ex-put-example 'ex-foo test-example-foo)))
+  (should (equal `(,test-example-foo ,test-example-foo) (ex-put-example 'ex-foo test-example-foo))))
 
 (ert-deftest ex-key-exists-p-test ()
   (should (equal t (ex-hash-key-exists-p "setq" ex-hash)))
@@ -40,14 +45,16 @@
                    ))))
 
 (ert-deftest ex-insert-current-buffer-test ()
+  (ex-test-set-env)
   (should (equal (with-temp-buffer
                    (ex-get-example 'ex-foo)
                    (ex-insert-current-buffer 'ex-foo)
                    (buffer-string))
-                 "(ex-put-example 'ex-foo '(\"(message \\\"t\\\")\"))"
+                 "(ex-put-example 'ex-foo '(\"(defun ex-foo () (message \\\"t\\\"))\") t)"
                  )))
 
 (ert-deftest ex-add-example-test ()
+  (ex-test-set-env)
   (should (equal (with-temp-buffer
                    (insert "(setq x 123)")
                    (ex-add-example))
