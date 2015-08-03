@@ -40,6 +40,7 @@
 
 (require 'f)
 (require 'cl-lib)
+(require 'eldoc)
 
 (defvar ex-hash (make-hash-table :test #'equal)
   "Store example.")
@@ -158,8 +159,12 @@ Example:
     (buffer-string)))
 
 (defun ex-insert-example (symbol)
-  (goto-char (point-min))
-  (insert (format ";; %s example\n" symbol))
+  (insert (format ";; %s examples\n" symbol))
+  (let* ((eldoc-result (eldoc-get-fnsym-args-string symbol))
+         (func-args (if eldoc-result
+                        (substring-no-properties eldoc-result)
+                      (format "%s: ()" symbol))))
+    (insert (format ";; %s\n" func-args)))
   (mapc #'(lambda (ex)
             (insert (format "%s\n" ex))
             (insert ex-begin-comment)
