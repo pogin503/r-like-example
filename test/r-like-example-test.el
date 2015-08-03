@@ -27,7 +27,9 @@
   (should (equal `(,test-example-foo) (ex-put-example 'ex-foo `(,test-example-foo) t)))
   (ex-put-example 'ex-foo '() t)
   (should (equal `(,test-example-foo) (ex-put-example 'ex-foo test-example-foo)))
-  (should (equal `(,test-example-foo ,test-example-foo) (ex-put-example 'ex-foo test-example-foo))))
+  (should (equal `(,test-example-foo ,test-example-foo) (ex-put-example 'ex-foo test-example-foo)))
+  (ex-put-example 'ex-foo '() t)
+  (should (equal `(,test-example-foo) (ex-put-example 'ex-foo `(,test-example-foo)))))
 
 (ert-deftest ex-key-exists-p-test ()
   (should (equal t (ex-hash-key-exists-p "setq" ex-hash)))
@@ -35,9 +37,12 @@
 
 (ert-deftest ex-example-test ()
   (should (equal (mapconcat 'identity
-                            (list (car test-example-foo)
-                                  (concat ex-begin-comment "\"t\"")
-                                  ex-separator)
+                            (list
+                             ";; ex-foo examples"
+                             ";; ex-foo: ()"
+                             test-example-foo
+                             (concat ex-begin-comment "ex-foo")
+                             ex-separator)
                             "\n")
                  (progn
                    (ex-example 'ex-foo)
