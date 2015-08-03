@@ -140,22 +140,22 @@ Example:
       )))
 
 (defun ex-get-example-result-string (ex)
-  (with-current-buffer ex-buffer-name
-    (insert (with-temp-buffer
-              (condition-case err
-                  (let ((ex1 (ex-eval-string ex)))
-                    (cond  ((stringp ex1)
-                            (insert (format "\"%s\"\n" ex1)))
-                           (t
-                            (insert (format "%S\n" ex1))))
-                    (goto-char (point-min))
-                    (forward-line 1)
-                    (while (null (eobp))
-                      (insert ";; ")
-                      (forward-line 1)))
-                ((void-function void-variable)
-                 (insert (format "%s\n" (error-message-string err)))))
-              (buffer-string)))))
+  (with-temp-buffer
+    (condition-case err
+        (let ((ex1 (ex-eval-string ex)))
+          (cond  ((stringp ex1)
+                  (insert (format "\"%s\"\n" ex1)))
+                 (t
+                  (insert (format "%S\n" ex1))))
+          (goto-char (point-min))
+          (forward-line 1)
+          (while (null (eobp))
+            (insert ";; ")
+            (forward-line 1)))
+      ((void-function void-variable)
+       (insert (format "%s\n" (error-message-string err)))
+       (message (format "%s\n" (error-message-string err)))))
+    (buffer-string)))
 
 (defun ex-insert-example (symbol)
   (goto-char (point-min))
@@ -163,7 +163,8 @@ Example:
   (mapc #'(lambda (ex)
             (insert (format "%s\n" ex))
             (insert ex-begin-comment)
-            (ex-get-example-result-string ex))
+            (with-current-buffer ex-buffer-name
+              (insert (ex-get-example-result-string ex))))
         (ex-get-example symbol))
   (insert ex-separator))
 
