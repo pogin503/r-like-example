@@ -340,7 +340,7 @@ Example:
 
 (defun ex--all-hash-keys (hash)
   (let ((keys))
-    (maphash #'(lambda (key)
+    (maphash #'(lambda (key value)
                  (push key keys))
              hash)
     keys))
