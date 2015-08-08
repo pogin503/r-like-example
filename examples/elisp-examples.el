@@ -89,8 +89,7 @@
 "(cons 'a 'b)"
 "(cons 'a '(b))"
 "(cons 'a '(b c))"
-"(cons 'a '(b c d))"
-))
+"(cons 'a '(b c d))"))
 
 (ex-put-example 'first '("(first '(1 2 3))" "(first '(a b c))"))
 (ex-put-example 'rest '("(rest '(1 2 3))" "(rest '(a b c))"))
@@ -179,20 +178,17 @@
 
 ;; higher-order function
 (ex-put-example 'funcall
-                '(";; (funcall function arg1 arg2 ...)
-\(funcall #'car '(a b c))"
+                '("(funcall #'car '(a b c))"
   "(funcall #'car '(1 2 3))"
   "(funcall #'+ 1 2 3)"
   "(funcall 'position 1 '(1 2 3 2 1) :start 1)"
   "(defun __execfunc (func arg1 arg2)
   (funcall func arg1 arg2))"
-  "(__execfunc #'+ 1 2)"
-))
+  "(__execfunc #'+ 1 2)"))
 
 (ex-put-example 'apply '(
   "(apply #'car '((a b c)))"
   "(apply #'list '(1 2 3))"
-;; "(apply #'+ 1 2)"
   "(apply #'max '(1 5 10 3 4))"
   "(apply #'+ 4 5 6 '(1 2 3))"
   "(apply #'+ (mapcar #'length '(\"abc\" \"defg\" \"hijkl\" \"mnopqr\")))"
@@ -234,12 +230,13 @@
                            ))
 
 ;; for obarray
-(ex-put-example 'mapatoms '("(setq __count 0)"
-  "(defun __count-syms (s)
-  (setq __count (1+ __count)))"
-  ";; (mapatoms FUNCTION &optional OBARRAY)
-\(mapatoms '__count-syms)"
-  "__count"))
+
+(ex-put-example 'mapatoms '("(setq count 0)"
+"(defun count-syms (s)
+  (setq count (1+ count)))"
+";; (mapatoms FUNCTION &optional OBARRAY)
+(mapatoms 'count-syms)"
+"count"))
 
 (ex-put-example 'member '("(member 3 '(1 2 3 4 5))"
                           "(member 30 '(1 2 3 4 5))"))
@@ -289,13 +286,14 @@
                               "(__func)"))
 
 ;; object composition
-(ex-put-example 'defstruct '(
-                         "(require 'cl)"
-                         "(defstruct person name age)"
-                         "(setq foo (make-person :name \"foo\" :age 16))"
-                         "(person-p foo) "
-                         "(person-name foo)"
-                         "(person-age foo)"))
+
+(ex-put-example 'defstruct '("(require 'cl)"
+"(defstruct person name age)"
+"(setf foo (make-person :name \"foo\" :age 16))"
+"(person-p foo) "
+"(person-name foo)"
+"(person-age foo)"
+"(setf bar (copy-person foo))") t)
 
 ;; hash table
 (ex-put-example 'make-hash-table '("(setq my-hash_table (make-hash-table :test #'equal))"))
@@ -1144,6 +1142,23 @@
 "(cdr (car (cdr needles-per-cluster)))"
 "(eq (cdr (car (cdr needles-per-cluster)))
     (cdr (car (cdr copy))))"))
+
+(ex-put-example 'defclass '("(defclass record () ; No superclasses
+  ((name :initarg :name
+         :initform \"\"
+         :type string
+         :custom string
+         :documentation \"The name of a person.\")
+   (birthday :initarg :birthday
+             :initform \"Jan 1, 1970\"
+             :custom string
+             :type string
+             :documentation \"The person's birthday.\")
+   (phone :initarg :phone
+          :initform \"\"
+          :documentation \"Phone number.\"))
+  \"A single record for tracking people I know.\")"
+"(setq rec (record \"Eric\" :name \"Eric\" :birthday \"June\" :phone \"555-5555\"))") t)
 
 (provide 'elisp-examples)
 
