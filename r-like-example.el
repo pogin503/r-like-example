@@ -338,11 +338,10 @@ Example:
             (goto-char (point-max))))))
     (sort result #'string<)))
 
-(defun ex--all-hash-keys (hash)
+(defsubst ex--all-hash-keys (hash-table)
+  "Return a list of keys in HASH-TABLE."
   (let ((keys))
-    (maphash #'(lambda (key value)
-                 (push key keys))
-             hash)
+    (maphash #'(lambda (key _value) (push key keys)) hash-table)
     keys))
 
 (defun ex--collect-unstored-data ()
