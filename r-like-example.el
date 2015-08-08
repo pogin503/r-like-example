@@ -137,8 +137,7 @@ Example:
       (pop-to-buffer buf)
       (lisp-interaction-mode)
       (goto-char (point-min))
-      (ex-insert-example symbol)
-      )))
+      (ex-insert-example symbol))))
 
 (defun ex-get-example-result-string (ex)
   (with-temp-buffer
@@ -178,8 +177,8 @@ Example:
   ;; (interactive)
   (let* ((sym-string (substring-no-properties (thing-at-point 'sexp))))
     (with-temp-buffer
-                (insert sym-string)
-                (read (buffer-string)))))
+      (insert sym-string)
+      (read (buffer-string)))))
 
 (defun ex-put-to-example (key)
   "任意の関数のキーに、カーソル下のS式を追加する."
@@ -256,8 +255,8 @@ Example:
     ;; re-search-backwardで")"上にカーソルがあるので一つ進めた状態でnarrowする
     (narrow-to-region (region-beginning) (+ 1 end))
     (let (result)
-      (setq result  (buffer-substring-no-properties (region-beginning)
-                                                    (region-end)))
+      (setq result (buffer-substring-no-properties (region-beginning)
+                                                   (region-end)))
       (widen)
       result)))
 
