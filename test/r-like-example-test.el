@@ -19,10 +19,12 @@
 (ex-test-set-env)
 
 (ert-deftest ex-get-example-test ()
+  (ex-test-set-env)
   (should (equal nil (ex-get-example 'nil-key)))
   (should (equal `(,test-example-foo) (ex-get-example 'ex-foo))))
 
 (ert-deftest ex-put-example-test ()
+  (ex-test-set-env)
   (should (equal `(,test-example-foo) (ex-put-example 'ex-foo test-example-foo t)))
   (should (equal `(,test-example-foo) (ex-put-example 'ex-foo `(,test-example-foo) t)))
   (ex-put-example 'ex-foo '() t)
@@ -45,9 +47,23 @@
                              ex-separator)
                             "\n")
                  (progn
+                   (with-current-buffer (get-buffer-create ex-buffer-name)
+                     (erase-buffer))
                    (ex-example 'ex-foo)
-                   (buffer-string)
-                   ))))
+                   (buffer-string))))
+  (should (equal (mapconcat 'identity
+                            (list
+                             ";; ex-foo examples"
+                             ";; ex-foo: ()"
+                             test-example-foo
+                             (concat ex-begin-comment "ex-foo")
+                             ex-separator)
+                            "\n")
+                 (progn
+                   (with-current-buffer (get-buffer-create ex-buffer-name)
+                     (erase-buffer))
+                   (ex-example 'ex-foo)
+                   (buffer-string)))))
 
 (ert-deftest ex-insert-current-buffer-test ()
   (ex-test-set-env)
