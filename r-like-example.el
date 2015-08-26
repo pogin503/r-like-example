@@ -366,18 +366,6 @@ Example:
           (message "done... %s" (format "%s" unsaved-data)))
       (message "nothing"))))
 
-;; Window
-(defun ex-delete-window ()
-  "Delete *example* buffer window."
-  (interactive)
-  (let ((win (get-buffer-window ex-buffer-name)))
-    (delete-window win)))
-
-(defun ex-kill-ex-buffer ()
-  "Kill *example* buffer."
-  (if (get-buffer ex-buffer-name)
-      (kill-buffer ex-buffer-name)))
-
 ;; Debug
 (defun ex--exec-all-examples (hash)
   (mapc (lambda (x) (ex-example (intern-soft x)))
