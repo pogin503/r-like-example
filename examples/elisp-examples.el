@@ -1160,6 +1160,11 @@
   \"A single record for tracking people I know.\")"
 "(setq rec (record \"Eric\" :name \"Eric\" :birthday \"June\" :phone \"555-5555\"))") t)
 
+(ex-put-example 'add-to-list '("(setq foo '(a b))"
+"(add-to-list 'foo 'c)     ;; Add c."
+"(add-to-list 'foo 'b)     ;; No effect."
+"foo                       ;; foo was changed.") t)
+
 (provide 'elisp-examples)
 
 ;; Local variables:
