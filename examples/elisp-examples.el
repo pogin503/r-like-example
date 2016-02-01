@@ -279,11 +279,11 @@
 (ex-put-example 'princ '("(princ \"Hello World\")"))
 
 (ex-put-example 'format '("(format \"%d\" 123)"))
-(ex-put-example 'makunbound '("(setq __x 1)" "__x" "(makunbound '__x)" "__x"))
-(ex-put-example 'fmakunbound '("(defun __func () (format \"__func\"))"
-                              "(__func)"
-                              "(fmakunbound '__func)"
-                              "(__func)"))
+(ex-put-example 'makunbound '("(setq x 1)" "x" "(makunbound 'x)" "x"))
+(ex-put-example 'fmakunbound '("(defun func () (format \"func\"))"
+                              "(func)"
+                              "(fmakunbound 'func)"
+                              "(func)"))
 
 ;; object composition
 
