@@ -214,12 +214,12 @@ Example:
   :group 'r-like-example)
 
 
-(defconst ex-data-file (f-join ex-examples-dir "elisp-examples.el"))
+(defconst ex-data-filepath (f-join ex-examples-dir "elisp-examples.el"))
 
 (defun ex-store-key-example (key)
   "`KEY'に対応する実行例を、データ保存用ファイルに永続化する."
   (interactive "aどのキーをストアしますか? ")
-  (let* ((db-file ex-data-file)
+  (let* ((db-file ex-data-filepath)
          (text1 (f-read-text db-file))
          (text (with-temp-buffer
                  (insert (format "%s" text1))
@@ -348,7 +348,7 @@ Example:
 
 (defun ex--collect-unstored-data ()
   (let (result
-        (file-data (ex--collect-symbol ex-data-file))
+        (file-data (ex--collect-symbol ex-data-filepath))
         (current-data (sort (ex--all-hash-keys ex-hash) #'string<)))
     (cl-loop for x in current-data do
              (cond ((null (member x file-data))
