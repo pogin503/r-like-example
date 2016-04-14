@@ -61,10 +61,12 @@
   (cond  ((null examples)
           (ex-set-example symbol examples))
          ((eq force t)
-          (if (and (not (null examples)) (atom examples))
+          (if (and (not (null examples))
+                   (atom examples))
               (ex-set-example symbol (list examples))
             (ex-set-example symbol examples)))
-         ((and (not (listp examples)) (= (length (ex-get-example symbol)) 0))
+         ((and (not (listp examples))
+               (= (length (ex-get-example symbol)) 0))
           (puthash (symbol-name symbol) (list examples) ex-hash))
          (t
           (let ((put-func
@@ -74,7 +76,8 @@
                                            (reverse
                                             (ex-get-example symbol))))
                             ex-hash))))
-            (if (and (not (null examples)) (atom examples))
+            (if (and (not (null examples))
+                     (atom examples))
                 (funcall put-func examples)
               (mapc (lambda (x)
                       (funcall put-func x))
@@ -303,7 +306,7 @@ Example:
 \(ex-put-exmaple 'car '(\"(car '(1 2 3))\"))
 
 `SYM' is function."
-  (interactive "a(ins-cur-buf) Symbol name? ")
+  (interactive "a(insert-currrent-buffer) Symbol name is ? ")
   (insert (format "(ex-put-example '%s '(" sym))
   (mapc #'(lambda (ex) (insert (format "%S\n" ex))) (ex-get-example sym))
   (delete-char -1)
@@ -348,8 +351,8 @@ Example:
         (file-data (ex--collect-symbol ex-data-file))
         (current-data (sort (ex--all-hash-keys ex-hash) #'string<)))
     (cl-loop for x in current-data do
-             (if (null (member x file-data))
-                 (push x result)))
+             (cond ((null (member x file-data))
+                    (push (make-symbol x) result))))
     result))
 
 (defun ex-display-unstored-data ()
