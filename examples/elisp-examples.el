@@ -279,11 +279,11 @@
 (ex-put-example 'princ '("(princ \"Hello World\")"))
 
 (ex-put-example 'format '("(format \"%d\" 123)"))
-(ex-put-example 'makunbound '("(setq __x 1)" "__x" "(makunbound '__x)" "__x"))
-(ex-put-example 'fmakunbound '("(defun __func () (format \"__func\"))"
-                              "(__func)"
-                              "(fmakunbound '__func)"
-                              "(__func)"))
+(ex-put-example 'makunbound '("(setq x 1)" "x" "(makunbound 'x)" "x"))
+(ex-put-example 'fmakunbound '("(defun func () (format \"func\"))"
+                              "(func)"
+                              "(fmakunbound 'func)"
+                              "(func)"))
 
 ;; object composition
 
@@ -782,8 +782,8 @@
 
 (ex-put-example 'documentation '("(documentation 'setq)"))
 
-(ex-put-example 'unintern '("(setq x 123)"
-"(unintern 'x)"
+(ex-put-example 'unintern '("(setq x 'y)"
+"(unintern x)"
 "x"))
 
 (ex-put-example 'help-buffer '("(help-buffer)"))
@@ -866,9 +866,9 @@
 (ex-put-example 'f-short '("(f-short \"/Users/foo/Code/bar\")"
 "(f-short \"/path/to/Code/bar\")"))
 
-(ex-put-example 'f-parenet '("(f-parenet \"path/to/file.ext\")"
-"(f-parenet \"path/to/directory\")"
-"(f-parenet \"/\")"))
+(ex-put-example 'f-parent '("(f-parent \"path/to/file.ext\")"
+"(f-parent \"path/to/directory\")"
+"(f-parent \"/\")"))
 
 (ex-put-example 'f-no-ext '("(f-no-ext \"path/to/file.ext\")"
 "(f-no-ext \"path/to/directory\")"))
@@ -1100,7 +1100,7 @@
 
 (ex-put-example 'ex-get-example '("(ex-get-example 'setq)"))
 
-(ex-put-example 'ex-hash-exists-p '("(ex-hash-exists-p \"featurep\" ex-hash)"))
+(ex-put-example 'ex-hash-key-xexists-p '("(ex-hash-key-exists-p \"featurep\" ex-hash)"))
 
 (ex-put-example 'syntax-table '("(syntax-table)"))
 
@@ -1143,7 +1143,8 @@
 "(eq (cdr (car (cdr needles-per-cluster)))
     (cdr (car (cdr copy))))"))
 
-(ex-put-example 'defclass '("(defclass record () ; No superclasses
+(ex-put-example 'defclass '("(require 'eieio)"
+"(defclass record () ; No superclasses
   ((name :initarg :name
          :initform \"\"
          :type string
@@ -1159,6 +1160,11 @@
           :documentation \"Phone number.\"))
   \"A single record for tracking people I know.\")"
 "(setq rec (record \"Eric\" :name \"Eric\" :birthday \"June\" :phone \"555-5555\"))") t)
+
+(ex-put-example 'add-to-list '("(setq foo '(a b))"
+"(add-to-list 'foo 'c)     ;; Add c."
+"(add-to-list 'foo 'b)     ;; No effect."
+"foo                       ;; foo was changed.") t)
 
 (provide 'elisp-examples)
 

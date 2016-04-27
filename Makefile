@@ -17,6 +17,16 @@ test:
 		-l test/r-like-example-test.el \
 		-f ert-run-tests-batch-and-exit r-like-example.el
 
+exec-examples:
+	${CASK} exec ${EMACS} --version
+	${CASK} exec ${EMACS} -Q --batch -L . \
+		-l test/test-helper.el \
+		-l r-like-example.el \
+		-l examples/elisp-examples.el \
+		--eval \
+		"(progn (require 'cl) (require 'f) (require 'json) (require 'em-unix) \
+		  (ex--exec-all-examples ex-hash))"
+
 build :
 	${CASK} exec $(EMACS) -Q --batch -L . --eval \
 		"(progn \

@@ -142,7 +142,7 @@ Example:
       (goto-char (point-min))
       (ex-insert-example symbol))))
 
-(defun ex-get-example-result-string (ex)
+(defun ex-get-example-result-string (symbol ex)
   (with-temp-buffer
     (condition-case err
         (let ((ex1 (ex-eval-string ex)))
@@ -156,8 +156,10 @@ Example:
             (insert ";; ")
             (forward-line 1)))
       ((void-function void-variable)
-       (insert (format "%s\n" (error-message-string err)))
-       (message (format "%s\n" (error-message-string err)))))
+       (insert (format "symbol: %s\nexample: %s\nerror: %s\n"
+                       symbol ex (error-message-string err)))
+       (message (format "symbol: %s\nexample: %s\nerror: %s\n"
+                        symbol ex (error-message-string err)))))
     (buffer-string)))
 
 (defun ex-insert-example (symbol)
@@ -171,7 +173,7 @@ Example:
             (insert (format "%s\n" ex))
             (insert ex-begin-comment)
             (with-current-buffer ex-buffer-name
-              (insert (ex-get-example-result-string ex))))
+              (insert (ex-get-example-result-string symbol ex))))
         (ex-get-example symbol))
   (insert ex-separator))
 
