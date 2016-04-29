@@ -105,16 +105,16 @@ Example:
 (defconst ex-novalue (make-symbol "<nil>")
   "Hash is no value symbol.")
 
-(defun ex-hash-key-exists-p (key table)
-  (not (equal (gethash key table ex-novalue) ex-novalue)))
+(defun ex-hash-key-exists-p (key hash)
+  (not (equal (gethash key hash ex-novalue) ex-novalue)))
 
 (defun ex-query-key-exists (key &optional nomessage)
   (interactive "MQuery key : ")
-  (let ((q (null (equal (gethash (symbol-name key) ex-hash) nil))))
+  (let ((q (ex-hash-key-exists-p key ex-hash)))
     (if (null nomessage)
         (if q
-            (message "%s: exist" key)
-          (message "%s: not exist" key))
+            (message "%s: exists" key)
+          (message "%s: not exists" key))
       q)))
 
 (defun ex--before-def ()
