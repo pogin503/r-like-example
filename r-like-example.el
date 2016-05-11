@@ -53,44 +53,44 @@
   "Beginning of output comment style."
   :group 'r-like-example)
 
-(defun ex-put-example (symbol examples &optional force)
+(cl-defun ex-put-example (symbol examples &optional force (hash ex-hash))
   "Put examples function.
 
 `SYMBOL' is key.
 `EXAMPLE' is executable sexp."
   (cond  ((null examples)
-          (ex-set-example symbol examples))
+          (ex-set-example symbol examples hash))
          ((eq force t)
           (if (and (not (null examples))
                    (atom examples))
-              (ex-set-example symbol (list examples))
-            (ex-set-example symbol examples)))
+              (ex-set-example symbol (list examples) hash)
+            (ex-set-example symbol examples hash)))
          ((and (not (listp examples))
-               (= (length (ex-get-example symbol)) 0))
-          (puthash (symbol-name symbol) (list examples) ex-hash))
+               (= (length (ex-get-example symbol hash)) 0))
+          (puthash (symbol-name symbol) (list examples) hash))
          (t
           (let ((put-func
                  (lambda (ex)
                    (puthash (symbol-name symbol)
                             (reverse (cons ex
                                            (reverse
-                                            (ex-get-example symbol))))
-                            ex-hash))))
+                                            (ex-get-example symbol hash))))
+                            hash))))
             (if (and (not (null examples))
                      (atom examples))
                 (funcall put-func examples)
-              (mapc (lambda (x)
-                      (funcall put-func x))
+              (mapc (lambda (ex)
+                      (funcall put-func ex))
                     examples))))))
 
-(defun ex-get-example (symbol)
+(cl-defun ex-get-example (symbol &optional (hash ex-hash))
   "Get exmaple function.
 
 `SYMBOL' is key."
-  (gethash (symbol-name symbol) ex-hash))
+  (gethash (symbol-name symbol) hash))
 
-(defun ex-set-example (symbol example)
-  (puthash (symbol-name symbol) example ex-hash))
+(cl-defun ex-set-example (symbol example &optional (hash ex-hash))
+  (puthash (symbol-name symbol) example hash))
 
 (defun ex-eval-string (str)
   "Read sexp from string.
