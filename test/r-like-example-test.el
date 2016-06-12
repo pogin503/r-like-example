@@ -5,13 +5,13 @@
 (require 'r-like-example)
 (load "./examples/elisp-examples.el")
 
-(defun ex-test-set-env ()
-  "Set r-like-example env."
-  (defconst test-example-foo "(defun ex-foo () (message \"t\"))")
-  (defconst test-example-bar '("(defun __ex-bar (bool) (if bool t nil))"
+(defconst test-example-foo "(defun ex-foo () (message \"t\"))")
+(defconst test-example-bar '("(defun __ex-bar (bool) (if bool t nil))"
                            "(__ex-bar t)"
                            "(__ex-bar nil)"))
 
+(defun ex-test-set-env ()
+  "Set r-like-example env."
   (ex-put-example 'ex-foo test-example-foo t)
   (ex-set-example 'ex-bar '())
   (mapc (lambda (x) (ex-put-example 'ex-bar x)) test-example-bar))
