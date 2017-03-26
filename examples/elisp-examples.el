@@ -321,14 +321,14 @@
              (insert (format \"key=>%S,value=>%S\\n\" key value))) my-hash-table)"))
 
 ;; association list
-(ex-put-example 'assoc '("(setq __alist '((\"rose\" . red) (\"violet\" . blue)))"
-                         "(assoc \"rose\" __alist)"))
-(ex-put-example 'assq '("(setq __alist '((red . \"rose\") (blue . \"violet\")))"
-                         "(assq 'red __alist)"))
-;; (ex-put-example 'assoc-string '("(setq __alist '((\"rose\" . red) (\"violet\" . blue)))"
-;;                                 "(assoc \"rose\" __alist)"))
-(ex-put-example 'assoc '("(setq __alist '((\"rose\" . red) (\"violet\" . blue)))"
-                         "(assoc \"rose\" __alist)"))
+(ex-put-example 'assoc '("(setq alist '((\"rose\" . red) (\"violet\" . blue)))"
+                         "(assoc \"rose\" alist)"))
+(ex-put-example 'assq '("(setq alist '((red . \"rose\") (blue . \"violet\")))"
+                         "(assq 'red alist)"))
+;; (ex-put-example 'assoc-string '("(setq alist '((\"rose\" . red) (\"violet\" . blue)))"
+;;                                 "(assoc \"rose\" alist)"))
+(ex-put-example 'assoc '("(setq alist '((\"rose\" . red) (\"violet\" . blue)))"
+                         "(assoc \"rose\" alist)"))
 
 
 ;; string
@@ -426,9 +426,9 @@
   "(intern-soft \"frazzle\")        ; No such symbol exists."
   "(make-symbol \"frazzle\")        ; Create an uninterned one."
   "(intern-soft \"frazzle\")        ; That one cannot be found."
-  "(setq __sym (intern \"frazzle\"))  ; Create an interned one."
+  "(setq sym (intern \"frazzle\"))  ; Create an interned one."
   "(intern-soft \"frazzle\")       ; That one can be found!"
-  "(eq __sym 'frazzle)              ; And it is the same one."))
+  "(eq sym 'frazzle)              ; And it is the same one."))
 
 ;; property list
 
@@ -459,8 +459,8 @@
 "(plist-get '(foo 4 bad) 'foo)"
 "(plist-get '(foo 4 bad) 'bad)"
 "(plist-get '(foo 4 bad) 'bar)"
-"(setq __pfoo '(:bar \"BAR\" :hoge \"HOGE\"))"
-"(plist-get __pfoo :bar)"))
+"(setq pfoo '(:bar \"BAR\" :hoge \"HOGE\"))"
+"(plist-get pfoo :bar)"))
 
 (ex-put-example 'plist-put '("(setq my-plist '(bar t foo 4))"
 "(setq my-plist (plist-put my-plist 'foo 69))"
@@ -472,9 +472,9 @@
   "(intern-soft \"frazzle\")"
   "(make-symbol \"frazzle\")"
   "(intern-soft \"frazzle\")"
-  "(setq __sym (intern \"frazzle\"))"
+  "(setq sym (intern \"frazzle\"))"
   "(intern-soft \"frazzle\")"
-  "(eq __sym 'frazzle)"
+  "(eq sym 'frazzle)"
 ))
 
 ;; type predicates
@@ -1165,6 +1165,10 @@
 "(add-to-list 'foo 'c)     ;; Add c."
 "(add-to-list 'foo 'b)     ;; No effect."
 "foo                       ;; foo was changed.") t)
+
+(ex-put-example 'alist-get '("(setq alist '((\"rose\" . red) (\"violet\" . blue) (pine . cones) (oak . acorns)))"
+"(alist-get \"rose\" '((\"rose\" . red) (\"violet\" . blue) (pine . cones) (oak . acorns)))"
+"(alist-get 'pine '((\"rose\" . red) (\"violet\" . blue) (pine . cones) (oak . acorns)))") t)
 
 (provide 'elisp-examples)
 
