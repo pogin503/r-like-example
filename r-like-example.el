@@ -265,6 +265,13 @@ Example:
       (widen)
       result)))
 
+(defun ex-get-beg-defun-symbol ()
+  "バッファの現在位置のトップレベルにあるシンボル名を取得する"
+  (interactive)
+  (beginning-of-defun)
+  (forward-char 1)
+  (ex-get-sexp-symbol))
+
 (defun ex-add-example ()
   "Add example on cursor point."
   (interactive)
