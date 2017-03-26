@@ -26,7 +26,7 @@ M-x package-install f
 
 (require 'r-like-example)
 (require 'elisp-examples)
-(ex-set-keybinding)
+(ex-set-keybindings)
 ```
 
 I recommend specially to use popwin.el. 
