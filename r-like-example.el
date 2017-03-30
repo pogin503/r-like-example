@@ -53,6 +53,17 @@
   "Beginning of output comment style."
   :group 'r-like-example)
 
+(defconst ex-buffer-name "*example*" "Example output buffer For r-like-exaple.")
+(defconst ex-debug-buffer-name "*example debug*")
+
+(defun ex--before-def ()
+  (progn
+    (defun square (x) (* x x))
+    (defalias 'even? (symbol-function 'cl-evenp))))
+
+(ex--before-def)
+
+;; Utility
 (cl-defun ex-put-example (symbol examples &optional force (hash ex-hash))
   "Put examples function.
 
@@ -116,16 +127,6 @@ Example:
             (message "%s: exists" key)
           (message "%s: not exists" key))
       q)))
-
-(defun ex--before-def ()
-  (progn
-    (defun square (x) (* x x))
-    (defalias 'even? (symbol-function 'cl-evenp))))
-
-(ex--before-def)
-
-(defconst ex-buffer-name "*example*")
-(defconst ex-debug-buffer-name "*example debug*")
 
 (defun ex-example (symbol)
   "Print example to *example* buffer.
