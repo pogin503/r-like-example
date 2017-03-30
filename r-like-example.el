@@ -163,13 +163,16 @@ Example:
                         symbol ex (error-message-string err)))))
     (buffer-string)))
 
-(defun ex-insert-example (symbol)
-  (insert (format ";; %s examples\n" symbol))
+(defun ex--get-fnsym-args-string (symbol)
   (let* ((eldoc-result (eldoc-get-fnsym-args-string symbol))
          (func-args (if eldoc-result
                         (substring-no-properties eldoc-result)
                       (format "%s: ()" symbol))))
-    (insert (format ";; %s\n" func-args)))
+    (format ";; %s\n" func-args)))
+
+(defun ex-insert-example (symbol)
+  (insert (format ";; %s examples\n" symbol))
+  (insert (ex--get-fnsym-args-string))
   (mapc #'(lambda (ex)
             (insert (format "%s\n" ex))
             (insert ex-begin-comment)
