@@ -767,7 +767,8 @@
 
 (ex-put-example 'eql '("(eql 1.0 1)"
 "(eql 1.0 1.0)"
-"(eql 1 1)"))
+"(eql 1 1)"
+"(eql \"1\" \"1\")") t)
 
 (ex-put-example 'random '("(random)"
 "(random)"
@@ -1169,6 +1170,10 @@
 (ex-put-example 'alist-get '("(setq alist '((\"rose\" . red) (\"violet\" . blue) (pine . cones) (oak . acorns)))"
 "(alist-get \"rose\" '((\"rose\" . red) (\"violet\" . blue) (pine . cones) (oak . acorns)))"
 "(alist-get 'pine '((\"rose\" . red) (\"violet\" . blue) (pine . cones) (oak . acorns)))") t)
+
+(ex-put-example 'defun '("(defun my-add (x y)
+  (+ x y))"
+"(my-add 1 2)") t)
 
 (provide 'elisp-examples)
 
