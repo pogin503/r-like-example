@@ -25,7 +25,6 @@
 ;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth
 ;; Floor, Boston, MA 02110-1301, USA.
 ;;
-;;
 ;;; Commentary:
 
 ;;; Installation:
@@ -33,8 +32,9 @@
 ;; (require 'r-like-example)
 ;; (require 'elisp-exmaples)
 
-;; Call examples of Emacs Lisp function.
-
+;; Show examples of Emacs Lisp function.
+;;
+;;   (ex-example 'setq)
 ;;
 ;;; Code:
 
@@ -128,6 +128,7 @@ Example:
           (message "%s: not exists" key))
       q)))
 
+;; Main
 (defun ex-example (symbol)
   "Print example to *example* buffer.
 
