@@ -81,7 +81,7 @@ Insert example data like:
 (ex-put-example 'type-of '("(type-of 1)"
 "(type-of 'nil)"
 "(type-of '())    ; () is nil."
-"(type-of '(x)"))
+"(type-of '(x)") t)
 ```
 
 in current buffer.
