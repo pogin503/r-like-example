@@ -24,9 +24,10 @@ M-x package-install f
 ```lisp
 (add-to-list 'load-path "~/path/to/r-like-example")
 
-(require 'r-like-example)
-(require 'elisp-examples)
-(ex-set-keybindings)
+(use-package r-like-example
+  :config
+  (require 'elisp-examples)
+  (ex-set-keybindings))
 ```
 
 I recommend specially to use popwin.el. 
@@ -47,10 +48,9 @@ Basic Usage
 
 ### Learning function usage
 
-You type `M-9 mapcar`,
+You type `M-9 mapcar`
 
-
-###Keybindings
+### Keybindings
 
 | keybind    | description    |
 |:-----------|:---------------|
