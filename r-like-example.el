@@ -128,7 +128,7 @@ Example:
           (message "%s: not exists" key))
       q)))
 
-;; Main
+;;;###autoload
 (defun ex-example (symbol)
   "Print example to *example* buffer.
 
@@ -190,6 +190,7 @@ Example:
       (insert sym-string)
       (read (buffer-string)))))
 
+;;;###autoload
 (defun ex-put-to-example (key)
   "任意の関数のキーに、カーソル下のS式を追加する."
   (interactive "aどのシンボルに追加しますか? ")
@@ -223,6 +224,7 @@ Example:
 
 (defconst ex-data-filepath (f-join ex-examples-dir "elisp-examples.el"))
 
+;;;###autoload
 (defun ex-store-key-example (key)
   "`KEY'に対応する実行例を、データ保存用ファイルに永続化する."
   (interactive "aどのキーをストアしますか? ")
@@ -277,6 +279,7 @@ Example:
   (forward-char 1)
   (ex-get-sexp-symbol))
 
+;;;###autoload
 (defun ex-add-example ()
   "Add example on cursor point."
   (interactive)
