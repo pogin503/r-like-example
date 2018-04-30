@@ -134,7 +134,7 @@ Example:
   "Print example to *example* buffer.
 
 `SYMBOL' is function or varibale."
-  (interactive "aSymbol name? ")
+  (interactive "aFunction name is ? ")
   (when (or (stringp  symbol)
             (fboundp 'symbol)
             (boundp  'symbol)
@@ -248,8 +248,8 @@ Example:
                  (buffer-string))))
     (f-write-text text 'utf-8 db-file)))
 
-;; copy function
 (defun ex-copy-defun ()
+  "Copy function at point."
   (interactive)
   (unless (eobp)
     (forward-char 1))
