@@ -6,7 +6,7 @@
 ;; Keywords: lisp
 ;; Version: 0.1
 ;; URL: https://github.com/pogin503/r-like-example
-;; Package-Requires: ((f "0.16.2") (cl-lib "0.5"))
+;; Package-Requires: ((emacs "24") (f "0.16.2") (cl-lib "0.5"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
