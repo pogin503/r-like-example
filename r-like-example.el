@@ -174,7 +174,7 @@ Example:
 
 (defun ex-insert-example (symbol)
   (insert (format ";; %s examples\n" symbol))
-  (insert (ex--get-fnsym-args-string))
+  (insert (ex--get-fnsym-args-string symbol))
   (mapc #'(lambda (ex)
             (insert (format "%s\n" ex))
             (insert ex-begin-comment)
