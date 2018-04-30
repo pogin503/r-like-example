@@ -26,8 +26,8 @@ M-x package-install f
 
 (use-package r-like-example
   :config
-  (require 'elisp-examples)
-  (ex-set-keybindings))
+  (ex-set-keybindings)
+  (ex-load-examples))
 ```
 
 I recommend specially to use popwin.el. 
@@ -59,7 +59,7 @@ You type `M-9 mapcar`
 | C-c 0 a    | Add current cursor position S expression |
 | C-c 0 i    | Insert examples data in current buffer |
 | C-c 0 p    | Add current cursor position S expression into specific key |
-| C-c 0 d    | Pop specific key example |
+| C-c 0 d    | Remove specific key example |
 | C-c 0 u    | Display the key data of the unsaved to the mini-buffer |
 
 Basic Commands

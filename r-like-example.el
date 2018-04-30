@@ -30,7 +30,8 @@
 ;;; Installation:
 ;;
 ;; (require 'r-like-example)
-;; (require 'elisp-exmaples)
+;; (ex-set-keybindings)
+;; (ex-load-examples)
 
 ;; Show examples of Emacs Lisp function.
 ;;
@@ -403,6 +404,11 @@ Example:
   (global-set-key (kbd "C-c 0 i") 'ex-insert-current-buffer)
   (global-set-key (kbd "C-c 0 p") 'ex-put-to-example)
   (global-set-key (kbd "C-c 0 u") 'ex-display-unstored-data))
+
+(defun ex-load-examples ()
+  "Load examples."
+  (add-to-list 'load-path ex-examples-dir)
+  (require 'elisp-examples))
 
 (provide 'r-like-example)
 
