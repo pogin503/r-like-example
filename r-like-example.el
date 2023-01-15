@@ -55,6 +55,10 @@
   "Beginning of output comment style."
   :group 'r-like-example)
 
+(defcustom ex-examples-dir (expand-file-name "examples" (f-dirname (f-this-file)))
+  "Examples directories."
+  :group 'r-like-example)
+
 (defconst ex-buffer-name "*example*" "Example output buffer For r-like-exaple.")
 (defconst ex-debug-buffer-name "*example debug*")
 
