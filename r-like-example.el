@@ -6,7 +6,7 @@
 ;; Keywords: lisp
 ;; Version: 0.1
 ;; URL: https://github.com/pogin503/r-like-example
-;; Package-Requires: ((emacs "24") (f "0.16.2") (cl-lib "0.5"))
+;; Package-Requires: ((emacs "25.1") (f "0.16.2") (cl-lib "0.5"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -42,6 +42,7 @@
 (require 'f)
 (require 'cl-lib)
 (require 'eldoc)
+(require 'elisp-mode)
 
 (defvar ex-hash (make-hash-table :test #'equal)
   "Store example.")
@@ -166,7 +167,7 @@ Example:
     (buffer-string)))
 
 (defun ex--get-fnsym-args-string (symbol)
-  (let* ((eldoc-result (eldoc-get-fnsym-args-string symbol))
+  (let* ((eldoc-result (elisp-get-fnsym-args-string symbol))
          (func-args (if eldoc-result
                         (substring-no-properties eldoc-result)
                       (format "%s: ()" symbol))))
